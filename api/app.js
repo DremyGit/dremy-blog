@@ -25,3 +25,5 @@ if ('development' == env) {
   mongoose.set('debug', true);
 }
 console.log('APP started on  port ' + config.port);
+
+module.exports = app;

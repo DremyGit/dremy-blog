@@ -4,7 +4,9 @@
   "description": "The api of Dremy blog",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "doc": "apidoc -e node_modules -o doc",
+    "test": "mocha --recursive"
   },
   "repository": {
     "type": "git",
@@ -22,5 +24,9 @@
     "express-session": "^1.13.0",
     "marked": "^0.3.5",
     "mongoose": "^4.4.14"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "supertest": "^1.2.0"
   }
 }

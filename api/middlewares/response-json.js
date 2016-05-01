@@ -18,7 +18,7 @@ const responseJson = (req, res, next) => {
       error: err,
       result: ''
     })
-  }
+  };
   next();
 };
 
