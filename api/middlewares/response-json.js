@@ -7,15 +7,20 @@ const responseJson = (req, res, next) => {
         result: result,
         error: ''
       });
-    } else {
-      res.status(code).json({
-        statusCode: code,
-        error: result,
-        result: ''
-      })
     }
   };
+  res.error = (err, code) => {
+    if (err instanceof Error) {
+      err = err.message;
+    }
+    res.status(code).json({
+      statusCode: code,
+      error: err,
+      result: ''
+    })
+  }
   next();
 };
+
 
 module.exports = responseJson;

@@ -1,5 +1,5 @@
 /**
- * Dremy api router
+ * Dremy blog api router
  */
 const controllers = require('../controllers');
 
@@ -11,6 +11,10 @@ const router = (app) => {
   app.use('/tags',      controllers.tag);
   app.use('/archives',  controllers.archive);
   app.use('/works',     controllers.work);
+
+  app.use((req, res, next) => {
+    res.error('Not found', 404);
+  })
 };
 
 module.exports = router;

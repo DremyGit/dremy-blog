@@ -11,13 +11,13 @@ mongoose.connect(config.mongodb);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(session(config.session));
 app.listen(config.port);
-app.use(middlewares);
+app.use(middlewares.all);
 
 const router = require('./config/router');
 router(app);
-app.use((err, req, res, next) => {
-  res.json("haha")
-});
+
+app.use(middlewares.errorHandling);
+
 
 const env = process.env.NODE_ENV || 'development';
 if ('development' == env) {

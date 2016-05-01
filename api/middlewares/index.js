@@ -1,6 +1,8 @@
 const responseJson = require('./response-json');
+const errorHandling = require('./error-handling');
 const middlewares = (req, res, next) => {
   responseJson(req, res, next);
 };
 
-module.exports = middlewares;
+exports.all = middlewares;
+exports.errorHandling = errorHandling;
