@@ -1,11 +1,6 @@
 var config = {
   port: "5760",
-  mongodb: "mongodb://localhost/lib",
-  session: {
-    secret: "lib",
-    resave: false,
-    saveUninitialized: true
-  }
+  mongodb: "mongodb://localhost/dremy_blog"
 };
 
 module.exports = config;

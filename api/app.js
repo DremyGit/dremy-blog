@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const middlewares = require('./middlewares');
 
-mongoose.connect(config.mongodb);
+
 app.use(bodyParser.json());
 app.listen(config.port);
 app.use(middlewares.all);
@@ -17,7 +17,6 @@ router(app);
 app.use(middlewares.errorHandling);
 
 
-//const env = process.env.NODE_ENV || 'development';
 //if ('development' == env) {
 //  app.set('showStackError', true);
 //  mongoose.set('debug', true);

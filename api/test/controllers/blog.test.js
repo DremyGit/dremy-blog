@@ -2,11 +2,17 @@
 const request = require('supertest');
 const server = require('../../app.js');
 const expect = require('chai').expect;
+const helper = require('../helper');
 
 const rand = Math.random();
 let id;
 describe('Test controllers/blog', () => {
   const agen = request.agent(server);
+
+  before((done) => {
+    helper.clear('blogs', done);
+  });
+
   describe('POST /blogs', () => {
     it('Create a blog', (done) => {
       const blog = {
@@ -49,7 +55,7 @@ describe('Test controllers/blog', () => {
           expect(res.body.result.name).to.equal('test-' + rand);
         })
         .end(done);
-    })
+    });
 
     it('Get a non-existent blog', (done) => {
       agen

@@ -8,4 +8,18 @@ const CommentSchema = new Schema({
   content: { type: String }
 });
 
+CommentSchema.statics = {
+  getAllComments: function () {
+    return this.find({}).exec();
+  },
+
+  getCommentById: function (id) {
+    return this.findById(id).exec();
+  },
+
+  deleteCommentById: function (id) {
+    return this.remove({_id: id}).exec();
+  }
+};
+
 module.exports = CommentSchema;

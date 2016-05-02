@@ -1,4 +1,13 @@
 var mongoose = require('mongoose');
+var config = require('../config');
+
+const env = process.env.NODE_ENV || 'development';
+
+if (env == 'test') {
+  mongoose.connect('mongodb://localhost/test_dremy_blog');
+} else {
+  mongoose.connect(config.mongodb);
+}
 
 exports.Admin   = mongoose.model('Admin', require('./admin'));
 exports.Archive = mongoose.model('Archive', require('./archive'));

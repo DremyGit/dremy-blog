@@ -21,6 +21,10 @@ BlogSchema.statics = {
   getBlogById: function (id) {
     return this.findById(id).exec();
   },
+  
+  addComment: function (blogId, commentId) {
+    return this.update({_id: blogId}, {comments: {$push: commentId}}).exec();
+  },
 
   removeById: function(id) {
     return this.remove({_id: id}).exec();
