@@ -1,9 +1,9 @@
 'use strict';
 const blogController = require('express').Router();
-const models = require('../models');
-const Blog = models.Blog;
 const marked = require('marked');
+const Blog = require('../models').Blog;
 const HttpError = require('../common/http-error');
+const utils = require('../common/utils');
 
 
 blogController.route('/')
@@ -46,15 +46,15 @@ blogController.route('/:blogId')
 
   .all((req, res, next) => {
     const blogId = req.params.blogId;
-    if (blogId.match(/^[0-9a-fA-F]{24}$/)) {
+    if (utils.isObjectId(blogId)) {
       Blog.getBlogById(blogId).then(blog => {
         if (!blog) {
           throw new HttpError.NotFoundError('Blog not found');
         }
-        next();
+        next()
       }).catch(res.error);
     } else {
-      throw new HttpError.NotFoundError('Blog not found');
+      next('route');
     }
   })
 
