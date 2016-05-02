@@ -44,11 +44,18 @@ describe('Test controllers/blog', () => {
     it('Get created blog', (done) => {
       agen
         .get('/blogs/' + id)
+        .expect(200)
         .expect(res => {
           expect(res.body.result.name).to.equal('test-' + rand);
         })
-        .expect(200)
         .end(done);
+    })
+
+    it('Get a non-existent blog', (done) => {
+      agen
+        .get('/blogs/test')
+        .expect(404)
+        .end(done)
     })
   });
 

@@ -1,6 +1,5 @@
 const config = require('./config');
 const express = require('express');
-const session = require('express-session');
 const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -9,7 +8,6 @@ const middlewares = require('./middlewares');
 
 mongoose.connect(config.mongodb);
 app.use(bodyParser.json());
-app.use(session(config.session));
 app.listen(config.port);
 app.use(middlewares.all);
 

@@ -43,6 +43,7 @@ class InterServerError extends HttpError {
     super(500, 'InterServerError', message);
   }
 }
+exports.HttpError = HttpError;
 exports.BadRequestError = BadRequestError;
 exports.PermissionDeniedError = PermissionDeniedError;
 exports.ForbiddenError = ForbiddenError;

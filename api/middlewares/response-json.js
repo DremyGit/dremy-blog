@@ -10,10 +10,6 @@ const responseJson = (req, res, next) => {
     }
   };
   res.error = (err, code) => {
-    if (err instanceof Error) {
-      err = err.message;
-    }
-    console.log(err);
     res.status(code).json({
       statusCode: code,
       error: err,
