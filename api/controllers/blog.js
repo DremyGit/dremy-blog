@@ -3,6 +3,7 @@ const blogController = require('express').Router();
 const models = require('../models');
 const Blog = models.Blog;
 const marked = require('marked');
+const HttpError = require('../common/http-error');
 
 
 blogController.route('/')
@@ -25,7 +26,7 @@ blogController.route('/')
    *
    */
   .post((req, res, next) => {
-    const body = req.params.body;
+    const body = req.body;
     const _blog = new Blog({
       name: body.name,
       title: body.title,
@@ -36,7 +37,7 @@ blogController.route('/')
       comments: []
     });
     _blog.save().then(blog => {
-      res.success(blog);
+      res.success(blog, 201);
     }).catch(next);
   });
 
@@ -51,7 +52,12 @@ blogController.route('/:blogId')
    */
   .delete((req, res, next) => {
     const blogId = req.params.blogId;
-    Blog.removeById(blogId).then(() => {
+    Blog.getBlogById(blogId).then((blog) => {
+      if (!blog) {
+        throw new HttpError.NotFoundError('No such blog');
+      }
+      return Blog.removeById(blogId)
+    }).then(() => {
       res.success(null, 204);
     }).catch(next);
   });

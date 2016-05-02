@@ -8,7 +8,7 @@ const app = express();
 const middlewares = require('./middlewares');
 
 mongoose.connect(config.mongodb);
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(session(config.session));
 app.listen(config.port);
 app.use(middlewares.all);

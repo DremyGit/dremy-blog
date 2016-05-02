@@ -18,6 +18,10 @@ BlogSchema.statics = {
     return this.find({}).exec();
   },
 
+  getBlogById: function (id) {
+    return this.findById(id).exec();
+  },
+
   removeById: function(id) {
     return this.remove({_id: id}).exec();
   }
