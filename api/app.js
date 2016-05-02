@@ -19,11 +19,11 @@ router(app);
 app.use(middlewares.errorHandling);
 
 
-const env = process.env.NODE_ENV || 'development';
-if ('development' == env) {
-  app.set('showStackError', true);
-  mongoose.set('debug', true);
-}
+//const env = process.env.NODE_ENV || 'development';
+//if ('development' == env) {
+//  app.set('showStackError', true);
+//  mongoose.set('debug', true);
+//}
 console.log('APP started on  port ' + config.port);
 
 module.exports = app;

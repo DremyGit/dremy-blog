@@ -6,37 +6,75 @@ const expect = require('chai').expect;
 const rand = Math.random();
 let id;
 describe('Test controllers/blog', () => {
-
-  it('POST /blogs Create a blog:', (done) => {
-    const blog = {
-      name: 'test-' + rand,
-      title: 'test-' + rand,
-      markdown: '# test'
-    };
-    request(server)
-      .post('/blogs')
-      .send(blog)
-      .expect(res => {
-        const result = res.body.result;
-        expect(result._id.length).to.equal(24);
-        expect(result.name).to.equal('test-' + rand);
-        id = result._id;
-      })
-      .expect(201, done)
+  const agen = request.agent(server);
+  describe('POST /blogs', () => {
+    it('Create a blog', (done) => {
+      const blog = {
+        name: 'test-' + rand,
+        title: 'test-' + rand,
+        markdown: '# test'
+      };
+      agen
+        .post('/blogs')
+        .send(blog)
+        .expect(201)
+        .expect(res => {
+          const result = res.body.result;
+          expect(result._id.length).to.equal(24);
+          expect(result.name).to.equal('test-' + rand);
+          id = result._id;
+        })
+        .end(done);
+    });
   });
 
-  it('Get /blogs 200', (done) => {
-    request(server)
-      .get('/blogs')
-      .expect(res => {
-        expect(res.body.result.length).not.equal(0);
-      })
-      .expect(200, done)
+  describe('Get /blogs', () => {
+    it('Get all blogs', (done) => {
+      agen
+        .get('/blogs')
+        .expect(200)
+        .expect(res => {
+          expect(res.body.result.length).not.equal(0);
+        })
+        .end(done)
+    })
   });
 
-  it('Delete /blogs/:id Delete blog', (done) => {
-    request(server)
-      .delete('/blogs/' + id)
-      .expect(204, done);
-  })
+  describe('Get /blogs/:id', () => {
+    it('Get created blog', (done) => {
+      agen
+        .get('/blogs/' + id)
+        .expect(res => {
+          expect(res.body.result.name).to.equal('test-' + rand);
+        })
+        .expect(200)
+        .end(done);
+    })
+  });
+
+  describe('Put /blogs/:id', () => {
+    it('Modify created blog', (done) => {
+      const blog = {
+        name: 'modify-' + rand,
+        title: 'modify-' + rand,
+        markdown: '# modify'
+      };
+      agen
+        .put('/blogs/' + id)
+        .send(blog)
+        .expect(201)
+        .expect(res => {
+          expect(res.body.result.name).to.equal('modify-' + rand);
+        })
+        .end(done);
+    })
+  });
+
+  describe('Delete /blogs/:id', () => {
+    it('Delete created blog', (done) => {
+      agen
+        .delete('/blogs/' + id)
+        .expect(204, done);
+    })
+  });
 });

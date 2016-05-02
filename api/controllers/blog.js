@@ -43,6 +43,65 @@ blogController.route('/')
 
 
 blogController.route('/:blogId')
+
+  .all((req, res, next) => {
+    const blogId = req.params.blogId;
+    Blog.getBlogById(blogId).then(blog => {
+      if (!blog) {
+        req.error(new HttpError.NotFoundError('Blog not found'));
+      }
+      next();
+    }).catch(req.error)
+  })
+
+  /**
+   * @api {get} /blogs/:blogId Get blog by id
+   * @apiName GetBlogById
+   * @apiGroup Blog
+   *
+   * @apiSuccess (200) {Blog}
+   */
+  .get((req, res, next) => {
+    const blogId = req.params.blogId;
+    Blog.getBlogById(blogId).then(blog => {
+      //if (!blog) {
+      //  throw new Httperror.NotFoundError('No such blog');
+      //}
+      res.success(blog)
+    }).catch(next);
+  })
+
+  /**
+   * @api {put} /blogs/:blogId Update blog by id
+   * @apiName UpdateBlog
+   * @apiGroup Blog
+   *
+   * @apiSuccess (201) {Blog}
+   */
+  .put((req, res, next) => {
+    const blogId = req.params.blogId;
+    const body = req.body;
+    Blog.getBlogById(blogId).then(blog => {
+      const _blog = Object.assign({}, blog, body);
+      _blog.save().then(newBlog => {
+        res.success(newBlog, 201)
+      })
+    }).catch(next);
+    //const _blog = new Blog({
+    //  name: body.name,
+    //  title: body.title,
+    //  tag: null,
+    //  markdown: body.markdown,
+    //  html: marked(body.markdown),
+    //  toc: [],
+    //  comments: []
+    //});
+    //Blog.updateById(blogId, _blog).then(blog => {
+    //  res.success(blog, 201);
+    //}).catch(next);
+  })
+
+
   /**
    * @api {delete} /blogs/:blogId Delete blog by id
    * @apiName DeleteBlog
@@ -52,12 +111,7 @@ blogController.route('/:blogId')
    */
   .delete((req, res, next) => {
     const blogId = req.params.blogId;
-    Blog.getBlogById(blogId).then((blog) => {
-      if (!blog) {
-        throw new HttpError.NotFoundError('No such blog');
-      }
-      return Blog.removeById(blogId)
-    }).then(() => {
+    Blog.removeById(blogId).then(() => {
       res.success(null, 204);
     }).catch(next);
   });
