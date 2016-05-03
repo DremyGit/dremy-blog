@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "doc": "apidoc -e node_modules -o doc",
-    "test": "NODE_ENV=test mocha --recursive"
+    "test": "NODE_ENV=test mocha --recursive",
+    "coverage": "NODE_ENV=test istanbul cover _mocha -- --recursive"
   },
   "repository": {
     "type": "git",

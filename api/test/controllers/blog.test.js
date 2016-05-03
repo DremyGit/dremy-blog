@@ -7,7 +7,7 @@ const helper = require('../helper');
 const rand = Math.random();
 let id;
 describe('Test controllers/blog', () => {
-  const agen = request.agent(server);
+  const agent = request.agent(server);
   let testBlog = {
     name: 'test-' + rand,
     title: 'test-' + rand,
@@ -19,7 +19,7 @@ describe('Test controllers/blog', () => {
 
   describe('POST /blogs', () => {
     it('Create a blog', (done) => {
-      agen
+      agent
         .post('/blogs')
         .send(testBlog)
         .expect(201)
@@ -35,7 +35,7 @@ describe('Test controllers/blog', () => {
 
   describe('Get /blogs', () => {
     it('Get all blogs', (done) => {
-      agen
+      agent
         .get('/blogs')
         .expect(200)
         .expect(res => {
@@ -45,7 +45,7 @@ describe('Test controllers/blog', () => {
     });
 
     it('Get blog by blog name', (done) => {
-      agen
+      agent
         .get('/blogs?blog_name=' + testBlog.name)
         .expect(200)
         .expect(res => {
@@ -57,7 +57,7 @@ describe('Test controllers/blog', () => {
 
   describe('Get /blogs/:id', () => {
     it('Get created blog', (done) => {
-      agen
+      agent
         .get('/blogs/' + id)
         .expect(200)
         .expect(res => {
@@ -66,12 +66,13 @@ describe('Test controllers/blog', () => {
         .end(done);
     });
 
-    it('Get a non-existent blog', (done) => {
-      agen
-        .get('/blogs/test')
-        .expect(404)
-        .end(done)
-    })
+    it('Get a 404 using a non-existent blog id', (done) => {
+      agent.get('/blogs/' + 'a'.repeat(24)).expect(404).end(done)
+    });
+
+    it('Get a 404 using a wrong blog id', (done) => {
+      agent.get('/blogs/test').expect(404).end(done)
+    });
   });
 
   describe('Put /blogs/:id', () => {
@@ -81,7 +82,7 @@ describe('Test controllers/blog', () => {
         title: 'modify-' + rand,
         markdown: '# modify'
       };
-      agen
+      agent
         .put('/blogs/' + id)
         .send(blog)
         .expect(201)
@@ -94,7 +95,7 @@ describe('Test controllers/blog', () => {
 
   describe('Delete /blogs/:id', () => {
     it('Delete created blog', (done) => {
-      agen
+      agent
         .delete('/blogs/' + id)
         .expect(204, done);
     })

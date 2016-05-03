@@ -13,6 +13,7 @@ blogController.route('/')
    * @api {get} /blogs Get all blogs or get blog by blog_name
    * @apiName GetAllBlogs
    * @apiGroup Blog
+   * @apiSuccess {String} [blog_name]
    * @apiSuccess {Object[]} blogs All blogs
    */
   .get((req, res, next) => {
@@ -114,6 +115,9 @@ blogController.route('/:blogId')
     }).catch(next);
   });
 
+
+
+
 blogController.route('/:blogId/comments')
 
   .all((req, res, next) => {
@@ -167,9 +171,6 @@ blogController.route('/:blogId/comments')
       email: body.email,
       content: body.content
     });
-    if (!utils.isObjectId(blogId)) {
-      throw new HttpError.BadRequestError('Blog id error');
-    }
     let comment_g;
     _comment.save().then(comment => {
       comment_g = comment;
