@@ -12,40 +12,12 @@ commentController.route('/')
    * @api {get} /comments Get all comments
    * @apiName GetAllComments
    * @apiGroup Comment
-   * @apiSuccess (200) {comments}
+   * @apiSuccess {Object[]} comments AllComments
    */
   .get((req, res, next) => {
     Comment.getAllComments().then(comments => {
       res.success(comments);
     }).catch(next)
-  })
-
-
-  /**
-   * @api {post} /comments Create new comment
-   * @apiName GetAllComments
-   * @apiGroup Comment
-   * @apiSuccess (201) {comment}
-   */
-  .post((req, res, next) => {
-    const body = req.body;
-    const blogId = req.query.blogId;
-    const _comment = new Comment({
-      user: body.user,
-      target: body.target,
-      email: body.email,
-      content: body.content
-    });
-    if (!utils.isObjectId(blogId)) {
-      throw new HttpError.BadRequestError('Blog id error');
-    }
-    let comment_g;
-    _comment.save().then(comment => {
-      comment_g = comment;
-      return Blog.addComment(blogId, comment._id)
-    }).then(() => {
-      res.success(comment_g, 201);
-    }).catch(next);
   });
 
 
@@ -64,6 +36,14 @@ commentController.route('/:commentId')
     }
   })
 
+  /**
+   * @api {get} /comments/:commentId Get comment by id
+   * @apiName getCommentById
+   * @apiGroup Comment
+   *
+   * @apiParam {String} commentId
+   * @apiSuccess {Object} comment
+   */
   .get((req, res, next) => {
     const commentId = req.params.commentId;
     Comment.getCommentById(commentId).then(comment => {
@@ -75,7 +55,9 @@ commentController.route('/:commentId')
    * @api {delete} /comments/:commentId Delete comment by id
    * @apiName DeleteComment
    * @apiGroup Comment
-   * @apiSuccess (204)
+   *
+   * @apiParam {String} commentId
+   * @apiSuccess 204
    */
   .delete((req, res, next) => {
     const commentId = req.params.commentId;

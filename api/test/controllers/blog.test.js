@@ -8,21 +8,20 @@ const rand = Math.random();
 let id;
 describe('Test controllers/blog', () => {
   const agen = request.agent(server);
-
+  let testBlog = {
+    name: 'test-' + rand,
+    title: 'test-' + rand,
+    markdown: '# test'
+  };
   before((done) => {
     helper.clear('blogs', done);
   });
 
   describe('POST /blogs', () => {
     it('Create a blog', (done) => {
-      const blog = {
-        name: 'test-' + rand,
-        title: 'test-' + rand,
-        markdown: '# test'
-      };
       agen
         .post('/blogs')
-        .send(blog)
+        .send(testBlog)
         .expect(201)
         .expect(res => {
           const result = res.body;
@@ -43,7 +42,17 @@ describe('Test controllers/blog', () => {
           expect(res.body.length).not.equal(0);
         })
         .end(done)
-    })
+    });
+
+    it('Get blog by blog name', (done) => {
+      agen
+        .get('/blogs?blog_name=' + testBlog.name)
+        .expect(200)
+        .expect(res => {
+          expect(res.body.title).to.equal(testBlog.title)
+        })
+        .end(done);
+    });
   });
 
   describe('Get /blogs/:id', () => {

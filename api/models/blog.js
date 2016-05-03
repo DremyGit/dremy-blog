@@ -5,7 +5,8 @@ const BlogSchema = new Schema({
   name: { type: String },
   title: { type: String },
   tag: { type: ObjectId },
-  create_at: { type: Date, default: Date.now},
+  create_at: { type: Date, default: Date.now },
+  update_at: { type: Date, default: Date.now },
   markdown: { type: String },
   html: { type: String },
   toc: [{ type: Object }],
@@ -21,6 +22,10 @@ BlogSchema.statics = {
   getBlogById: function (id) {
     return this.findById(id).exec();
   },
+
+  getBlogByName: function (name) {
+    return this.findOne({name: name}).exec();
+  },
   
   addComment: function (blogId, commentId) {
     return this.update({_id: blogId}, {$push: {comments: commentId}}).exec();
@@ -30,6 +35,8 @@ BlogSchema.statics = {
     return this.remove({_id: id}).exec();
   }
 };
+
+BlogSchema.index({name: 1}, {unique: true});
 
 module.exports = BlogSchema;
 

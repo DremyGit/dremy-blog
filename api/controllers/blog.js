@@ -1,29 +1,38 @@
 'use strict';
 const blogController = require('express').Router();
 const marked = require('marked');
-const Blog = require('../models').Blog;
 const HttpError = require('../common/http-error');
 const utils = require('../common/utils');
+const models = require('../models');
+const Blog =  models.Blog;
+const Comment = models.Comment;
 
 
 blogController.route('/')
   /**
-   * @api {get} /blogs Get all blogs
+   * @api {get} /blogs Get all blogs or get blog by blog_name
    * @apiName GetAllBlogs
    * @apiGroup Blog
-   * @apiSuccess {Object} msg
+   * @apiSuccess {Object[]} blogs All blogs
    */
   .get((req, res, next) => {
-    Blog.getAllBlogs().then(blogs => {
-      res.success(blogs);
-    }).catch(next);
+    if (req.query.blog_name) {
+      Blog.getBlogByName(req.query.blog_name).then(blog => {
+        res.success(blog);
+      }).catch(next);
+    } else {
+      Blog.getAllBlogs().then(blogs => {
+        res.success(blogs);
+      }).catch(next);
+    }
   })
 
   /**
    * @api {post} /blogs Create new blog
    * @apiName CreateBlog
    * @apiGroup Blog
-   *
+   * @apiParam {Object} blog Blog object
+   * @apiSuccess (201) {Object} blog created blog
    */
   .post((req, res, next) => {
     const body = req.body;
@@ -62,8 +71,8 @@ blogController.route('/:blogId')
    * @api {get} /blogs/:blogId Get blog by id
    * @apiName GetBlogById
    * @apiGroup Blog
-   *
-   * @apiSuccess (200) {Blog}
+   * @apiParam {String} blogId Blog objectId
+   * @apiSuccess {Object} blog
    */
   .get((req, res, next) => {
     const blogId = req.params.blogId;
@@ -76,8 +85,8 @@ blogController.route('/:blogId')
    * @api {put} /blogs/:blogId Update blog by id
    * @apiName UpdateBlog
    * @apiGroup Blog
-   *
-   * @apiSuccess (201) {Blog}
+   * @apiParam {String} blogId Blog objectId
+   * @apiSuccess (201) {Object} blog Blog after updated
    */
   .put((req, res, next) => {
     const blogId = req.params.blogId;
@@ -95,8 +104,8 @@ blogController.route('/:blogId')
    * @api {delete} /blogs/:blogId Delete blog by id
    * @apiName DeleteBlog
    * @apiGroup Blog
-   *
-   * @apiSuccess (204)
+   * @apiParam {String} blogId Blog objectId
+   * @apiSuccess 204
    */
   .delete((req, res, next) => {
     const blogId = req.params.blogId;
@@ -105,19 +114,70 @@ blogController.route('/:blogId')
     }).catch(next);
   });
 
+blogController.route('/:blogId/comments')
 
+  .all((req, res, next) => {
+    const blogId = req.params.blogId;
+    if (utils.isObjectId(blogId)) {
+      Blog.getBlogById(blogId).then(blog => {
+        if (!blog) {
+          throw new HttpError.NotFoundError('Blog not found');
+        }
+        next()
+      }).catch(next);
+    } else {
+      next('route');
+    }
+  })
 
-//blogController.route('/tags')
-//  /**
-//   * @api {get} /blogs/tags/:tagId Get blogs by tag id
-//   * @apiName GetBlogsByTagId
-//   * @apiGroup Blog
-//   *
-//   * @apiParam {String} tagId
-//   */
-//  .get((req, res, next) => {
-//    //res.end(JSON.stringify({msg: "Hello tags"}))
-//    return next(new Error("haha"));
-//  });
+  /**
+   * @api {get} /blogs/:blogId/comments Get all comment in a blog
+   * @apiName getCommentsByBlogId
+   * @apiGroup Comment
+   *
+   * @apiParam {String} blogId targetBlogId
+   * @apiSuccess {Object[]} comments
+   */
+  .get((req, res, next) => {
+    const blogId = req.params.blogId;
+    Blog.getBlogById(blogId).then(blog => {
+      const promises = blog.comments.map(Comment.getCommentById.bind(Comment));
+      return Promise.all(promises)
+    }).then(comments => {
+      res.success(comments);
+    }).catch(next);
+  })
+
+  /**
+   * @api {post} /blogs/:blogId/comments Create new comment belong to a blog
+   * @apiName GetAllComments
+   * @apiGroup Comment
+   *
+   * @apiParam {String} blogId targetBlogId
+   * @apiParam {Object} comment Comment
+   * @apiSuccess {Object} comment Created comment
+   */
+  .post((req, res, next) => {
+    const body = req.body;
+    const blogId = req.params.blogId;
+    const _comment = new Comment({
+      user: body.user,
+      blog: blogId,
+      target: body.target,
+      email: body.email,
+      content: body.content
+    });
+    if (!utils.isObjectId(blogId)) {
+      throw new HttpError.BadRequestError('Blog id error');
+    }
+    let comment_g;
+    _comment.save().then(comment => {
+      comment_g = comment;
+      return Blog.addComment(blogId, comment._id)
+    }).then(() => {
+      res.success(comment_g, 201);
+    }).catch(next);
+  });
+
 
 module.exports = blogController;
