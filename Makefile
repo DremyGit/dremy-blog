@@ -14,8 +14,11 @@ test:
 converage: install
 	@cd api && make converage
 
+coveralls: install
+	@cd api && make coveralls
+
 run: install
 	@cd api && npm start
 
 test: install
-.PHONY: install test cov test-cov build run start restart
+.PHONY: install test converage coveralls run

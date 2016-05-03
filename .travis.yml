@@ -20,4 +20,4 @@ install: make
 
 script: make test
 
-after_success: make coverage
+after_success: make coveralls
