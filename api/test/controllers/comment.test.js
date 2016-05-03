@@ -25,9 +25,8 @@ describe('Test controllers/comment.js', () => {
 
   describe('Post /comments', () => {
     it('Create new comment', (done) => {
-      comment.blogId = testBlog._id;
       agent
-        .post('/comments')
+        .post('/comments?blogId=' + testBlog._id)
         .send(comment)
         .expect(201)
         .expect(res => {

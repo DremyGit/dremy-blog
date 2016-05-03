@@ -28,16 +28,23 @@ commentController.route('/')
    * @apiSuccess (201) {comment}
    */
   .post((req, res, next) => {
-    const _comment = new Comment(req.body);
-    if (!utils.isObjectId(_comment.blogId)) {
+    const body = req.body;
+    const blogId = req.query.blogId;
+    const _comment = new Comment({
+      user: body.user,
+      target: body.target,
+      email: body.email,
+      content: body.content
+    });
+    if (!utils.isObjectId(blogId)) {
       throw new HttpError.BadRequestError('Blog id error');
     }
     let comment_g;
     _comment.save().then(comment => {
       comment_g = comment;
-      return Blog.addComment(_comment.blogId, comment._id)
+      return Blog.addComment(blogId, comment._id)
     }).then(() => {
-      res.success(comment_g);
+      res.success(comment_g, 201);
     }).catch(next);
   });
 

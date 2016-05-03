@@ -52,7 +52,7 @@ blogController.route('/:blogId')
           throw new HttpError.NotFoundError('Blog not found');
         }
         next()
-      }).catch(res.error);
+      }).catch(next);
     } else {
       next('route');
     }

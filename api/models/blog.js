@@ -23,7 +23,7 @@ BlogSchema.statics = {
   },
   
   addComment: function (blogId, commentId) {
-    return this.update({_id: blogId}, {comments: {$push: commentId}}).exec();
+    return this.update({_id: blogId}, {$push: {comments: commentId}}).exec();
   },
 
   removeById: function(id) {
