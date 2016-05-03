@@ -30,7 +30,7 @@ describe('Test controllers/comment.js', () => {
         .send(comment)
         .expect(201)
         .expect(res => {
-          const result = res.body.result;
+          const result = res.body;
           expect(result.user).equal(comment.user);
           expect(result.email).equal(comment.email);
           expect(result.content).equal(comment.content);
@@ -46,7 +46,7 @@ describe('Test controllers/comment.js', () => {
         .get('/comments')
         .expect(200)
         .expect(res => {
-          expect(res.body.result.length).not.equal(0);
+          expect(res.body.length).not.equal(0);
         })
         .end(done);
     });

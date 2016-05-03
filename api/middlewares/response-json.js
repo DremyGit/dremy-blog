@@ -2,18 +2,13 @@ const responseJson = (req, res, next) => {
   res.success = (result, code) => {
     code = code || 200;
     if (code < 400) {
-      res.status(code).json({
-        statusCode: code,
-        result: result,
-        error: ''
-      });
+      res.status(code).json(result);
     }
   };
-  res.error = (err, code) => {
+  res.error = (errorMessage, code) => {
     res.status(code).json({
       statusCode: code,
-      error: err,
-      result: ''
+      message: errorMessage
     })
   };
   next();

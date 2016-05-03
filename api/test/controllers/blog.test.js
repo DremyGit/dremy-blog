@@ -25,7 +25,7 @@ describe('Test controllers/blog', () => {
         .send(blog)
         .expect(201)
         .expect(res => {
-          const result = res.body.result;
+          const result = res.body;
           expect(result._id.length).to.equal(24);
           expect(result.name).to.equal('test-' + rand);
           id = result._id;
@@ -40,7 +40,7 @@ describe('Test controllers/blog', () => {
         .get('/blogs')
         .expect(200)
         .expect(res => {
-          expect(res.body.result.length).not.equal(0);
+          expect(res.body.length).not.equal(0);
         })
         .end(done)
     })
@@ -52,7 +52,7 @@ describe('Test controllers/blog', () => {
         .get('/blogs/' + id)
         .expect(200)
         .expect(res => {
-          expect(res.body.result.name).to.equal('test-' + rand);
+          expect(res.body.name).to.equal('test-' + rand);
         })
         .end(done);
     });
@@ -77,7 +77,7 @@ describe('Test controllers/blog', () => {
         .send(blog)
         .expect(201)
         .expect(res => {
-          expect(res.body.result.name).to.equal('modify-' + rand);
+          expect(res.body.name).to.equal('modify-' + rand);
         })
         .end(done);
     })
