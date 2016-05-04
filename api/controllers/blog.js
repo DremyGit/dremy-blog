@@ -7,6 +7,7 @@ const assertExisted = require('../middlewares/database').assertObjectExisted;
 const models = require('../models');
 const Blog =  models.Blog;
 const Comment = models.Comment;
+const Tag = models.Tag;
 
 
 blogController.route('/')
@@ -41,14 +42,18 @@ blogController.route('/')
     const _blog = new Blog({
       name: body.name,
       title: body.title,
-      tag: null,
+      tag: body.tag,
       markdown: body.markdown,
       html: marked(body.markdown),
       toc: [],
       comments: []
     });
+    let blog_g;
     _blog.save().then(blog => {
-      res.success(blog, 201);
+      blog_g = blog;
+      return Tag.addBlogId(body.tag, blog._id)
+    }).then(() => {
+      res.success(blog_g, 201);
     }).catch(next);
   });
 
