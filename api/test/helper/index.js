@@ -10,14 +10,11 @@ helper.clear = (collection, callback) => {
   });
 };
 
-helper.createTestBlog = (callback) => {
-  const rand = Math.random();
-  const testBlog = new Blog({
-    name: 'testBlog-' + rand,
-    title: 'test-blog-' + rand
-  });
-  testBlog.save().then(blog => {
-    callback(blog);
+helper.createTestBlog = (testBlog) => {
+  return new Promise((resolve, reject) => {
+    Object.assign(new Blog(), testBlog).save().then(blog => {
+      resolve(blog);
+    }).catch(reject);
   })
 };
 

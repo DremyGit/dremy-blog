@@ -7,7 +7,12 @@ const helper = require('../helper');
 describe('Test controllers/comment.js', () => {
 
   const agent = request.agent(app);
-  let testBlog = {};
+  const rand = Math.random();
+  let testBlog = {
+    name: 'testBlog-' + rand,
+    title: 'test-blog-' + rand,
+    markdown: '# test'
+  };
   let comment = {
     user: 'test user',
     email: 'example@example.com',
@@ -16,10 +21,13 @@ describe('Test controllers/comment.js', () => {
 
   before((done) => {
     helper.clear('comments', () => {
-      helper.createTestBlog(blog => {
-        testBlog = blog;
-        done();
-      })
+      agent
+        .post('/blogs')
+        .send(testBlog)
+        .expect(res => {
+          testBlog._id = res.body._id;
+        })
+        .end(done);
     });
   });
 

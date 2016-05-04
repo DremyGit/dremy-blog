@@ -51,8 +51,8 @@ commentController.route('/:commentId')
   .delete((req, res, next) => {
     const commentId = req.params.commentId;
     Promise.all([
-        Blog.deleteCommentByCommentId(commentId),
-        Comment.deleteCommentById(commentId)
+        Blog.removeCommentByCommentId(commentId),
+        Comment.removeCommentById(commentId)
     ]).then(() => {
       res.success(null, 204);
     }).catch(next);
