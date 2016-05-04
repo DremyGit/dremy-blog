@@ -1,6 +1,7 @@
 const helper = {};
 const mongoose = require('mongoose');
-const Blog = require('../../models').Blog;
+const models = require('../../models');
+const Blog = models.Blog;
 
 
 helper.clear = (collection, callback) => {
@@ -17,5 +18,11 @@ helper.createTestBlog = (testBlog) => {
     }).catch(reject);
   })
 };
+
+
+helper.findOneInModelById = (model, id) => {
+  return models[model].findById(id).exec();
+};
+
 
 module.exports = helper;

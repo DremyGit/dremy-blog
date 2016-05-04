@@ -4,7 +4,7 @@ const ObjectId = Schema.Types.ObjectId;
 const BlogSchema = new Schema({
   name: { type: String },
   title: { type: String },
-  tag: { type: ObjectId },
+  tag: { type: ObjectId, ref: 'Tag' },
   create_at: { type: Date, default: Date.now },
   update_at: { type: Date, default: Date.now },
   markdown: { type: String },

@@ -11,6 +11,10 @@ describe('Test controllers/tag.js', () => {
     name: 'test-' + rand
   };
 
+  let testTag2 = {
+    name:'test-2-' + rand
+  };
+
   before((done) => {
     helper.clear('tags', done);
   });
@@ -29,6 +33,18 @@ describe('Test controllers/tag.js', () => {
         })
         .end(done);
     })
+
+    it('Create tag2', (done) => {
+      agent
+        .post('/tags')
+        .send(testTag)
+        .expect(201)
+        .expect(res => {
+          expect(res.body._id).to.not.equal(testTag._id);
+          testTag2._id = res.body._id;
+        })
+        .end(done);
+    })
   });
 
   describe('Get /tags', () => {
@@ -38,7 +54,7 @@ describe('Test controllers/tag.js', () => {
         .expect(200)
         .expect(res => {
           expect(res.body).to.be.a('Array');
-          expect(res.body.length).not.equal(0);
+          expect(res.body.length).to.not.equal(0);
         })
         .end(done);
     });
@@ -79,29 +95,69 @@ describe('Test controllers/tag.js', () => {
     });
   });
 
-  describe('Get /tags/:tagId/blogs', () => {
-    before((done) => {
-      const testBlog = {
-        name: 'testBlog-' + rand,
-        title: 'test-blog-' + rand,
-        markdown: '# test',
-        tag: testTag._id
-      };
+  describe('Test blog tag change', () => {
+    const testBlog = {
+      name: 'testBlog-' + rand,
+      title: 'test-blog-' + rand,
+      markdown: '# test'
+    };
+    it('Create a test blog', (done) => {
+      testBlog.tag = testTag._id;
       agent
         .post('/blogs')
         .send(testBlog)
+        .expect(201)
+        .expect(res => {
+          expect(res.body.tag).to.equal(testTag._id);
+          testBlog._id = res.body._id;
+        })
         .end(done);
     });
+
+    it('Change blog tag to tag2', (done) => {
+      agent
+        .put('/blogs/' + testBlog._id)
+        .send({tag: testTag2._id})
+        .expect(201)
+        .expect(res => {
+          expect(res.body.tag).to.equal(testTag2._id);
+          expect(res.body.name).to.equal(testBlog.name);
+        })
+        .end(done);
+    });
+
+    it('List of tag blog should be update', (done) => {
+      helper.findOneInModelById('Tag', testTag._id).then(tag => {
+        expect(tag.blogs).to.not.contain(testBlog._id);
+        return helper.findOneInModelById('Tag', testTag2._id)
+      }).then(tag2 => {
+        expect(tag2.blogs).to.contain(testBlog._id);
+        done();
+      }).catch(e => console.log(e.stack));
+    });
+
+    it('change blog tag to tag', (done) => {
+      agent
+        .put('/blogs/' + testBlog._id)
+        .send({tag: testTag._id})
+        .expect(res => {
+          expect(res.body.tag).to.equal(testTag._id);
+        })
+        .end(done);
+    })
+  });
+
+  describe('Get /tags/:tagId/blogs', () => {
     it('Get blogs by tagId', (done) => {
       agent
         .get('/tags/' + testTag._id + '/blogs')
         .expect(200)
         .expect(res => {
           expect(res.body).to.be.an('array');
-          expect(res.body.length).not.equal(0);
+          expect(res.body.length).to.not.equal(0);
         })
         .end(done);
-    })
+    });
   });
 
   describe('Delete /tags/:tagId', () => {

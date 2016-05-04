@@ -86,10 +86,27 @@ blogController.route('/:blogId')
     const blogId = req.params.blogId;
     const body = req.body;
     Blog.getBlogById(blogId).then(blog => {
+
+      // Old blog tag
+      const blogTag = blog.tag && blog.tag.toString();
       const _blog = Object.assign(blog, body);
-      _blog.save().then(newBlog => {
-        res.success(newBlog, 201)
-      }).catch(next);
+      if (body.tag && body.tag != blogTag) {
+        return Promise.all([
+          _blog.save(),
+          Tag.removeBlogId(blogTag, _blog.id),
+          Tag.addBlogId(body.tag, _blog.id)
+        ])
+      } else {
+        return _blog.save()
+      }
+    }).then(result => {
+
+      // if update tags
+      if (Array.isArray(result)) {
+        res.success(result[0], 201)
+      } else {
+        res.success(result, 201)
+      }
     }).catch(next);
   })
 
