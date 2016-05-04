@@ -33,6 +33,10 @@ BlogSchema.statics = {
 
   removeById: function(id) {
     return this.remove({_id: id}).exec();
+  },
+
+  deleteCommentByCommentId: function (commentId) {
+    return this.update({}, {$pull: {comments: commentId}}).exec();
   }
 };
 

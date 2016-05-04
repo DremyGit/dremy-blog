@@ -2,6 +2,7 @@
 const commentController = require('express').Router();
 const utils = require('../common/utils');
 const HttpError = require('../common/http-error');
+const assertExisted = require('../middlewares/database').assertObjectExisted;
 const models = require('../models');
 const Blog = models.Blog;
 const Comment = models.Comment;
@@ -22,19 +23,7 @@ commentController.route('/')
 
 
 commentController.route('/:commentId')
-  .all((req, res, next) => {
-    const commentId = req.params.commentId;
-    if (utils.isObjectId(commentId)) {
-      Comment.getCommentById(commentId).then(comment => {
-        if (!comment) {
-          throw new HttpError.NotFoundError('Comment not found');
-        }
-        next();
-      }).catch(next);
-    } else {
-      next('route')
-    }
-  })
+  .all(assertExisted('commentId', Comment))
 
   /**
    * @api {get} /comments/:commentId Get comment by id
@@ -61,9 +50,13 @@ commentController.route('/:commentId')
    */
   .delete((req, res, next) => {
     const commentId = req.params.commentId;
-    Comment.deleteCommentById(commentId).then(() => {
+    Promise.all([
+        Blog.deleteCommentByCommentId(commentId),
+        Comment.deleteCommentById(commentId)
+    ]).then(() => {
       res.success(null, 204);
     }).catch(next);
+
   });
 
 module.exports = commentController;

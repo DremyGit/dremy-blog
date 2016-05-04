@@ -3,6 +3,7 @@ const blogController = require('express').Router();
 const marked = require('marked');
 const HttpError = require('../common/http-error');
 const utils = require('../common/utils');
+const assertExisted = require('../middlewares/database').assertObjectExisted;
 const models = require('../models');
 const Blog =  models.Blog;
 const Comment = models.Comment;
@@ -53,20 +54,7 @@ blogController.route('/')
 
 
 blogController.route('/:blogId')
-
-  .all((req, res, next) => {
-    const blogId = req.params.blogId;
-    if (utils.isObjectId(blogId)) {
-      Blog.getBlogById(blogId).then(blog => {
-        if (!blog) {
-          throw new HttpError.NotFoundError('Blog not found');
-        }
-        next()
-      }).catch(next);
-    } else {
-      next('route');
-    }
-  })
+  .all(assertExisted('blogId', Blog))
 
   /**
    * @api {get} /blogs/:blogId Get blog by id
@@ -119,20 +107,7 @@ blogController.route('/:blogId')
 
 
 blogController.route('/:blogId/comments')
-
-  .all((req, res, next) => {
-    const blogId = req.params.blogId;
-    if (utils.isObjectId(blogId)) {
-      Blog.getBlogById(blogId).then(blog => {
-        if (!blog) {
-          throw new HttpError.NotFoundError('Blog not found');
-        }
-        next()
-      }).catch(next);
-    } else {
-      next('route');
-    }
-  })
+  .all(assertExisted('blogId', Blog))
 
   /**
    * @api {get} /blogs/:blogId/comments Get all comment in a blog

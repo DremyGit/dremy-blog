@@ -62,14 +62,6 @@ describe('Test controllers/comment.js', () => {
         })
         .end(done);
     });
-
-    it('Get a 404 using a none-existent blog id', (done) => {
-      agent.get('/blogs/' + 'a'.repeat(24) + '/comments').expect(404).end(done)
-    });
-
-    it('Get a 404 using a wrong blog id', (done) => {
-      agent.get('/blogs/test/comments').expect(404).end(done)
-    });
   });
 
   describe('Get /comments/:commentId', () => {
@@ -84,14 +76,6 @@ describe('Test controllers/comment.js', () => {
           expect(result.content).equal(comment.content);
         })
         .end(done);
-    });
-
-    it('Get a 404 using a none-existent comment id', (done) => {
-      agent.get('/comments/' + 'a'.repeat(24)).expect(404).end(done)
-    });
-
-    it('Get a 404 using a wrong comment id', (done) => {
-      agent.get('/comments/test').expect(404).end(done)
     });
   });
 
