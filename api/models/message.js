@@ -8,4 +8,18 @@ const MessageSchema = new Schema({
   content: { type: String }
 });
 
+MessageSchema.statics = {
+  getAllMessages: function () {
+    return this.find({}).exec();
+  },
+
+  getMessageById: function (id) {
+    return this.findById(id).exec();
+  },
+
+  removeMessageById: function (id) {
+    return this.remove({_id: id}).exec();
+  }
+};
+
 module.exports = MessageSchema;
