@@ -13,7 +13,7 @@ workController.route('/')
   .get((req, res, next) => {
     Work.getAllWorks().then(works => {
       res.success(works)
-    }).then(next);
+    }).catch(next);
   })
 
 
