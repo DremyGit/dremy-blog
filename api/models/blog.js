@@ -9,7 +9,7 @@ const BlogSchema = new Schema({
   update_at: { type: Date, default: Date.now },
   markdown: { type: String },
   html: { type: String },
-  toc: [{ type: Object }],
+  toc: { type: Array },
   comments: [ {type: ObjectId, ref: 'Comment'} ],
   click_count: { type: Number }
 });

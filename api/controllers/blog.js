@@ -1,6 +1,7 @@
 'use strict';
 const blogController = require('express').Router();
-const marked = require('marked');
+const marked = require('../common/markdown');
+const toc = require('../common/toc');
 const HttpError = require('../common/http-error');
 const utils = require('../common/utils');
 const assertExisted = require('../middlewares/database').assertObjectExisted;
@@ -39,15 +40,20 @@ blogController.route('/')
    */
   .post((req, res, next) => {
     const body = req.body;
-    const _blog = new Blog({
-      name: body.name,
-      title: body.title,
-      tag: body.tag,
-      markdown: body.markdown,
-      html: marked(body.markdown),
-      toc: [],
-      comments: []
-    });
+    let _blog;
+    try {
+      _blog = new Blog({
+        name: body.name,
+        title: body.title,
+        tag: body.tag,
+        markdown: body.markdown,
+        html: marked(body.markdown),
+        toc: toc(body.markdown),
+        comments: []
+      });
+    } catch (e) {
+      return next(e);
+    }
     let blog_g;
     _blog.save().then(blog => {
       blog_g = blog;

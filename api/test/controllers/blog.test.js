@@ -11,7 +11,8 @@ describe('Test controllers/blog', () => {
   let testBlog = {
     name: 'test-' + rand,
     title: 'test-' + rand,
-    markdown: '# test'
+    markdown: '# test',
+    other: 'other'
   };
   before((done) => {
     helper.clear('blogs', done);
@@ -27,6 +28,7 @@ describe('Test controllers/blog', () => {
           const result = res.body;
           expect(result._id.length).to.equal(24);
           expect(result.name).to.equal('test-' + rand);
+          expect(result.other).to.be.undefined;
           id = result._id;
         })
         .end(done);
