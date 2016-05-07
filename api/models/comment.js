@@ -5,6 +5,7 @@ const CommentSchema = new Schema({
   user:     { type: String },
   blog:     { type: ObjectId, ref: 'Blog' },
   target:   { type: ObjectId, ref: 'Comment' },
+  create_at: { type: Date, default: Date.now },
   email:    { type: String },
   content:  { type: String }
 });

@@ -4,6 +4,7 @@ const ObjectId = Schema.Types.ObjectId;
 const MessageSchema = new Schema({
   user: { type: String },
   target: { type: ObjectId, ref: 'Message' },
+  create_at: { type: Date, default: Date.now },
   email: { type: String },
   content: { type: String }
 });

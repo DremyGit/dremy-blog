@@ -13,6 +13,12 @@ describe('Test controllers/message.js', () => {
     content: 'test message' + Math.random()
   };
 
+  const testMessage2 = {
+    user: 'test',
+    email: '123456',
+    content: 'test'
+  };
+
   before((done) => {
     helper.clear('messages', done);
   });
@@ -26,6 +32,16 @@ describe('Test controllers/message.js', () => {
         .expect(res => {
           expect(res.body.content).to.equal(testMessage.content);
           testMessage._id = res.body._id;
+        })
+        .end(done);
+    });
+    it('Can\'t create a message with a wrong email', (done) => {
+      agent
+        .post('/messages')
+        .send(testMessage2)
+        .expect(400)
+        .expect(res => {
+          expect(res.body.message).to.include('Email');
         })
         .end(done);
     })

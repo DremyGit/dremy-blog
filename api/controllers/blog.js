@@ -154,6 +154,7 @@ blogController.route('/:blogId/comments')
   .post((req, res, next) => {
     const body = req.body;
     const blogId = req.params.blogId;
+    utils.verifyUserForm(body);
     const _comment = Object.assign(new Comment(), body);
     let comment_g;
     _comment.save().then(comment => {

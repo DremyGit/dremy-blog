@@ -2,6 +2,7 @@ const messageController = require('express').Router();
 const Message = require('../models').Message;
 const HttpError = require('../common/http-error');
 const assertExisted = require('../middlewares/database').assertObjectExisted;
+const utils = require('../common/utils');
 
 messageController.route('/')
 
@@ -28,6 +29,7 @@ messageController.route('/')
    */
   .post((req, res, next) => {
     const body = req.body;
+    utils.verifyUserForm(body);
     const _message = Object.assign(new Message(), body);
     _message.save().then(message => {
       res.success(message, 201);

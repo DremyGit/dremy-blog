@@ -3,7 +3,14 @@ const ObjectId = Schema.Types.ObjectId;
 
 const TagSchema = new Schema({
   name: { type: String },
-  blogs: [{type: ObjectId, ref: 'Blog'}]
+  blogs: [{type: ObjectId, ref: 'Blog'}],
+  create_at: { type: Date, default: Date.now },
+  update_at: { type: Date, default: Date.now }
+});
+
+TagSchema.pre('save', function (next) {
+  this.update_at = Date.now;
+  next();
 });
 
 TagSchema.statics = {
