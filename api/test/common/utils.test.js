@@ -92,4 +92,10 @@ describe('Test common/utils', () => {
       expect(utils.verifyUserForm.bind(utils,{name:'test',email:'a@a.com',url:'haha'})).to.throw(/Url/);
     });
   });
+
+  describe('Tset utils.md5()', () => {
+    it('Create right md5 hash', () => {
+      expect(utils.md5('123456')).to.equal('e10adc3949ba59abbe56e057f20f883e');
+    });
+  });
 });
