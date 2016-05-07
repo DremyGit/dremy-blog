@@ -4,31 +4,68 @@ const cache = {};
 
 const redis = new Redis(config.redis);
 
-cache.get = (key) => {
+cache.get = (key, callback) => {
+  var timeBegin = new Date();
   return new Promise((resolve, reject) => {
-    redis.get(key).then(result => {
-      if (!result) {
+    redis.get(key, (err, result) => {
+      if (err) {
+        reject(err);
+      } else if (!result) {
         resolve();
       } else {
-        resolve(JSON.parse(result));
+        result = JSON.parse(result);
+        console.log('[Redis]', 'Cache hitting in', new Date() - timeBegin, 'ms');
+        resolve(result);
       }
-    }).catch(reject);
+      if (callback) callback(err, result);
+    })
+  })
+};
+
+cache.set = (key, value, time, callback) => {
+  var timeBegin = new Date();
+  value = JSON.stringify(value);
+  return new Promise((resolve, reject) => {
+    if (typeof time === 'function') {
+      callback = time;
+      time = null;
+    }
+
+    if (!time) {
+      redis.set(key, value, (err, res) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
+        console.log('[Redis]', 'Save cache in', new Date() - timeBegin, 'ms');
+        if (callback) callback(err, res);
+      })
+    } else {
+      redis.setex(key, time, value, (err, res)=> {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
+        console.log('[Redis]', 'Save cache in', new Date() - timeBegin, 'ms');
+        if (callback) callback(err, res);
+      });
+    }
   });
 };
 
-cache.set = (key, value, time) => {
+cache.del = (key, callback) => {
   return new Promise((resolve, reject) => {
-    value = JSON.stringify(value);
-    if (!time) {
-      redis.set(key, value).then(res => {
+    redis.del(key, (err, res) => {
+      if (err) {
+        reject(err);
+      } else {
         resolve(res);
-      }).catch(reject);
-    } else {
-      redis.setex(key, time, value).then(res => {
-        resolve(res);
-      }).catch(reject);
-    }
-  })
+      }
+      if (callback) callback(err, res);
+    });
+  });
 };
 
 module.exports = cache;
