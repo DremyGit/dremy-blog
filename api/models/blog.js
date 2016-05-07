@@ -26,6 +26,10 @@ BlogSchema.statics = {
   getBlogByName: function (name) {
     return this.findOne({name: name}).exec();
   },
+
+  getBlogsByQuery: function (query) {
+    return this.find.apply(this, query).exec();
+  },
   
   addComment: function (blogId, commentId) {
     return this.update({_id: blogId}, {$push: {comments: commentId}}).exec();
