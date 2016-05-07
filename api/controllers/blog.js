@@ -40,20 +40,7 @@ blogController.route('/')
    */
   .post((req, res, next) => {
     const body = req.body;
-    let _blog;
-    try {
-      _blog = new Blog({
-        name: body.name,
-        title: body.title,
-        tag: body.tag,
-        markdown: body.markdown,
-        html: marked(body.markdown),
-        toc: toc(body.markdown),
-        comments: []
-      });
-    } catch (e) {
-      return next(e);
-    }
+    let _blog = Object.assign(new Blog(), body);
     let blog_g;
     _blog.save().then(blog => {
       blog_g = blog;
@@ -96,10 +83,6 @@ blogController.route('/:blogId')
       // Old blog tag
       const blogTag = blog.tag && blog.tag.toString();
       const _blog = Object.assign(blog, body);
-      if (body.markdown) {
-        _blog.html = marked(body.markdown);
-        _blog.toc = toc(body.markdown);
-      }
       if (body.tag && body.tag != blogTag) {
         return Promise.all([
           _blog.save(),
@@ -171,13 +154,7 @@ blogController.route('/:blogId/comments')
   .post((req, res, next) => {
     const body = req.body;
     const blogId = req.params.blogId;
-    const _comment = new Comment({
-      user: body.user,
-      blog: blogId,
-      target: body.target,
-      email: body.email,
-      content: body.content
-    });
+    const _comment = Object.assign(new Comment(), body);
     let comment_g;
     _comment.save().then(comment => {
       comment_g = comment;

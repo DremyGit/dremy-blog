@@ -3,7 +3,7 @@ TEST_TIMEOUT = 10000
 MOCHA_REPORTER = spec
 
 
-all: test
+all: install
 
 install:
 	@npm install

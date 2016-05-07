@@ -27,12 +27,7 @@ workController.route('/')
    */
   .post((req, res, next) => {
     const body = req.body;
-    const _work = new Work({
-      name: body.name,
-      introduction: body.introduction,
-      url: body.url,
-      picUrl: body.picUrl
-    });
+    const _work = Object.assign(new Work(), body);
     _work.save().then(work => {
       res.success(work, 201);
     }).catch(next);

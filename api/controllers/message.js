@@ -28,12 +28,7 @@ messageController.route('/')
    */
   .post((req, res, next) => {
     const body = req.body;
-    const _message = new Message({
-      user: body.user,
-      target: body.target,
-      email: body.email,
-      content: body.content
-    });
+    const _message = Object.assign(new Message(), body);
     _message.save().then(message => {
       res.success(message, 201);
     }).catch(next);

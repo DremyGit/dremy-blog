@@ -1,5 +1,7 @@
 const Schema = require('mongoose').Schema;
 const ObjectId = Schema.Types.ObjectId;
+const markdown = require('../common/markdown');
+const toc = require('../common/toc');
 
 const BlogSchema = new Schema({
   name: { type: String },
@@ -11,7 +13,14 @@ const BlogSchema = new Schema({
   html: { type: String },
   toc: { type: Array },
   comments: [ {type: ObjectId, ref: 'Comment'} ],
-  click_count: { type: Number }
+  click_count: { type: Number, default: 0 }
+});
+
+BlogSchema.pre('save', function(next) {
+  this.html = markdown(this.markdown);
+  this.toc = toc(this.markdown);
+  this.update_at = Date.now;
+  next();
 });
 
 BlogSchema.statics = {
