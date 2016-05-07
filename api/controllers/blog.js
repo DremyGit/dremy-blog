@@ -96,6 +96,10 @@ blogController.route('/:blogId')
       // Old blog tag
       const blogTag = blog.tag && blog.tag.toString();
       const _blog = Object.assign(blog, body);
+      if (body.markdown) {
+        _blog.html = marked(body.markdown);
+        _blog.toc = toc(body.markdown);
+      }
       if (body.tag && body.tag != blogTag) {
         return Promise.all([
           _blog.save(),
