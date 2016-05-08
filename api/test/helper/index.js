@@ -36,6 +36,12 @@ helper.createTestAdmin = (username, password) => {
 helper.getAdminToken = () =>
   jwt.create({name: 'test'});
 
+helper.adminHeader = () => {
+  return {
+    Authorization: 'Bearer ' + helper.getAdminToken()
+  }
+};
+
 
 
 module.exports = helper;

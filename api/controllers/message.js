@@ -2,6 +2,7 @@ const messageController = require('express').Router();
 const Message = require('../models').Message;
 const HttpError = require('../common/http-error');
 const assertExisted = require('../middlewares/database').assertObjectExisted;
+const adminRequired = require('../middlewares/auth').adminRequired;
 const utils = require('../common/utils');
 
 messageController.route('/')
@@ -41,11 +42,12 @@ messageController.route('/:messageId')
 
   /**
    * @api {delete} /messages/messageId Delete message
+   * @apiPermission admin
    * @apiName DeleteMessage
    * @apiGroup Message
    * @apiSuccess 204
    */
-  .delete((req, res, next) => {
+  .delete(adminRequired, (req, res, next) => {
     const messageId = req.params.messageId;
     Message.removeMessageById(messageId).then(() => {
       res.success(null, 204);

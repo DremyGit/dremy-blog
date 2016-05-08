@@ -23,6 +23,7 @@ describe('Test controllers/comment.js', () => {
     helper.clear('comments', () => {
       agent
         .post('/blogs')
+        .set(helper.adminHeader())
         .send(testBlog)
         .expect(res => {
           testBlog._id = res.body._id;
@@ -52,6 +53,7 @@ describe('Test controllers/comment.js', () => {
     it('Get all comments', (done) => {
       agent
         .get('/comments')
+        .set(helper.adminHeader())
         .expect(200)
         .expect(res => {
           expect(res.body.length).not.equal(0);
@@ -91,6 +93,7 @@ describe('Test controllers/comment.js', () => {
     it('Delete comment', (done) => {
       agent
         .delete('/comments/' + comment._id)
+        .set(helper.adminHeader())
         .expect(204)
         .end(done);
     });

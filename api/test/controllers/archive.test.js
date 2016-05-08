@@ -24,11 +24,11 @@ describe('Test controller/archive.js', () => {
       cache.del('archives').then(() => {
         return cache.del(`archives:${now.getFullYear()}:${now.getMonth() + 1}`)
       }).then(() => {
-        agent.post('/blogs').send(testBlog1).expect(res => {
+        agent.post('/blogs').set(helper.adminHeader()).send(testBlog1).expect(res => {
           expect(res.body._id.length).to.equal(24);
           testBlog1._id = res.body._id;
         }).end(() => {
-          agent.post('/blogs').send(testBlog2).expect(res => {
+          agent.post('/blogs').set(helper.adminHeader()).send(testBlog2).expect(res => {
             expect(res.body._id.length).to.equal(24);
             testBlog2._id = res.body._id;
           }).end(done);

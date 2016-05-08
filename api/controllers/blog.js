@@ -1,10 +1,10 @@
 'use strict';
 const blogController = require('express').Router();
-const marked = require('../common/markdown');
 const toc = require('../common/toc');
 const HttpError = require('../common/http-error');
 const utils = require('../common/utils');
 const assertExisted = require('../middlewares/database').assertObjectExisted;
+const adminRequired = require('../middlewares/auth').adminRequired;
 const models = require('../models');
 const Blog =  models.Blog;
 const Comment = models.Comment;
@@ -33,12 +33,13 @@ blogController.route('/')
 
   /**
    * @api {post} /blogs Create new blog
+   * @apiPermission admin
    * @apiName CreateBlog
    * @apiGroup Blog
    * @apiParam {Object} blog Blog object
    * @apiSuccess (201) {Object} blog created blog
    */
-  .post((req, res, next) => {
+  .post(adminRequired, (req, res, next) => {
     const body = req.body;
     let _blog = Object.assign(new Blog(), body);
     let blog_g;
@@ -70,12 +71,13 @@ blogController.route('/:blogId')
 
   /**
    * @api {put} /blogs/:blogId Update blog by id
+   * @apiPermission admin
    * @apiName UpdateBlog
    * @apiGroup Blog
    * @apiParam {String} blogId Blog objectId
    * @apiSuccess (201) {Object} blog Blog after updated
    */
-  .put((req, res, next) => {
+  .put(adminRequired, (req, res, next) => {
     const blogId = req.params.blogId;
     const body = req.body;
     Blog.getBlogById(blogId).then(blog => {
@@ -106,12 +108,13 @@ blogController.route('/:blogId')
 
   /**
    * @api {delete} /blogs/:blogId Delete blog by id
+   * @apiPermission admin
    * @apiName DeleteBlog
    * @apiGroup Blog
    * @apiParam {String} blogId Blog objectId
    * @apiSuccess 204
    */
-  .delete((req, res, next) => {
+  .delete(adminRequired, (req, res, next) => {
     const blogId = req.params.blogId;
     Blog.removeById(blogId).then(() => {
       res.success(null, 204);

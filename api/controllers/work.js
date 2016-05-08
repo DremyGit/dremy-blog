@@ -1,6 +1,7 @@
 const workController = require('express').Router();
 const Work = require('../models').Work;
 const assertExisted = require('../middlewares/database').assertObjectExisted;
+const adminRequired = require('../middlewares/auth').adminRequired;
 
 workController.route('/')
 
@@ -19,13 +20,14 @@ workController.route('/')
 
   /**
    * @api {post} /works Create new work
+   * @apiPermission admin
    * @apiName CreateWork
    * @apiGroup Work
    *
    * @apiParam {Object} work
    * @apiSuccess {Object} work Created work
    */
-  .post((req, res, next) => {
+  .post(adminRequired, (req, res, next) => {
     const body = req.body;
     const _work = Object.assign(new Work(), body);
     _work.save().then(work => {
@@ -40,6 +42,7 @@ workController.route('/:workId')
 
   /**
    * @api {put} /works/:workId Update work by id
+   * @apiPermission admin
    * @apiName UpdateWork
    * @apiGroup Work
    *
@@ -47,7 +50,7 @@ workController.route('/:workId')
    * @apiParam {Object} work
    * @apiSuccess {Object} work Updated work
    */
-  .put((req, res, next) => {
+  .put(adminRequired, (req, res, next) => {
     const workId = req.params.workId;
     const body = req.body;
     Work.getWorkById(workId).then(work => {
@@ -61,13 +64,14 @@ workController.route('/:workId')
 
   /**
    * @api {delete} /works/:workId Delete work by id
+   * @apiPermission admin
    * @apiName DeleteWork
    * @apiGroup Work
    *
    * @apiParam {String} workId
    * @apiSuccess {Object} work Updated work
    */
-  .delete((req, res, next) => {
+  .delete(adminRequired, (req, res, next) => {
     const workId = req.params.workId;
     Work.removeWorkById(workId).then(() => {
       res.success(null, 204);

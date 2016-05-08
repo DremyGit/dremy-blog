@@ -1,5 +1,6 @@
 const tagController = require('express').Router();
 const assertExisted = require('../middlewares/database').assertObjectExisted
+const adminRequired = require('../middlewares/auth').adminRequired;
 const models = require('../models');
 const Tag = models.Tag;
 const Blog = models.Blog;
@@ -20,13 +21,14 @@ tagController.route('/')
 
   /**
    * @api {post} /tags Create new tag
+   * @apiPermission admin
    * @apiName createNewTag
    * @apiGroup Tag
    *
    * @apiParam {Object} tag Tag object to be created
    * @apiSuccess (201) {Object} tag Created tag
    */
-  .post((req, res, next) => {
+  .post(adminRequired, (req, res, next) => {
     const body = req.body;
     const _tag = new Tag({
       name: body.name,
@@ -56,6 +58,7 @@ tagController.route('/:tagId')
 
   /**
    * @api {put} /tags/:tagId Update tag
+   * @apiPermission admin
    * @apiName updateTag
    * @apiGroup Tag
    *
@@ -63,7 +66,7 @@ tagController.route('/:tagId')
    * @apiParam {Object} tag
    * @apiSuccess (201) {Object} tag Tag after updated
    */
-  .put((req, res, next) => {
+  .put(adminRequired, (req, res, next) => {
     const body = req.body;
     Tag.getTagById(req.params.tagId).then(tag => {
       return Object.assign(tag, body).save()
@@ -74,13 +77,14 @@ tagController.route('/:tagId')
 
   /**
    * @api {delete} /tags/:tagId Delete tag
+   * @apiPermission admin
    * @apiName deleteTag
    * @apiGroup Tag
    *
    * @apiParam {String} tagId
    * @apiSuccess 204
    */
-  .delete((req, res, next) => {
+  .delete(adminRequired, (req, res, next) => {
     Tag.removeTagById(req.params.tagId).then(() => {
       res.success(null, 204);
     }).catch(next);

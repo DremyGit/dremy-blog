@@ -22,6 +22,7 @@ describe('Test controllers/blog', () => {
     it('Create a blog', (done) => {
       agent
         .post('/blogs')
+        .set(helper.adminHeader())
         .send(testBlog)
         .expect(201)
         .expect(res => {
@@ -86,6 +87,7 @@ describe('Test controllers/blog', () => {
       };
       agent
         .put('/blogs/' + id)
+        .set(helper.adminHeader())
         .send(blog)
         .expect(201)
         .expect(res => {
@@ -99,6 +101,7 @@ describe('Test controllers/blog', () => {
     it('Delete created blog', (done) => {
       agent
         .delete('/blogs/' + id)
+        .set(helper.adminHeader())
         .expect(204, done);
     })
   });

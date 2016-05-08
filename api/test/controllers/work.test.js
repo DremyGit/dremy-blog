@@ -20,6 +20,7 @@ describe('Test controllers/work.js', () => {
     it('Create a new work', done => {
       agent
         .post('/works')
+        .set(helper.adminHeader())
         .send(testWork)
         .expect(201)
         .expect(res => {
@@ -49,6 +50,7 @@ describe('Test controllers/work.js', () => {
       const namePatch = {name: 'modified-' + Math.random()};
       agent
         .put('/works/' + testWork._id)
+        .set(helper.adminHeader())
         .send(namePatch)
         .expect(201)
         .expect(res => {
@@ -62,6 +64,7 @@ describe('Test controllers/work.js', () => {
     it('Delete created work', done => {
       agent
         .delete('/works/' + testWork._id)
+        .set(helper.adminHeader())
         .expect(204)
         .end(done);
     });

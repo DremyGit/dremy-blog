@@ -65,6 +65,7 @@ describe('Test controllers/message.js', () => {
     it('Delete the created message', done => {
       agent
         .delete('/messages/' + testMessage._id)
+        .set(helper.adminHeader())
         .expect(204)
         .end(done);
     })

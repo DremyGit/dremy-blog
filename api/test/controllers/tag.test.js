@@ -23,6 +23,7 @@ describe('Test controllers/tag.js', () => {
     it('Create a tag', (done) => {
       agent
         .post('/tags')
+        .set(helper.adminHeader())
         .send(testTag)
         .expect(201)
         .expect(res => {
@@ -32,11 +33,12 @@ describe('Test controllers/tag.js', () => {
           testTag._id = res.body._id;
         })
         .end(done);
-    })
+    });
 
     it('Create tag2', (done) => {
       agent
         .post('/tags')
+        .set(helper.adminHeader())
         .send(testTag)
         .expect(201)
         .expect(res => {
@@ -84,6 +86,7 @@ describe('Test controllers/tag.js', () => {
     it('Update created tag', (done) => {
       agent
         .put('/tags/' + testTag._id)
+        .set(helper.adminHeader())
         .send({name: 'Modified'})
         .expect(201)
         .expect(res => {
@@ -105,6 +108,7 @@ describe('Test controllers/tag.js', () => {
       testBlog.tag = testTag._id;
       agent
         .post('/blogs')
+        .set(helper.adminHeader())
         .send(testBlog)
         .expect(201)
         .expect(res => {
@@ -117,6 +121,7 @@ describe('Test controllers/tag.js', () => {
     it('Change blog tag to tag2', (done) => {
       agent
         .put('/blogs/' + testBlog._id)
+        .set(helper.adminHeader())
         .send({tag: testTag2._id})
         .expect(201)
         .expect(res => {
@@ -139,6 +144,7 @@ describe('Test controllers/tag.js', () => {
     it('change blog tag to tag', (done) => {
       agent
         .put('/blogs/' + testBlog._id)
+        .set(helper.adminHeader())
         .send({tag: testTag._id})
         .expect(res => {
           expect(res.body.tag).to.equal(testTag._id);
@@ -162,11 +168,19 @@ describe('Test controllers/tag.js', () => {
 
   describe('Delete /tags/:tagId', () => {
     it('Delete created tag', (done) => {
-      agent.delete('/tags/' + testTag._id).expect(204).end(done);
+      agent
+        .delete('/tags/' + testTag._id)
+        .set(helper.adminHeader())
+        .expect(204)
+        .end(done);
     });
 
     it('Return a 404', (done) => {
-      agent.delete('/tags/' + testTag._id).expect(404).end(done);
+      agent
+        .delete('/tags/' + testTag._id)
+        .set(helper.adminHeader())
+        .expect(404)
+        .end(done);
     })
   })
 
