@@ -1,17 +1,16 @@
 const config = require('./config');
 const express = require('express');
-const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
 const middlewares = require('./middlewares');
-
-
-app.use(bodyParser.json());
-app.listen(config.port);
-app.use(middlewares.all);
-
 const router = require('./config/router');
+
+app.listen(config.port);
+app.use(bodyParser.json());
+app.use(middlewares.authorization);
+app.use(middlewares.responseJson);
+
 router(app);
 
 app.use(middlewares.errorHandling);

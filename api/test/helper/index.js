@@ -1,6 +1,7 @@
 const helper = {};
 const mongoose = require('mongoose');
 const models = require('../../models');
+const jwt = require('../../common/jwt');
 const Blog = models.Blog;
 
 
@@ -23,6 +24,18 @@ helper.createTestBlog = (testBlog) => {
 helper.findOneInModelById = (model, id) => {
   return models[model].findById(id).exec();
 };
+
+helper.createTestAdmin = (username, password) => {
+  const _admin = new models.Admin({
+    username: username,
+    password: password
+  });
+  return _admin.save();
+};
+
+helper.getAdminToken = () =>
+  jwt.create({name: 'test'});
+
 
 
 module.exports = helper;
