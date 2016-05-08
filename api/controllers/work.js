@@ -1,6 +1,6 @@
 const workController = require('express').Router();
 const Work = require('../models').Work;
-const assertExisted = require('../middlewares/database').assertObjectExisted;
+const assertAndSetId = require('../middlewares/database').assertAndSetId;
 const adminRequired = require('../middlewares/auth').adminRequired;
 
 workController.route('/')
@@ -37,7 +37,7 @@ workController.route('/')
 
 
 workController.route('/:workId')
-  .all(assertExisted('workId', Work))
+  .all(assertAndSetId('workId', Work))
 
 
   /**

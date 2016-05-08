@@ -9,12 +9,12 @@ describe('Test controller/archive.js', () => {
   const agent = request.agent(app);
   const testBlog1 = {
     title: 'test' + Math.random(),
-    name: 'test' + Math.random(),
+    code: 'test' + Math.random(),
     markdown: '# test1'
   };
   const testBlog2 = {
     title: 'test' + Math.random(),
-    name: 'test' + Math.random(),
+    code: 'test' + Math.random(),
     markdown: '# test2'
   };
   const now = new Date();

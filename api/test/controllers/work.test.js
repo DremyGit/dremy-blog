@@ -7,7 +7,7 @@ describe('Test controllers/work.js', () => {
 
   const agent = request.agent(app);
   const testWork = {
-    name: 'test work' + Math.random(),
+    code: 'test work' + Math.random(),
     introduction: 'test work',
     url: 'http://example.com/',
     picUrl: 'http://example.com/example.jpg'
@@ -24,7 +24,7 @@ describe('Test controllers/work.js', () => {
         .send(testWork)
         .expect(201)
         .expect(res => {
-          expect(res.body.name).to.equal(testWork.name);
+          expect(res.body.code).to.equal(testWork.code);
           testWork._id = res.body._id;
         })
         .end(done);
@@ -47,14 +47,14 @@ describe('Test controllers/work.js', () => {
 
   describe('Put /works/:workId', () => {
     it('Update created work', done => {
-      const namePatch = {name: 'modified-' + Math.random()};
+      const codePatch = {code: 'modified-' + Math.random()};
       agent
         .put('/works/' + testWork._id)
         .set(helper.adminHeader())
-        .send(namePatch)
+        .send(codePatch)
         .expect(201)
         .expect(res => {
-          expect(res.body.name).to.equal(namePatch.name);
+          expect(res.body.code).to.equal(codePatch.code);
         })
         .end(done);
     });

@@ -2,7 +2,7 @@ const Schema = require('mongoose').Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 const WorkSchema = new Schema({
-  name: { type: String },
+  code: { type: String },
   introduction: {type: String },
   url: { type: String },
   picUrl: { type: String },

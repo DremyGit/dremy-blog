@@ -1,7 +1,7 @@
 const messageController = require('express').Router();
 const Message = require('../models').Message;
 const HttpError = require('../common/http-error');
-const assertExisted = require('../middlewares/database').assertObjectExisted;
+const assertAndSetId = require('../middlewares/database').assertAndSetId;
 const adminRequired = require('../middlewares/auth').adminRequired;
 const utils = require('../common/utils');
 
@@ -38,7 +38,7 @@ messageController.route('/')
   });
 
 messageController.route('/:messageId')
-  .all(assertExisted('messageId', Message))
+  .all(assertAndSetId('messageId', Message))
 
   /**
    * @api {delete} /messages/messageId Delete message

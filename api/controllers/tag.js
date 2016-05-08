@@ -1,5 +1,5 @@
 const tagController = require('express').Router();
-const assertExisted = require('../middlewares/database').assertObjectExisted
+const assertAndSetId = require('../middlewares/database').assertAndSetId;
 const adminRequired = require('../middlewares/auth').adminRequired;
 const models = require('../models');
 const Tag = models.Tag;
@@ -40,7 +40,7 @@ tagController.route('/')
   });
 
 tagController.route('/:tagId')
-  .all(assertExisted('tagId', Tag))
+  .all(assertAndSetId('tagId', Tag))
 
   /**
    * @api {get} /tags/:tagId Get tag by id

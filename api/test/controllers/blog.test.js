@@ -9,7 +9,7 @@ let id;
 describe('Test controllers/blog', () => {
   const agent = request.agent(server);
   let testBlog = {
-    name: 'test-' + rand,
+    code: 'test-' + rand,
     title: 'test-' + rand,
     markdown: '# test',
     other: 'other'
@@ -28,7 +28,7 @@ describe('Test controllers/blog', () => {
         .expect(res => {
           const result = res.body;
           expect(result._id.length).to.equal(24);
-          expect(result.name).to.equal('test-' + rand);
+          expect(result.code).to.equal('test-' + rand);
           expect(result.other).to.be.undefined;
           id = result._id;
         })
@@ -47,24 +47,25 @@ describe('Test controllers/blog', () => {
         .end(done)
     });
 
-    it('Get blog by blog name', (done) => {
-      agent
-        .get('/blogs?blog_name=' + testBlog.name)
-        .expect(200)
-        .expect(res => {
-          expect(res.body.title).to.equal(testBlog.title)
-        })
-        .end(done);
-    });
   });
 
-  describe('Get /blogs/:id', () => {
-    it('Get created blog', (done) => {
+  describe('Get /blogs/:blogId', () => {
+    it('Get created blog by id', (done) => {
       agent
         .get('/blogs/' + id)
         .expect(200)
         .expect(res => {
-          expect(res.body.name).to.equal('test-' + rand);
+          expect(res.body.code).to.equal('test-' + rand);
+        })
+        .end(done);
+    });
+
+    it('Get created blog by name', (done) => {
+      agent
+        .get('/blogs/' + testBlog.code)
+        .expect(200)
+        .expect(res => {
+          expect(res.body.title).to.equal(testBlog.title)
         })
         .end(done);
     });
@@ -73,7 +74,7 @@ describe('Test controllers/blog', () => {
       agent.get('/blogs/' + 'a'.repeat(24)).expect(404).end(done)
     });
 
-    it('Get a 404 using a wrong blog id', (done) => {
+    it('Get a 404 using a non-existent blog name', (done) => {
       agent.get('/blogs/test').expect(404).end(done)
     });
   });
@@ -81,7 +82,7 @@ describe('Test controllers/blog', () => {
   describe('Put /blogs/:id', () => {
     it('Modify created blog', (done) => {
       const blog = {
-        name: 'modify-' + rand,
+        code: 'modify-' + rand,
         title: 'modify-' + rand,
         markdown: '# modify'
       };
@@ -91,7 +92,7 @@ describe('Test controllers/blog', () => {
         .send(blog)
         .expect(201)
         .expect(res => {
-          expect(res.body.name).to.equal('modify-' + rand);
+          expect(res.body.code).to.equal('modify-' + rand);
         })
         .end(done);
     })

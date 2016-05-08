@@ -9,7 +9,7 @@ describe('Test controllers/comment.js', () => {
   const agent = request.agent(app);
   const rand = Math.random();
   let testBlog = {
-    name: 'testBlog-' + rand,
+    code: 'testBlog-' + rand,
     title: 'test-blog-' + rand,
     markdown: '# test'
   };

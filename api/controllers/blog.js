@@ -3,7 +3,7 @@ const blogController = require('express').Router();
 const toc = require('../common/toc');
 const HttpError = require('../common/http-error');
 const utils = require('../common/utils');
-const assertExisted = require('../middlewares/database').assertObjectExisted;
+const assertAndSetId = require('../middlewares/database').assertAndSetId;
 const adminRequired = require('../middlewares/auth').adminRequired;
 const models = require('../models');
 const Blog =  models.Blog;
@@ -13,22 +13,15 @@ const Tag = models.Tag;
 
 blogController.route('/')
   /**
-   * @api {get} /blogs Get all blogs or get blog by blog_name
+   * @api {get} /blogs Get all blogs
    * @apiName GetAllBlogs
    * @apiGroup Blog
-   * @apiSuccess {String} [blog_name]
    * @apiSuccess {Object[]} blogs All blogs
    */
   .get((req, res, next) => {
-    if (req.query.blog_name) {
-      Blog.getBlogByName(req.query.blog_name).then(blog => {
-        res.success(blog);
-      }).catch(next);
-    } else {
-      Blog.getAllBlogs().then(blogs => {
-        res.success(blogs);
-      }).catch(next);
-    }
+    Blog.getAllBlogs().then(blogs => {
+      res.success(blogs);
+    }).catch(next);
   })
 
   /**
@@ -42,18 +35,14 @@ blogController.route('/')
   .post(adminRequired, (req, res, next) => {
     const body = req.body;
     let _blog = Object.assign(new Blog(), body);
-    let blog_g;
     _blog.save().then(blog => {
-      blog_g = blog;
-      return Tag.addBlogId(body.tag, blog._id)
-    }).then(() => {
-      res.success(blog_g, 201);
+      res.success(blog, 201);
     }).catch(next);
   });
 
 
-blogController.route('/:blogId')
-  .all(assertExisted('blogId', Blog))
+blogController.route('/:blogName')
+  .all(assertAndSetId('blogName', Blog))
 
   /**
    * @api {get} /blogs/:blogId Get blog by id
@@ -81,28 +70,34 @@ blogController.route('/:blogId')
     const blogId = req.params.blogId;
     const body = req.body;
     Blog.getBlogById(blogId).then(blog => {
-
-      // Old blog tag
-      const blogTag = blog.tag && blog.tag.toString();
-      const _blog = Object.assign(blog, body);
-      if (body.tag && body.tag != blogTag) {
-        return Promise.all([
-          _blog.save(),
-          Tag.removeBlogId(blogTag, _blog.id),
-          Tag.addBlogId(body.tag, _blog.id)
-        ])
-      } else {
-        return _blog.save()
-      }
-    }).then(result => {
-
-      // if update tags
-      if (Array.isArray(result)) {
-        res.success(result[0], 201)
-      } else {
-        res.success(result, 201)
-      }
+      Object.assign(blog, body);
+      return blog.save()
+    }).then(blog => {
+      res.success(blog, 201);
     }).catch(next);
+    //Blog.getBlogById(blogId).then(blog => {
+    //
+    //  // Old blog tag
+    //  const blogTag = blog.tag && blog.tag.toString();
+    //  const _blog = Object.assign(blog, body);
+    //  if (body.tag && body.tag != blogTag) {
+    //    return Promise.all([
+    //      _blog.save(),
+    //      Tag.removeBlogId(blogTag, _blog.id),
+    //      Tag.addBlogId(body.tag, _blog.id)
+    //    ])
+    //  } else {
+    //    return _blog.save()
+    //  }
+    //}).then(result => {
+    //
+    //  // if update tags
+    //  if (Array.isArray(result)) {
+    //    res.success(result[0], 201)
+    //  } else {
+    //    res.success(result, 201)
+    //  }
+    //}).catch(next);
   })
 
 
@@ -125,7 +120,7 @@ blogController.route('/:blogId')
 
 
 blogController.route('/:blogId/comments')
-  .all(assertExisted('blogId', Blog))
+  .all(assertAndSetId('blogId', Blog))
 
   /**
    * @api {get} /blogs/:blogId/comments Get all comment in a blog

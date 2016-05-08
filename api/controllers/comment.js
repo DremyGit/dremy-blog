@@ -1,7 +1,7 @@
 'use strict';
 const commentController = require('express').Router();
 const utils = require('../common/utils');
-const assertExisted = require('../middlewares/database').assertObjectExisted;
+const assertAndSetId = require('../middlewares/database').assertAndSetId;
 const adminRequired = require('../middlewares/auth').adminRequired;
 const models = require('../models');
 const Blog = models.Blog;
@@ -24,7 +24,7 @@ commentController.route('/')
 
 
 commentController.route('/:commentId')
-  .all(assertExisted('commentId', Comment))
+  .all(assertAndSetId('commentId', Comment))
 
   /**
    * @api {get} /comments/:commentId Get comment by id

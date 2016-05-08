@@ -4,7 +4,7 @@ const markdown = require('../common/markdown');
 const toc = require('../common/toc');
 
 const BlogSchema = new Schema({
-  name: { type: String },
+  code: { type: String },
   title: { type: String },
   tag: { type: ObjectId, ref: 'Tag' },
   create_at: { type: Date, default: Date.now },
@@ -32,10 +32,6 @@ BlogSchema.statics = {
     return this.findById(id).exec();
   },
 
-  getBlogByName: function (name) {
-    return this.findOne({name: name}).exec();
-  },
-
   getBlogsByQuery: function (query) {
     return this.find.apply(this, query).exec();
   },
@@ -53,7 +49,7 @@ BlogSchema.statics = {
   }
 };
 
-BlogSchema.index({name: 1}, {unique: true});
+BlogSchema.index({code: 1}, {unique: true});
 
 module.exports = BlogSchema;
 
