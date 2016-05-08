@@ -16,23 +16,20 @@ categoryController.route('/')
    * @apiSuccess {Object[]} categories All categories
    */
   .get((req, res, next) => {
-    cache.get('categories', cache_categories => {
+    cache.get('categories', (err, cache_categories) => {
       if (cache_categories) {
         res.success(cache_categories);
       } else {
+        let categories_g;
         Category.getAllCategories().then(categories => {
-          const promises = categories.map(category =>
-            Blog.getBlogsCountByQuery.call(Blog, {category: category._id})
-          );
-          promises.push(Promise.resolve(categories));
-          return Promise.all(promises)
-        }).then(counts => {
-          const categories = counts.pop();
-          const _categories = categories.map((category, i) =>
-            Object.assign(category.toObject(), {blogs_count: counts[i]})
-          );
+          categories_g = categories;
+          return Promise.all(categories.map(category =>
+            Blog.find({category: category._id}).count().exec()));
+        }).then(bookCounts => {
+          const _categories = categories_g.map((category, i) =>
+            Object.assign(category.toObject(), {count: bookCounts[i]}));
           res.success(_categories);
-          return cache.set('categories', _categories);
+          cache.set('categories', _categories, 600);
         }).catch(next);
       }
     });
