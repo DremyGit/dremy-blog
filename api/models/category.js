@@ -19,10 +19,6 @@ CategorySchema.statics = {
 
   getCategoryById: function (id) {
     return this.findById(id).exec();
-  },
-
-  getCategoryByCode: function (name) {
-    return this.findOne({name: name}).exec();
   }
 };
 

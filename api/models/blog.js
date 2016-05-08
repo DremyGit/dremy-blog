@@ -35,7 +35,11 @@ BlogSchema.statics = {
   getBlogsByQuery: function (query) {
     return this.find.apply(this, query).exec();
   },
-  
+
+  getBlogsCountByQuery: function (query) {
+    return this.find(query).count().exec();
+  },
+
   addComment: function (blogId, commentId) {
     return this.update({_id: blogId}, {$push: {comments: commentId}}).exec();
   },
@@ -49,7 +53,7 @@ BlogSchema.statics = {
   }
 };
 
-BlogSchema.index({code: 1}, {unique: true});
+BlogSchema.index({code: 1});
 
 module.exports = BlogSchema;
 
