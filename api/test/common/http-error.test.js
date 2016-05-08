@@ -11,9 +11,9 @@ describe('Test http-error.js', () => {
     });
   });
 
-  describe('Test 401 PermissionDenied', () => {
+  describe('Test 401 Unauthorized', () => {
     it('Status code should be 401', () => {
-      const error = new HttpError.PermissionDeniedError();
+      const error = new HttpError.UnauthorizedError();
       expect(error).is.a('Error');
       expect(error.statusCode).to.equal(401);
     });

@@ -16,10 +16,10 @@ class BadRequestError extends HttpError {
   }
 }
 
-class PermissionDeniedError extends HttpError {
+class UnauthorizedError extends HttpError {
   constructor(message) {
-    message = message || 'Premission denied';
-    super(401, 'PremissionDenied', message);
+    message = message || 'Unauthorized';
+    super(401, 'Unauthorized', message);
   }
 }
 
@@ -45,7 +45,7 @@ class InterServerError extends HttpError {
 }
 exports.HttpError = HttpError;
 exports.BadRequestError = BadRequestError;
-exports.PermissionDeniedError = PermissionDeniedError;
+exports.UnauthorizedError = UnauthorizedError;
 exports.ForbiddenError = ForbiddenError;
 exports.NotFoundError = NotFoundError;
 exports.InterServerError = InterServerError;
