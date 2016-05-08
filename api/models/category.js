@@ -19,6 +19,10 @@ CategorySchema.statics = {
 
   getCategoryById: function (id) {
     return this.findById(id).exec();
+  },
+
+  removeCategoryById: function (id) {
+    return this.remove({_id: id}).exec();
   }
 };
 

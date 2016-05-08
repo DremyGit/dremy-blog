@@ -6,6 +6,7 @@ const toc = require('../common/toc');
 const BlogSchema = new Schema({
   code: { type: String },
   title: { type: String },
+  category: { type: ObjectId, ref: 'Category' },
   tag: { type: ObjectId, ref: 'Tag' },
   create_at: { type: Date, default: Date.now },
   update_at: { type: Date, default: Date.now },

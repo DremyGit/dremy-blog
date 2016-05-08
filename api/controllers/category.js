@@ -1,3 +1,4 @@
+'use strict';
 const categoryController = require('express').Router();
 const assertAndSetId = require('../middlewares/database').assertAndSetId;
 const adminRequired = require('../middlewares/auth').adminRequired;
@@ -27,11 +28,11 @@ categoryController.route('/')
           return Promise.all(promises)
         }).then(counts => {
           const categories = counts.pop();
-          categories.forEach((category, i) =>
-            category.blog_count = counts[i]
+          const _categories = categories.map((category, i) =>
+            Object.assign(category.toObject(), {blogs_count: counts[i]})
           );
-          res.success(categories);
-          return cache.set('categories', categories);
+          res.success(_categories);
+          return cache.set('categories', _categories);
         }).catch(next);
       }
     });
@@ -48,9 +49,7 @@ categoryController.route('/')
    */
   .post(adminRequired, (req, res, next) => {
     const body = req.body;
-    const _category = new Category({
-      name: body.name
-    });
+    const _category = Object.assign(new Category(), body);
     _category.save().then(category => {
       res.success(category, 201);
     }).catch(next);
@@ -68,8 +67,15 @@ categoryController.route('/:categoryName')
    * @apiSuccess {Object} category
    */
   .get((req, res, next) => {
+    const categoryId = req.params.categoryId;
+    let category_g;
     Category.getCategoryById(req.params.categoryId).then(category => {
-      res.success(category);
+      category_g = category.toObject();
+      const query = [{category: categoryId}, {markdown: 0, html: 0}];
+      return Blog.getBlogsByQuery(query)
+    }).then(blogs => {
+      category_g.blogs = blogs;
+      res.success(category_g);
     }).catch(next);
   })
 
@@ -107,22 +113,5 @@ categoryController.route('/:categoryName')
     }).catch(next);
   });
 
-categoryController.route('/:categoryId/blogs')
-  /**
-   * @api {get} /categories/:categoryId/blogs Get blogs by category id
-   * @apiName getBlogsByCategoryId
-   * @apiGroup Category
-   *
-   * @apiParam {String} categoryId
-   * @apiSuccess {Object[]} blogs Blogs belong to the category
-   */
-  .get((req, res, next) => {
-    Category.getCategoryById(req.params.categoryId).then(category => {
-      const promises = category.blogs.map(Blog.getBlogById.bind(Blog));
-      return Promise.all(promises);
-    }).then(blogs => {
-      res.success(blogs);
-    }).catch(next);
-  });
 
 module.exports = categoryController;
