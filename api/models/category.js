@@ -13,10 +13,6 @@ CategorySchema.pre('save', function (next) {
 });
 
 CategorySchema.statics = {
-  getAllCategories: function () {
-    return this.find({}).exec();
-  },
-
   getCategoryById: function (id) {
     return this.findById(id).exec();
   },
@@ -33,5 +29,6 @@ CategorySchema.statics = {
   }
 };
 
+CategorySchema.index({code: 1}, {unique: 1});
 
 module.exports = CategorySchema;

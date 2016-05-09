@@ -67,7 +67,10 @@ BlogSchema.statics = {
   }
 };
 
-BlogSchema.index({code: 1});
+BlogSchema.index({code: 1}, {unique: 1});
+BlogSchema.index({category: 1});
+BlogSchema.index({tags: 1});
+BlogSchema.index({created_at: -1});
 
 module.exports = BlogSchema;
 

@@ -30,4 +30,6 @@ WorkSchema.statics = {
   }
 };
 
+WorkSchema.index({code: 1}, {unique: 1});
+
 module.exports = WorkSchema;

@@ -33,4 +33,6 @@ TagSchema.statics = {
   }
 };
 
+TagSchema.index({code: 1}, {unique: 1});
+
 module.exports = TagSchema;
