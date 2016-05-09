@@ -23,7 +23,7 @@ categoryController.route('/')
         Category.getCategoriesWithBlogCount().then(categories => {
           res.success(categories);
           cache.set('categories', categories);
-        })
+        }).catch(next);
       }
     });
   })

@@ -43,13 +43,14 @@ describe('Test controllers/tag.js', () => {
     it('Get created tag only', done => {
       agent
         .get('/tags')
-        .expect(200)
         .expect(res => {
+          expect(res.body.message).to.be.undefined;
           expect(res.body).to.be.an('array');
           expect(res.body.length).to.equal(1);
           expect(res.body[0].name).to.equal(testTag.name);
           expect(res.body[0].count).to.equal(1);
         })
+        .expect(200)
         .end(done);
     });
   });

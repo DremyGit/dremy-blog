@@ -23,7 +23,7 @@ tagController.route('/')
         Tag.getTagsWithBlogCount().then(tags => {
           res.success(tags);
           cache.set('tags', tags);
-        })
+        }).catch(next);
       }
     });
   })
