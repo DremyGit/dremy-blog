@@ -11,7 +11,11 @@ describe('Test controllers/tag.js', () => {
     name: 'test-tag'
   };
   before(done => {
-    helper.clear('tags', done);
+    helper.clear('tags', () => {
+      helper.clear('blogs', () => {
+        cache.del('tags', done);
+      });
+    });
   });
   describe('POST /tags', () => {
     it('Create a tag', done => {
@@ -43,7 +47,7 @@ describe('Test controllers/tag.js', () => {
         .expect(res => {
           expect(res.body).to.be.an('array');
           expect(res.body.length).to.equal(1);
-          //expect(res.body[0].name).to.equal(testTag.name);
+          expect(res.body[0].name).to.equal(testTag.name);
           expect(res.body[0].count).to.equal(1);
         })
         .end(done);
