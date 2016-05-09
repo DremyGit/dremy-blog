@@ -16,24 +16,9 @@ archiveController.get('/', (req, res, next) => {
     if (archives) {
       res.success(archives)
     } else {
-      const query = [{}, {create_at: 1}];
-      Blog.getBlogsByQuery(query).then(blogs => {
-        let archives = {};
-        for (let i = 0; i < blogs.length; i++) {
-          let date = new Date(blogs[i].create_at);
-          let year = '' + date.getFullYear();
-          let month = '' + (date.getMonth() + 1);
-          if (!archives[year]) {
-            archives[year] = {};
-          }
-          if (!archives[year][month]) {
-            archives[year][month] = 1;
-          } else {
-            archives[year][month]++;
-          }
-        }
+      Blog.getBlogArchives().then(archives => {
         res.success(archives);
-        return cache.set('archives', archives, 600)
+        cache.set('archives', archives);
       }).catch(next);
     }
   })
@@ -56,13 +41,9 @@ archiveController.get('/:year/:month/blogs', (req, res, next) => {
     if (archive) {
       res.success(archive)
     } else {
-      const query = [{
-        create_at: {
-          $gte: new Date(year, month - 1),
-          $lt: new Date(year, month)
-        }
-      },
-        {markdown: 0, html: 0, toc: 0}
+      const query = [
+        { create_at: { $gte: new Date(year, month - 1), $lt: new Date(year, month) }},
+        { markdown: 0, html: 0, toc: 0 }
       ];
       Blog.getBlogsByQuery(query).then(blogs => {
         if (blogs.length == 0) {

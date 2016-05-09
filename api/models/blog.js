@@ -51,6 +51,15 @@ BlogSchema.statics = {
 
   removeCommentByCommentId: function (commentId) {
     return this.update({}, {$pull: {comments: commentId}}).exec();
+  },
+
+  getBlogArchives: function () {
+    return this.aggregate([
+      { "$project": { "year": { "$year": "$create_at" }, "month": { "$month": "$create_at" }}},
+      { "$group": { "_id": { "year": "$year", "month": "$month" }, "count": { "$sum": 1 }}},
+      { "$project": { "_id": 0, "year": "$_id.year", "month": "$_id.month", "count": 1 }},
+      { "$sort": { "year": -1, "month": -1 }}
+    ]).exec();
   }
 };
 

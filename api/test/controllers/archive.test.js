@@ -40,13 +40,8 @@ describe('Test controller/archive.js', () => {
   describe('Get /archives', () => {
     it('Get archives', done => {
       agent.get('/archives').expect(200).expect(res => {
-        expect(res.body[now.getFullYear()]).to.be.a('object');
-        expect(res.body[now.getFullYear()][now.getMonth() + 1]).to.equal(2)
-      }).end(done);
-    });
-    it('Get archives again to hit cache', done => {
-      agent.get('/archives').expect(200).expect(res => {
-        expect(res.body[now.getFullYear()][now.getMonth() + 1]).to.equal(2)
+        expect(res.body.length).to.equal(1);
+        expect(res.body[0].count).to.equal(2);
       }).end(done);
     });
   });
