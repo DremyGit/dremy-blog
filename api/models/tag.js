@@ -21,8 +21,15 @@ TagSchema.statics = {
     return this.findById(id).exec();
   },
 
-  getTagByCode: function (name) {
-    return this.findOne({name: name}).exec();
+  removeTagById: function (id) {
+    return this.remove({_id: id}).exec();
+  },
+
+  getTagsWithBlogCount: function () {
+    return this.aggregate([
+      { "$lookup": { "from": "blogs", "localField": "_id", "foreignField": "tags", "as": "blogs" }},
+      { "$project": { "code": 1, "name": 1, "count": { "$size": "$blogs" }}}
+    ]).exec();
   }
 };
 

@@ -81,6 +81,16 @@ describe('Test controllers/category', () => {
         .expect(204)
         .end(done);
     });
+    it('the blog should be remove the tag', done => {
+      agent
+        .get('/blogs/test')
+        .expect(200)
+        .expect(res => {
+          expect(res.body.tags).to.be.an('array');
+          expect(res.body.tags.length).to.equal(0);
+        })
+        .end(done);
+    })
   });
   after(done => {
     cache.del('categories', done);

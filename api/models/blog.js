@@ -7,7 +7,7 @@ const BlogSchema = new Schema({
   code: { type: String },
   title: { type: String },
   category: { type: ObjectId, ref: 'Category' },
-  tag: { type: ObjectId, ref: 'Tag' },
+  tags: [{ type: ObjectId, ref: 'Tag' }],
   create_at: { type: Date, default: Date.now },
   update_at: { type: Date, default: Date.now },
   markdown: { type: String },
@@ -37,10 +37,6 @@ BlogSchema.statics = {
     return this.find.apply(this, query).exec();
   },
 
-  getBlogsCountByQuery: function (query) {
-    return this.find(query).count().exec();
-  },
-
   addComment: function (blogId, commentId) {
     return this.update({_id: blogId}, {$push: {comments: commentId}}).exec();
   },
@@ -51,6 +47,10 @@ BlogSchema.statics = {
 
   removeCommentByCommentId: function (commentId) {
     return this.update({}, {$pull: {comments: commentId}}).exec();
+  },
+
+  removeTagInBlog: function (tagId) {
+    return this.update({tags: tagId}, {$pull: {tags: tagId}});
   },
 
   getBlogArchives: function () {
