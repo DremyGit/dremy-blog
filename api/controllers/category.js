@@ -98,7 +98,10 @@ categoryController.route('/:categoryName')
    * @apiSuccess 204
    */
   .delete(adminRequired, (req, res, next) => {
-    Category.removeCategoryById(req.params.categoryId).then(() => {
+    const categoryId = req.params.categoryId;
+    Category.removeCategoryById(categoryId).then(() => {
+      return Blog.removeCategoryInBlog(categoryId);
+    }).then(() => {
       res.success(null, 204);
     }).catch(next);
   });

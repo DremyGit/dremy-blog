@@ -49,8 +49,12 @@ BlogSchema.statics = {
     return this.update({}, {$pull: {comments: commentId}}).exec();
   },
 
+  removeCategoryInBlog: function (categoryId) {
+    return this.update({category: categoryId}, {$unset: {category: 1}}, {multi: 1})
+  },
+
   removeTagInBlog: function (tagId) {
-    return this.update({tags: tagId}, {$pull: {tags: tagId}});
+    return this.update({tags: tagId}, {$pull: {tags: tagId}}, {multi: 1});
   },
 
   getBlogArchives: function () {
