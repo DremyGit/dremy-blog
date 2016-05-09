@@ -11,7 +11,6 @@ describe('Test controllers/comment.js', () => {
   let testBlog = {
     code: 'testBlog-' + rand,
     title: 'test-blog-' + rand,
-    markdown: '# test'
   };
   let comment = {
     user: 'test user',

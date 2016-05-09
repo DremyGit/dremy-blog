@@ -33,7 +33,7 @@ describe('Test controllers/tag.js', () => {
           agent
             .post('/blogs')
             .set(helper.adminHeader())
-            .send({code: 'test', title: 'test', markdown: '# h1', tags: [testTag._id]})
+            .send({code: 'test', title: 'test', tags: [testTag._id]})
             .expect(201)
             .end(done);
         });

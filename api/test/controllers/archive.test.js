@@ -10,12 +10,10 @@ describe('Test controller/archive.js', () => {
   const testBlog1 = {
     title: 'test' + Math.random(),
     code: 'test' + Math.random(),
-    markdown: '# test1'
   };
   const testBlog2 = {
     title: 'test' + Math.random(),
     code: 'test' + Math.random(),
-    markdown: '# test2'
   };
   const now = new Date();
 
@@ -41,7 +39,7 @@ describe('Test controller/archive.js', () => {
     it('Get archives', done => {
       agent.get('/archives').expect(200).expect(res => {
         expect(res.body.length).to.equal(1);
-        expect(res.body[0].count).to.equal(2);
+        expect(res.body[0].blogs.length).to.equal(2);
       }).end(done);
     });
   });

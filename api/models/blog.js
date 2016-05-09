@@ -10,16 +10,23 @@ const BlogSchema = new Schema({
   tags: [{ type: ObjectId, ref: 'Tag' }],
   create_at: { type: Date, default: Date.now },
   update_at: { type: Date, default: Date.now },
-  markdown: { type: String },
-  html: { type: String },
+  markdown: {
+    summary: { type: String, default: '' },
+    body: { type: String, default: '' }
+  },
+  html: {
+    summary: { type: String },
+    body: { type: String }
+  },
   toc: { type: Array },
   comments: [ {type: ObjectId, ref: 'Comment'} ],
   click_count: { type: Number, default: 0 }
 });
 
 BlogSchema.pre('save', function(next) {
-  this.html = markdown(this.markdown);
-  this.toc = toc(this.markdown);
+  this.html.summary = markdown(this.markdown.summary);
+  this.html.body = markdown(this.markdown.body);
+  this.toc = toc(this.markdown.body);
   this.update_at = Date.now;
   next();
 });
@@ -59,10 +66,10 @@ BlogSchema.statics = {
 
   getBlogArchives: function () {
     return this.aggregate([
-      { "$project": { "year": { "$year": "$create_at" }, "month": { "$month": "$create_at" }}},
-      { "$group": { "_id": { "year": "$year", "month": "$month" }, "count": { "$sum": 1 }}},
-      { "$project": { "_id": 0, "year": "$_id.year", "month": "$_id.month", "count": 1 }},
-      { "$sort": { "year": -1, "month": -1 }}
+      { "$project": { "year": { "$year": "$create_at" }, "blog": {"code": "$code", "title": "$title", "create_at": "$create_at"}}},
+      { "$sort": { "blog.create_at": -1}},
+      { "$group": { "_id": { "year": "$year", }, "blogs": { "$push": "$blog" } }},
+      { "$project": { "_id": 0, "year": "$_id.year", "blogs": "$blogs" }}
     ]).exec();
   }
 };

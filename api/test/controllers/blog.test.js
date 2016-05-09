@@ -11,7 +11,10 @@ describe('Test controllers/blog', () => {
   let testBlog = {
     code: 'test-' + rand,
     title: 'test-' + rand,
-    markdown: '# test',
+    markdown: {
+      summary: '# test',
+      body: ""
+    },
     other: 'other'
   };
   before((done) => {
@@ -84,7 +87,10 @@ describe('Test controllers/blog', () => {
       const blog = {
         code: 'modify-' + rand,
         title: 'modify-' + rand,
-        markdown: '# modify'
+        markdown: {
+          summary: '# modify',
+          body: '# modify'
+        }
       };
       agent
         .put('/blogs/' + id)

@@ -2,6 +2,15 @@ const Admin = require('../models').Admin;
 const HttpError = require('../common/http-error');
 const jwt = require('../common/jwt');
 
+/**
+ * @api {post} /authorization Authorization and get token
+ * @apiName Authorization
+ * @apiGroup Authorization
+ *
+ * @apiParam {String} username
+ * @apiParam {String} password
+ * @apiSuccess {String} token
+ */
 const authorizationController = (req, res, next) => {
   const body = req.body;
   Admin.isAdmin(body.username, body.password).then(isAdmin => {
