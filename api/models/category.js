@@ -23,6 +23,13 @@ CategorySchema.statics = {
 
   removeCategoryById: function (id) {
     return this.remove({_id: id}).exec();
+  },
+
+  getCategoriesWithBlogCount: function () {
+    return this.aggregate([
+      { "$lookup": { "from": "blogs", "localField": "_id", "foreignField": "category", "as": "blogs" }},
+      { "$project": { "code": 1, "name": 1, "count": { "$size": "$blogs" } }}
+    ]).exec()
   }
 };
 

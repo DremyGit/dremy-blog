@@ -2,6 +2,7 @@ const expect = require('chai').expect;
 const request = require('supertest');
 const app = require('../../app');
 const helper = require('../helper');
+const cache = require('../../common/cache');
 
 describe('Test controllers/category', () => {
   const agent = request.agent(app);
@@ -81,4 +82,7 @@ describe('Test controllers/category', () => {
         .end(done);
     });
   });
+  after(done => {
+    cache.del('categories', done);
+  })
 });

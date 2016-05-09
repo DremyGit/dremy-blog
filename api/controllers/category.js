@@ -20,17 +20,10 @@ categoryController.route('/')
       if (cache_categories) {
         res.success(cache_categories);
       } else {
-        let categories_g;
-        Category.getAllCategories().then(categories => {
-          categories_g = categories;
-          return Promise.all(categories.map(category =>
-            Blog.find({category: category._id}).count().exec()));
-        }).then(bookCounts => {
-          const _categories = categories_g.map((category, i) =>
-            Object.assign(category.toObject(), {count: bookCounts[i]}));
-          res.success(_categories);
-          cache.set('categories', _categories, 600);
-        }).catch(next);
+        Category.getCategoriesWithBlogCount().then(categories => {
+          res.success(categories);
+          cache.set('categories', categories);
+        })
       }
     });
   })
