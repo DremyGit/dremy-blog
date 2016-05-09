@@ -6,10 +6,10 @@ const app = express();
 const middlewares = require('./middlewares');
 const router = require('./config/router');
 
+app.use(middlewares.responseJson);
 app.listen(config.port);
 app.use(bodyParser.json());
 app.use(middlewares.authorization);
-app.use(middlewares.responseJson);
 
 router(app);
 
