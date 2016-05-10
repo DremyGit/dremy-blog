@@ -119,8 +119,8 @@ blogController.route('/:blogName')
 
 
 
-blogController.route('/:blogId/comments')
-  .all(assertAndSetId('blogId', Blog))
+blogController.route('/:blogName/comments')
+  .all(assertAndSetId('blogName', Blog))
 
   /**
    * @api {get} /blogs/:blogId/comments Get all comment in a blog
@@ -132,10 +132,7 @@ blogController.route('/:blogId/comments')
    */
   .get((req, res, next) => {
     const blogId = req.params.blogId;
-    Blog.getBlogById(blogId).then(blog => {
-      const promises = blog.comments.map(Comment.getCommentById.bind(Comment));
-      return Promise.all(promises)
-    }).then(comments => {
+    Comment.getCommentByBlogId(blogId).then(comments => {
       res.success(comments);
     }).catch(next);
   })
@@ -154,12 +151,10 @@ blogController.route('/:blogId/comments')
     const blogId = req.params.blogId;
     utils.verifyUserForm(body);
     const _comment = Object.assign(new Comment(), body);
-    let comment_g;
+    _comment.blog = blogId;
     _comment.save().then(comment => {
-      comment_g = comment;
-      return Blog.addComment(blogId, comment._id)
-    }).then(() => {
-      res.success(comment_g, 201);
+      res.success(comment, 201);
+      Blog.addBlogCommentCount(blogId)
     }).catch(next);
   });
 

@@ -10,7 +10,7 @@ describe('Test controllers/comment.js', () => {
   const rand = Math.random();
   let testBlog = {
     code: 'testBlog-' + rand,
-    title: 'test-blog-' + rand,
+    title: 'test-blog-' + rand
   };
   let comment = {
     user: 'test user',
@@ -42,7 +42,16 @@ describe('Test controllers/comment.js', () => {
           expect(result.user).equal(comment.user);
           expect(result.email).equal(comment.email);
           expect(result.content).equal(comment.content);
+          expect(result.blog).equal(testBlog._id);
           comment._id = result._id;
+        })
+        .end(done);
+    });
+    it('comment count should be 1', (done) => {
+      agent
+        .get('/blogs/' + testBlog._id)
+        .expect(res => {
+          expect(res.body.comment_count).to.equal(1);
         })
         .end(done);
     })
@@ -61,10 +70,10 @@ describe('Test controllers/comment.js', () => {
     });
   });
 
-  describe('Get /blogs/:blogId/comments', () => {
+  describe('Get /blogs/:blogName/comments', () => {
     it('Get comments in a blog', (done) => {
       agent
-        .get('/blogs/' + testBlog._id + '/comments')
+        .get('/blogs/' + testBlog.code + '/comments')
         .expect(200)
         .expect(res=> {
           expect(res.body.length).not.equal(0);
@@ -96,5 +105,13 @@ describe('Test controllers/comment.js', () => {
         .expect(204)
         .end(done);
     });
+    it('comment count should be 0', (done) => {
+      agent
+        .get('/blogs/' + testBlog._id)
+        .expect(res => {
+          expect(res.body.comment_count).to.equal(0);
+        })
+        .end(done);
+    })
   });
 });

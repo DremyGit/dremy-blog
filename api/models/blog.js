@@ -19,7 +19,7 @@ const BlogSchema = new Schema({
     body: { type: String }
   },
   toc: { type: Array },
-  comments: [ {type: ObjectId, ref: 'Comment'} ],
+  comment_count: { type: Number, default: 0},
   click_count: { type: Number, default: 0 }
 });
 
@@ -44,16 +44,16 @@ BlogSchema.statics = {
     return this.find.apply(this, query).exec();
   },
 
-  addComment: function (blogId, commentId) {
-    return this.update({_id: blogId}, {$push: {comments: commentId}}).exec();
+  addBlogCommentCount: function (blogId) {
+    return this.update({_id: blogId}, {$inc: {comment_count: 1}}).exec();
+  },
+
+  decreaseBlogCommentCount: function (blogId) {
+    return this.update({_id: blogId}, {$inc: {comment_count: -1}})
   },
 
   removeById: function(id) {
     return this.remove({_id: id}).exec();
-  },
-
-  removeCommentByCommentId: function (commentId) {
-    return this.update({}, {$pull: {comments: commentId}}).exec();
   },
 
   removeCategoryInBlog: function (categoryId) {

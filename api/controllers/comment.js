@@ -52,13 +52,15 @@ commentController.route('/:commentId')
    */
   .delete(adminRequired, (req, res, next) => {
     const commentId = req.params.commentId;
-    Promise.all([
-        Blog.removeCommentByCommentId(commentId),
-        Comment.removeCommentById(commentId)
-    ]).then(() => {
+    Comment.getCommentById(commentId).then(comment => {
+      return Promise.all([
+        Comment.removeCommentById(commentId),
+        Blog.decreaseBlogCommentCount(comment.blog.toString())
+      ]);
+    }).then(() => {
       res.success(null, 204);
     }).catch(next);
-
   });
+
 
 module.exports = commentController;

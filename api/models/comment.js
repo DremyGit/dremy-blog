@@ -19,6 +19,10 @@ CommentSchema.statics = {
     return this.findById(id).exec();
   },
 
+  getCommentByBlogId: function (blogId) {
+    return this.find({blog: blogId}).exec();
+  },
+
   removeCommentById: function (id) {
     return this.remove({_id: id}).exec();
   }
