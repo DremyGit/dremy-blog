@@ -34,6 +34,10 @@ CommentSchema.statics = {
     return this.update({_id: rootId}, {$push: {replies: commentId}}).exec();
   },
 
+  removeRootComment: function (rootId, commentId) {
+    return this.update({_id: rootId}, {$pull: {replies: commentId}}).exec();
+  },
+
   removeCommentById: function (id) {
     return this.remove({_id: id}).exec();
   }

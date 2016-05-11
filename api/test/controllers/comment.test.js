@@ -59,6 +59,7 @@ describe('Test controllers/comment.js', () => {
         .expect(201)
         .expect(res => {
           expect(res.body.reply_to._id).to.equal(testComment._id);
+          testReply._id = res.body._id;
         })
         .end(done);
     });
@@ -113,9 +114,9 @@ describe('Test controllers/comment.js', () => {
   });
 
   describe('Delete /comments/:commentId', () => {
-    it('Delete comment', (done) => {
+    it('Delete reply comment', (done) => {
       agent
-        .delete('/comments/' + testComment._id)
+        .delete('/comments/' + testReply._id)
         .set(helper.adminHeader())
         .expect(204)
         .end(done);
@@ -127,6 +128,14 @@ describe('Test controllers/comment.js', () => {
           expect(res.body.comment_count).to.equal(1);
         })
         .end(done);
-    })
+    });
+    it('reply comment should be remove', done => {
+      agent
+        .get(`/blogs/${testBlog._id}/comments`)
+        .expect(res => {
+          expect(res.body[0].replies.length).to.equal(0);
+        })
+        .end(done);
+    });
   });
 });
