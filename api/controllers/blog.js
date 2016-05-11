@@ -132,7 +132,7 @@ blogController.route('/:blogName/comments')
    */
   .get((req, res, next) => {
     const blogId = req.params.blogId;
-    Comment.getCommentByBlogId(blogId).then(comments => {
+    Comment.getCommentNestedByBlogId(blogId).then(comments => {
       res.success(comments);
     }).catch(next);
   })
@@ -149,13 +149,27 @@ blogController.route('/:blogName/comments')
   .post((req, res, next) => {
     const body = req.body;
     const blogId = req.params.blogId;
+    const replyId = req.query.reply_to;
+    let rootId;
     utils.verifyUserForm(body);
     const _comment = Object.assign(new Comment(), body);
     _comment.blog = blogId;
-    _comment.save().then(comment => {
-      res.success(comment, 201);
-      Blog.addBlogCommentCount(blogId)
-    }).catch(next);
+    if (replyId) {
+      Comment.getCommentById(replyId).then(replyTo => {
+        _comment.reply_to = replyTo.toObject();
+        _comment.root_id = rootId = replyTo.root_id || replyId;
+        return _comment.save()
+      }).then(comment => {
+        res.success(comment, 201);
+        Blog.addBlogCommentCount(blogId);
+        Comment.updateRootComment(rootId, comment._id);
+      }).catch(next);
+    } else {
+      _comment.save().then(comment => {
+        res.success(comment, 201);
+        Blog.addBlogCommentCount(blogId)
+      }).catch(next);
+    }
   });
 
 

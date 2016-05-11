@@ -12,10 +12,15 @@ describe('Test controllers/comment.js', () => {
     code: 'testBlog-' + rand,
     title: 'test-blog-' + rand
   };
-  let comment = {
+  let testComment = {
     user: 'test user',
     email: 'example@example.com',
     content: 'Comment test'
+  };
+  let testReply = {
+    user: 'user 2',
+    email: 'example@example.com',
+    content: 'Comment reply'
   };
 
   before((done) => {
@@ -35,26 +40,36 @@ describe('Test controllers/comment.js', () => {
     it('Create new comment', (done) => {
       agent
         .post('/blogs/' + testBlog._id + '/comments')
-        .send(comment)
+        .send(testComment)
         .expect(201)
         .expect(res => {
           const result = res.body;
-          expect(result.user).equal(comment.user);
-          expect(result.email).equal(comment.email);
-          expect(result.content).equal(comment.content);
+          expect(result.user).equal(testComment.user);
+          expect(result.email).equal(testComment.email);
+          expect(result.content).equal(testComment.content);
           expect(result.blog).equal(testBlog._id);
-          comment._id = result._id;
+          testComment._id = result._id;
         })
         .end(done);
     });
-    it('comment count should be 1', (done) => {
+    it('Create comment reply', done => {
+      agent
+        .post(`/blogs/${testBlog._id}/comments?reply_to=${testComment._id}`)
+        .send(testReply)
+        .expect(201)
+        .expect(res => {
+          expect(res.body.reply_to._id).to.equal(testComment._id);
+        })
+        .end(done);
+    });
+    it('comment count should be 2', (done) => {
       agent
         .get('/blogs/' + testBlog._id)
         .expect(res => {
-          expect(res.body.comment_count).to.equal(1);
+          expect(res.body.comment_count).to.equal(2);
         })
         .end(done);
-    })
+    });
   });
 
   describe('Get /comments', () => {
@@ -85,13 +100,13 @@ describe('Test controllers/comment.js', () => {
   describe('Get /comments/:commentId', () => {
     it('Get comment by id', (done) => {
       agent
-        .get('/comments/' + comment._id)
+        .get('/comments/' + testComment._id)
         .expect(200)
         .expect(res=> {
           const result = res.body;
-          expect(result.user).equal(comment.user);
-          expect(result.email).equal(comment.email);
-          expect(result.content).equal(comment.content);
+          expect(result.user).equal(testComment.user);
+          expect(result.email).equal(testComment.email);
+          expect(result.content).equal(testComment.content);
         })
         .end(done);
     });
@@ -100,16 +115,16 @@ describe('Test controllers/comment.js', () => {
   describe('Delete /comments/:commentId', () => {
     it('Delete comment', (done) => {
       agent
-        .delete('/comments/' + comment._id)
+        .delete('/comments/' + testComment._id)
         .set(helper.adminHeader())
         .expect(204)
         .end(done);
     });
-    it('comment count should be 0', (done) => {
+    it('comment count should be 1', (done) => {
       agent
         .get('/blogs/' + testBlog._id)
         .expect(res => {
-          expect(res.body.comment_count).to.equal(0);
+          expect(res.body.comment_count).to.equal(1);
         })
         .end(done);
     })
