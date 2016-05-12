@@ -1,6 +1,7 @@
+'use strict';
+
 const messageController = require('express').Router();
-const Message = require('../models').Message;
-const HttpError = require('../common/http-error');
+const Comment = require('../models').Comment;
 const assertAndSetId = require('../middlewares/database').assertAndSetId;
 const adminRequired = require('../middlewares/auth').adminRequired;
 const utils = require('../common/utils');
@@ -14,9 +15,16 @@ messageController.route('/')
    * @apiSuccess {Object[]} message All message
    */
   .get((req, res, next) => {
-    Message.getAllMessages().then(messages => {
-      res.success(messages);
-    }).catch(next);
+    const isList = req.query.list;
+    if (isList) {
+      Comment.getAllMessages().then(messages => {
+        res.success(messages);
+      }).catch(next);
+    } else {
+      Comment.getMessagesNested().then(messages => {
+        res.success(messages);
+      }).catch(next);
+    }
   })
 
 
@@ -30,15 +38,29 @@ messageController.route('/')
    */
   .post((req, res, next) => {
     const body = req.body;
+    const replyId = req.body.reply_id;
+    let rootId;
     utils.verifyUserForm(body);
-    const _message = Object.assign(new Message(), body);
-    _message.save().then(message => {
-      res.success(message, 201);
-    }).catch(next);
+    const _message = Object.assign(new Comment(), body);
+    if (replyId) {
+      Comment.getCommentById(replyId).then(replyTo => {
+        _message.reply_to = replyTo.toObject();
+        _message.root_id = rootId = replyTo.root_id || replyId;
+        return _message.save()
+      }).then(message => {
+        res.success(message, 201);
+        Comment.updateRootComment(rootId, message._id);
+      }).catch(next);
+    } else {
+      _message.save().then(message => {
+        res.success(message, 201);
+      }).catch(next);
+    }
   });
 
+
 messageController.route('/:messageId')
-  .all(assertAndSetId('messageId', Message))
+  .all(assertAndSetId('messageId', Comment))
 
   /**
    * @api {delete} /messages/messageId Delete message
@@ -49,7 +71,7 @@ messageController.route('/:messageId')
    */
   .delete(adminRequired, (req, res, next) => {
     const messageId = req.params.messageId;
-    Message.removeMessageById(messageId).then(() => {
+    Comment.removeCommentById(messageId).then(() => {
       res.success(null, 204);
     }).catch(next);
   });

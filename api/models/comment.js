@@ -19,7 +19,11 @@ const CommentSchema = new Schema({
 
 CommentSchema.statics = {
   getAllComments: function () {
-    return this.find({}).exec();
+    return this.find({blog: {$ne: null}}).exec();
+  },
+
+  getAllMessages: function () {
+    return this.find({blog: null}).exec();
   },
 
   getCommentById: function (id) {
@@ -28,6 +32,10 @@ CommentSchema.statics = {
 
   getCommentNestedByBlogId: function (blogId) {
     return this.find({blog: blogId, reply_to: null}).populate('replies').exec();
+  },
+
+  getMessagesNested: function () {
+    return this.find({blog: null, reply_to: null}).populate('replies').exec();
   },
 
   updateSupportCount: function (commentId, num) {

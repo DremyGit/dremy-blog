@@ -19,8 +19,14 @@ describe('Test controllers/message.js', () => {
     content: 'test'
   };
 
+  const testReply = {
+    user: 'test',
+    email: '123@example.com',
+    content: 'test reply'
+  };
+
   before((done) => {
-    helper.clear('messages', done);
+    helper.clear('comments', done);
   });
 
   describe('Post /messages', () => {
@@ -32,6 +38,7 @@ describe('Test controllers/message.js', () => {
         .expect(res => {
           expect(res.body.content).to.equal(testMessage.content);
           testMessage._id = res.body._id;
+          testReply.reply_id = res.body._id;
         })
         .end(done);
     });
@@ -44,11 +51,19 @@ describe('Test controllers/message.js', () => {
           expect(res.body.message).to.include('Email');
         })
         .end(done);
+    });
+    it('Create a reply message', done => {
+      agent
+        .post('/messages')
+        .send(testReply)
+        .expect(201)
+        .end(done);
     })
   });
 
+
   describe('Get /messages', () => {
-    it('Get the created message only', (done) => {
+    it('Get the created messages in tree', (done) => {
       agent
         .get('/messages')
         .expect(200)
@@ -56,6 +71,17 @@ describe('Test controllers/message.js', () => {
           expect(res.body).to.be.an('array');
           expect(res.body.length).to.equal(1);
           expect(res.body[0]._id).to.equal(testMessage._id);
+          expect(res.body[0].replies.length).to.equal(1);
+        })
+        .end(done);
+    })
+    it('Get the created messages in list', (done) => {
+      agent
+        .get('/messages?list=1')
+        .expect(200)
+        .expect(res => {
+          expect(res.body).to.be.an('array');
+          expect(res.body.length).to.equal(2);
         })
         .end(done);
     })
