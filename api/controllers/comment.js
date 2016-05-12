@@ -63,5 +63,38 @@ commentController.route('/:commentId')
     }).catch(next);
   });
 
+commentController.route('/:commentId/supports')
+  .all(assertAndSetId('commentId', Comment))
+
+  /**
+   * @api {post} /comments/:commentId/supports Add support count
+   * @apiName AddSupport
+   * @apiGroup Comment
+   *
+   * @apiParam {String} commentId
+   * @apiSuccess 201
+   */
+  .post((req, res, next) => {
+    const commentId = req.params.commentId;
+    Comment.updateSupportCount(commentId, 1).then(() => {
+      res.success('', 201);
+    }).catch(next);
+  })
+
+  /**
+   * @api {delete} /comments/:commentId/supports Decrease support count
+   * @apiName DecreaseSupport
+   * @apiGroup Comment
+   *
+   * @apiParam {String} commentId
+   * @apiSuccess 204
+   */
+  .delete((req, res, next) => {
+    const commentId = req.params.commentId;
+    Comment.updateSupportCount(commentId, -1).then(() => {
+      res.success('', 201);
+    }).catch(next);
+  });
+
 
 module.exports = commentController;

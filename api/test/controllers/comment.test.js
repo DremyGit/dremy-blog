@@ -139,4 +139,32 @@ describe('Test controllers/comment.js', () => {
         .end(done);
     });
   });
+  describe('Post /comments/:commentId', () => {
+    it('Add support count', done => {
+      agent
+        .post(`/comments/${testComment._id}/supports`)
+        .expect(201)
+        .end(() => {
+          agent
+            .get(`/blogs/${testBlog._id}/comments`)
+            .expect(res => {
+              expect(res.body[0].support_count).to.equal(1);
+            })
+            .end(done);
+        });
+    });
+    it('Decrease support count', done => {
+      agent
+        .delete(`/comments/${testComment._id}/supports`)
+        .expect(204)
+        .end(() => {
+          agent
+            .get(`/blogs/${testBlog._id}/comments`)
+            .expect(res => {
+              expect(res.body[0].support_count).to.equal(0);
+            })
+            .end(done);
+        });
+    })
+  })
 });
