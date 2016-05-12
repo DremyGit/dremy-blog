@@ -49,12 +49,13 @@ describe('Test controllers/comment.js', () => {
           expect(result.content).equal(testComment.content);
           expect(result.blog).equal(testBlog._id);
           testComment._id = result._id;
+          testReply.reply_id = result._id;
         })
         .end(done);
     });
     it('Create comment reply', done => {
       agent
-        .post(`/blogs/${testBlog._id}/comments?reply_to=${testComment._id}`)
+        .post(`/blogs/${testBlog._id}/comments`)
         .send(testReply)
         .expect(201)
         .expect(res => {

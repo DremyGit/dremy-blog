@@ -149,7 +149,7 @@ blogController.route('/:blogName/comments')
   .post((req, res, next) => {
     const body = req.body;
     const blogId = req.params.blogId;
-    const replyId = req.query.reply_to;
+    const replyId = req.body.reply_id;
     let rootId;
     utils.verifyUserForm(body);
     const _comment = Object.assign(new Comment(), body);

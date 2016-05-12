@@ -30,6 +30,10 @@ CommentSchema.statics = {
     return this.find({blog: blogId, reply_to: null}).populate('replies').exec();
   },
 
+  updateSupportCount: function (commentId, num) {
+    return this.update({_id: commentId}, {$inc: {support_count: num}}).exec();
+  },
+
   updateRootComment: function (rootId, commentId) {
     return this.update({_id: rootId}, {$push: {replies: commentId}}).exec();
   },
