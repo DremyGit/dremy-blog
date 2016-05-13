@@ -4,7 +4,8 @@ const CategorySchema = new Schema({
   code: { type: String },
   name: { type: String },
   create_at: { type: Date, default: Date.now },
-  update_at: { type: Date, default: Date.now }
+  update_at: { type: Date, default: Date.now },
+  __v: { type: Number, select: false }
 });
 
 CategorySchema.pre('save', function (next) {

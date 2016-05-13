@@ -7,7 +7,8 @@ const WorkSchema = new Schema({
   url: { type: String },
   picUrl: { type: String },
   create_at: { type: Date, default: Date.now },
-  update_at: { type: Date, default: Date.now }
+  update_at: { type: Date, default: Date.now },
+  __v: { type: Number, select: false }
 });
 
 WorkSchema.pre('save', function (next) {

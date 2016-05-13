@@ -14,7 +14,8 @@ const CommentSchema = new Schema({
     user:   { type: String },
     content:{ type: String }
   },
-  replies: [{ type: ObjectId, ref: 'Comment'}]
+  replies: [{ type: ObjectId, ref: 'Comment'}],
+  __v: { type: Number, select: false }
 });
 
 CommentSchema.statics = {

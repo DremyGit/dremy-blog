@@ -20,7 +20,8 @@ const BlogSchema = new Schema({
   },
   toc: { type: Array },
   comment_count: { type: Number, default: 0},
-  click_count: { type: Number, default: 0 }
+  click_count: { type: Number, default: 0 },
+  __v: { type: Number, select: false }
 });
 
 BlogSchema.pre('save', function(next) {
