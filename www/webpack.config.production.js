@@ -1,11 +1,9 @@
-const path = require('path');
-const webpack = require('webpack');
+var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var path = require('path');
 
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
   entry: [
-    'webpack-dev-server/client?http://localhost:3000',
-    'webpack/hot/only-dev-server',
     './index'
   ],
   output: {
@@ -14,9 +12,16 @@ module.exports = {
     publicPath: '/static/'
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin("style.css"),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"development"'
+      "process.env": {
+        NODE_ENV: JSON.stringify("production")
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
     })
   ],
   module: {
@@ -28,11 +33,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style!css'
+        loader: ExtractTextPlugin.extract('style-loader','css-loader')
       },
       {
         test: /\.scss$/,
-        loader: 'style!css?modules&localIdentName=[local]_[name]_[hash:base64:5]!sass?outputStyle=expanded',
+        loader: ExtractTextPlugin.extract('style-loader','css-loader&sourceMap&localIdentName=[local]__[name]_[hash:base64:5]!sass-loader'),
         exclude: /node_modules/
       },
       {
@@ -57,5 +62,9 @@ module.exports = {
         loader: "url?limit=10000&mimetype=image/svg+xml"
       }
     ]
+  },
+  sassLoader: {
+    outputStyle: 'compressed'
   }
+
 };

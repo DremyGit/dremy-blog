@@ -4,6 +4,7 @@
   "description": "The web for my blog",
   "main": "index.js",
   "scripts": {
+    "build": "webpack --config webpack.config.production.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,11 +18,14 @@
   },
   "homepage": "https://github.com/DremyGit/dremy-blog#readme",
   "dependencies": {
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-polyfill": "^6.8.0",
+    "classnames": "^2.2.5",
     "font-awesome": "^4.6.1",
     "history": "^2.1.1",
     "isomorphic-fetch": "^2.2.1",
     "react": "^15.0.2",
+    "react-css-modules": "^3.7.6",
     "react-dom": "^15.0.2",
     "react-redux": "^4.4.5",
     "react-router": "^2.4.0",
@@ -37,6 +41,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "css-loader": "^0.23.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "node-sass": "^3.7.0",
     "react-hot-loader": "^1.3.0",

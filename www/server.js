@@ -7,7 +7,7 @@ const config = require('./webpack.config.dev');
 
 const compiler = webpack(config);
 const server = new WebpackDevServer(compiler, {
-  contentBase: "dist",
+  //contentBase: "dist",
   publicPath: '/static/',
   hot: true,
 
@@ -24,8 +24,9 @@ const server = new WebpackDevServer(compiler, {
 
 server.app.use(function (req, res, next) {
   var ext = path.extname(req.url);
-  if ((ext === '' || ext === '.html')) {
-    res.sendFile(__dirname + '/index.html')
+  console.log(req.url);
+  if ((ext === '' || ext === '.html') || req.url === '/') {
+    res.sendFile(__dirname + '/index.html');
     console.log('haha');
   } else {
     next();

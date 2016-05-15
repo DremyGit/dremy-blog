@@ -1,0 +1,16 @@
+.blogItem {
+  margin-top: 100px;
+}
+.title {
+  margin: 10px 0;
+
+  > a {
+    display: inline;
+    font-size: 24px;
+    font-weight: normal;
+  }
+}
+.info {
+  color: #888;
+  font-size: 12;
+}

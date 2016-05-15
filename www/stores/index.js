@@ -3,7 +3,7 @@ import { createHistory } from 'history';
 import { routerReducer } from 'react-router-redux'
 import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
 import blog from '../reducers/blog';
-import DevTools from '../components/dev/ReduxDevTools';
+import DevTools from '../containers/dev/ReduxDevTools';
 
 const reducer = combineReducers({
   routing: routerReducer,
