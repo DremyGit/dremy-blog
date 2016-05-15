@@ -9,7 +9,14 @@ const compiler = webpack(config);
 const server = new WebpackDevServer(compiler, {
   contentBase: "dist",
   publicPath: '/static/',
-  hot: true
+  hot: true,
+
+  quiet: false,
+  noInfo: false,
+  stats: {
+    colors: true,
+    chunkModules: false
+  }
 });
 
 //server.app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }))

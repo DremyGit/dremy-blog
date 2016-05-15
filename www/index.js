@@ -1,8 +1,10 @@
+import 'babel-polyfill';
+import 'isomorphic-fetch';
 import React from 'react';
 import { render } from 'react-dom';
-import Test from './components/test';
+import App from './containers/App';
 
 render(
-  <h1>Dremy_Blog</h1>,
+  <App />,
   document.getElementById('app')
 );
