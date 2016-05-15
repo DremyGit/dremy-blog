@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import Article from '../Article/Article';
 import CSSModules from 'react-css-modules';
 import styles from './BlogItem.scss';
+import { timeFormat } from '../../utils/time.js'
 
 const BlogItem = (props) => {
   const blog = props.blog;
@@ -17,7 +18,7 @@ const BlogItem = (props) => {
         </Link>
         {' | '}
         <i className="fa fa-calendar" aria-hidden="true" />
-        {' '} {new Date(blog.create_at).toLocaleString()} {' | '}
+        {' '} {timeFormat(new Date(blog.create_at))} {' | '}
         <i className="fa fa-commenting" aria-hidden="true" />
         {' '} {blog.comment_count}
       </div>

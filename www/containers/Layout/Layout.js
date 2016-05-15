@@ -13,9 +13,9 @@ class Layout extends React.Component {
     const styles = require('./Layout.scss');
     return (
       <div>
-        <Navigation maxWidth={maxWidth} {...props} />
-        <div className={styles.main} style={{maxWidth: maxWidth}} >
-          {React.cloneElement(this.props.children, {maxWidth, ...props })}
+        <Navigation {...props} />
+        <div className={styles.main} >
+          {React.cloneElement(this.props.children, { ...props })}
         </div>
       </div>
     )

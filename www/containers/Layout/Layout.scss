@@ -1,4 +1,9 @@
 .main {
   width: 100%;
   margin: 0 auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;;
+  padding: 0 10px;
+  max-width: 800px;
 }

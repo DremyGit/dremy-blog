@@ -32,7 +32,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: 'style!css?modules&localIdentName=[local]_[name]_[hash:base64:5]!sass?outputStyle=expanded',
+        loader: 'style!css?modules&localIdentName=[local]_[name]_[hash:base64:5]!sass?outputStyle=expanded!autoprefixer?{browsers:["> 5%"]}',
         exclude: /node_modules/
       },
       {

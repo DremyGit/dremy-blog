@@ -37,7 +37,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style-loader','css-loader&sourceMap&localIdentName=[local]__[name]_[hash:base64:5]!sass-loader'),
+        loader: ExtractTextPlugin.extract('style-loader','css-loader&sourceMap&localIdentName=[local]__[name]_[hash:base64:5]!sass!autoprefixer?browsers=> 5%'),
         exclude: /node_modules/
       },
       {
