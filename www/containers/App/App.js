@@ -9,6 +9,7 @@ import configureStore from '../../stores';
 import DevTools from '../dev/ReduxDevTools.js';
 import Layout from './../Layout/Layout';
 import Blogs from './../Blogs/Blogs';
+import Blog from '../Blog/Blog';
 import TagPage from './../Tag/TagPage';
 import ArchivePage from './../Archive/ArchivePage';
 import CategoryPage from './../Category/CategoryPage';
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/" component={Layout}>
             <IndexRoute component={Blogs} />
             <Route path="blog" component={Blogs}/>
+            <Route path="blog/:blogName" component={Blog}/>
             <Route path="tag" component={TagPage}/>
             <Route path="category" component={CategoryPage}/>
             <Route path="archive" component={ArchivePage}/>

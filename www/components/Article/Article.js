@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router';
 
 const Article = (props) => {
+  const styles = require('./Article.scss');
   return (
-    <div dangerouslySetInnerHTML={{__html: props.html}}></div>
+    <div className={styles.article} dangerouslySetInnerHTML={{__html: props.html}}></div>
   )
 };
 

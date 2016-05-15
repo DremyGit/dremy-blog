@@ -1,0 +1,22 @@
+.article {
+
+  > p {
+
+    line-height: 1.6;
+    margin: 10px 0;
+
+    > img {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+    }
+  }
+
+  > ul {
+    padding-left: 30px;
+    > li {
+      margin: 10px;
+    }
+  }
+
+}
