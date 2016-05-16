@@ -1,7 +1,18 @@
 import React from 'react';
 import Article from '../../components/Article/Article';
+import fetch from 'isomorphic-fetch';
 
 export default class Blog extends React.Component {
+
+  static fetchData() {
+    return new Promise((resolve, reject) => {
+      const { routes } = this.props;
+      fetch('/blogs/' + routes.params.blogName)
+        .then(res => res.json())
+        .then(json => console.log(json))
+        .catch(console.log);
+    })
+  }
 
   getBlog() {
     return {

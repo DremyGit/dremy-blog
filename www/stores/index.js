@@ -1,14 +1,9 @@
 import thunkMiddleware from 'redux-thunk'
 import { createHistory } from 'history';
-import { routerReducer } from 'react-router-redux'
 import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
-import blog from '../reducers/blog';
+import reducer from '../reducers';
 import DevTools from '../containers/dev/ReduxDevTools';
 
-const reducer = combineReducers({
-  routing: routerReducer,
-  blog: blog
-});
 
 
 export default function configureStore(initialState) {
@@ -19,7 +14,7 @@ export default function configureStore(initialState) {
 
   if (module.hot) {
     module.hot.accept('../reducers/blog.js', () => {
-      const nextRootReducer = require('../reducers/blog.js');
+      const nextRootReducer = require('../reducers/blogs.js');
       store.replaceReducer(nextRootReducer)
     })
   }

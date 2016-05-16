@@ -16,6 +16,10 @@ const server = new WebpackDevServer(compiler, {
   stats: {
     colors: true,
     chunkModules: false
+  },
+
+  proxy: {
+    '/api/*': 'http://localhost:5760/'
   }
 });
 

@@ -33,11 +33,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader','css-loader')
+        loader: ExtractTextPlugin.extract('style','css')
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style-loader','css-loader&sourceMap&localIdentName=[local]__[name]_[hash:base64:5]!sass!autoprefixer?{browsers:["> 5%"]}'),
+        loader: ExtractTextPlugin.extract('style','css?modules&localIdentName=[local]_[hash:base64:5]!sass!autoprefixer?{browsers:["> 5%"]}'),
         exclude: /node_modules/
       },
       {
