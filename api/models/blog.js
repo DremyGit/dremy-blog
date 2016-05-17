@@ -34,7 +34,7 @@ BlogSchema.pre('save', function(next) {
 
 BlogSchema.statics = {
   getAllBlogs: function() {
-    return this.find({}).exec();
+    return this.find({}).populate(['category', 'tags']).exec();
   },
 
   getBlogById: function (id) {
