@@ -2,6 +2,7 @@ const expect = require('chai').expect;
 const request = require('supertest');
 const helper = require('../helper');
 const app = require('../../app');
+const cache = require('../../common/cache');
 
 describe('Test controllers/message.js', () => {
 
@@ -26,7 +27,9 @@ describe('Test controllers/message.js', () => {
   };
 
   before((done) => {
-    helper.clear('comments', done);
+    helper.clear('comments', () => {
+      cache.delMulti('messages:*').then(done);
+    });
   });
 
   describe('Post /messages', () => {

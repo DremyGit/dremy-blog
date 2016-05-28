@@ -3,6 +3,7 @@ const request = require('supertest');
 const server = require('../../app.js');
 const expect = require('chai').expect;
 const helper = require('../helper');
+const cache = require('../../common/cache');
 
 const rand = Math.random();
 let id;
@@ -18,7 +19,9 @@ describe('Test controllers/blog', () => {
     other: 'other'
   };
   before((done) => {
-    helper.clear('blogs', done);
+    helper.clear('blogs', () => {
+      cache.delMulti('blogs:*').then(() => done())
+    });
   });
 
   describe('POST /blogs', () => {
