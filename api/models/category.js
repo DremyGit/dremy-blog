@@ -1,4 +1,5 @@
 const Schema = require('mongoose').Schema;
+const cache = require('../common/cache');
 
 const CategorySchema = new Schema({
   code: { type: String },
@@ -14,19 +15,24 @@ CategorySchema.pre('save', function (next) {
 });
 
 CategorySchema.statics = {
-  getCategoryById: function (id) {
-    return this.findById(id).exec();
+  getCategoryById: function (id, disableCache) {
+    return cache.getSet(`blogs:categories:${id}`, () => {
+      return this.findById(id).exec();
+    }, disableCache);
   },
 
   removeCategoryById: function (id) {
+    cache.delMulti('blogs:categories:*');
     return this.remove({_id: id}).exec();
   },
 
   getCategoriesWithBlogCount: function () {
-    return this.aggregate([
-      { "$lookup": { "from": "blogs", "localField": "_id", "foreignField": "category", "as": "blogs" }},
-      { "$project": { "code": 1, "name": 1, "count": { "$size": "$blogs" } }}
-    ]).exec()
+    return cache.getSet('blogs:categories:all', () => {
+      return this.aggregate([
+        { "$lookup": { "from": "blogs", "localField": "_id", "foreignField": "category", "as": "blogs" }},
+        { "$project": { "code": 1, "name": 1, "count": { "$size": "$blogs" } }}
+      ]).exec()
+    })
   }
 };
 

@@ -53,7 +53,7 @@ workController.route('/:workId')
   .put(adminRequired, (req, res, next) => {
     const workId = req.params.workId;
     const body = req.body;
-    Work.getWorkById(workId).then(work => {
+    Work.getWorkById(workId, true).then(work => {
       Object.assign(work, body);
       return work.save();
     }).then(work => {

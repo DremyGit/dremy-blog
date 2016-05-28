@@ -1,5 +1,6 @@
 const Schema = require('mongoose').Schema;
 const ObjectId = Schema.Types.ObjectId;
+const cache = require('../common/cache');
 
 const WorkSchema = new Schema({
   code: { type: String },
@@ -19,14 +20,19 @@ WorkSchema.pre('save', function (next) {
 
 WorkSchema.statics = {
   getAllWorks: function () {
-    return this.find({}).exec();
+    return cache.getSet('works:all', () => {
+      return this.find({}).exec();
+    })
   },
 
-  getWorkById: function (id) {
-    return this.findById(id).exec();
+  getWorkById: function (id, disableCache) {
+    return cache.getSet(`works:${id}`, () => {
+      return this.findById(id).exec();
+    }, disableCache);
   },
 
   removeWorkById: function (id) {
+    cache.delMulti('works:*');
     return this.remove({_id: id}).exec();
   }
 };

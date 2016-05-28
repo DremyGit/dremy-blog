@@ -82,7 +82,7 @@ categoryController.route('/:categoryName')
    */
   .put(adminRequired, (req, res, next) => {
     const body = req.body;
-    Category.getCategoryById(req.params.categoryId).then(category => {
+    Category.getCategoryById(req.params.categoryId,true).then(category => {
       return Object.assign(category, body).save()
     }).then(category => {
       res.success(category, 201);

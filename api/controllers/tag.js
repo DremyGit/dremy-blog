@@ -82,7 +82,7 @@ tagController.route('/:tagName')
    */
   .put(adminRequired, (req, res, next) => {
     const body = req.body;
-    Tag.getTagById(req.params.tagId).then(tag => {
+    Tag.getTagById(req.params.tagId, true).then(tag => {
       return Object.assign(tag, body).save()
     }).then(tag => {
       res.success(tag, 201);
