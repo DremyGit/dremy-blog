@@ -61,8 +61,9 @@ tagController.route('/:tagName')
     let tag_g;
     Tag.getTagById(tagId).then(tag => {
       tag_g = tag.toObject();
-      const query = [{tags: tagId}, {markdown: 0, html: 0}];
-      return Blog.getBlogsByQuery(query);
+      const query = {tags: tagId};
+      const opt = {markdown: 0, html: 0};
+      return Blog.getBlogsByQuery(query, opt);
     }).then(blogs => {
       tag_g.blogs = blogs;
       res.success(tag_g);

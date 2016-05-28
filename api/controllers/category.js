@@ -61,8 +61,9 @@ categoryController.route('/:categoryName')
     let category_g;
     Category.getCategoryById(req.params.categoryId).then(category => {
       category_g = category.toObject();
-      const query = [{category: categoryId}, {markdown: 0, html: 0}];
-      return Blog.getBlogsByQuery(query)
+      const query = {category: categoryId};
+      const opt = {markdown: 0, html: 0};
+      return Blog.getBlogsByQuery(query, opt)
     }).then(blogs => {
       category_g.blogs = blogs;
       res.success(category_g);

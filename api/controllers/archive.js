@@ -12,16 +12,9 @@ archiveController.get('/', (req, res, next) => {
    *
    * @apiSuccess {Object} archives
    */
-  cache.get('archives', (err, archives) => {
-    if (archives) {
-      res.success(archives)
-    } else {
-      Blog.getBlogArchives().then(archives => {
-        res.success(archives);
-        cache.set('archives', archives);
-      }).catch(next);
-    }
-  })
+    Blog.getBlogArchives().then(archives => {
+      res.success(archives);
+    }).catch(next);
 });
 
 
@@ -41,11 +34,9 @@ archiveController.get('/:year/:month/blogs', (req, res, next) => {
     if (archive) {
       res.success(archive)
     } else {
-      const query = [
-        { create_at: { $gte: new Date(year, month - 1), $lt: new Date(year, month) }},
-        { markdown: 0, html: 0, toc: 0 }
-      ];
-      Blog.getBlogsByQuery(query).then(blogs => {
+      const query = { create_at: { $gte: new Date(year, month - 1), $lt: new Date(year, month) }};
+      const opt = { markdown: 0, html: 0, toc: 0 };
+      Blog.getBlogsByQuery(query, opt).then(blogs => {
         if (blogs.length == 0) {
           throw new HttpError.NotFoundError();
         }

@@ -19,7 +19,7 @@ blogController.route('/')
    * @apiSuccess {Object[]} blogs All blogs
    */
   .get((req, res, next) => {
-    Blog.getAllBlogs().then(blogs => {
+    Blog.getBlogsByQuery({}).then(blogs => {
       res.success(blogs);
     }).catch(next);
   })
@@ -69,7 +69,7 @@ blogController.route('/:blogName')
   .put(adminRequired, (req, res, next) => {
     const blogId = req.params.blogId;
     const body = req.body;
-    Blog.getBlogById(blogId).then(blog => {
+    Blog.getBlogById(blogId, true).then(blog => {
       Object.assign(blog, body);
       return blog.save()
     }).then(blog => {
@@ -161,13 +161,13 @@ blogController.route('/:blogName/comments')
         return _comment.save()
       }).then(comment => {
         res.success(comment, 201);
-        Blog.addBlogCommentCount(blogId);
+        Blog.increaseBlogCommentCount(blogId, 1);
         Comment.updateRootComment(rootId, comment._id);
       }).catch(next);
     } else {
       _comment.save().then(comment => {
         res.success(comment, 201);
-        Blog.addBlogCommentCount(blogId)
+        Blog.increaseBlogCommentCount(blogId, 1);
       }).catch(next);
     }
   });

@@ -56,7 +56,7 @@ commentController.route('/:commentId')
       return Promise.all([
         Comment.removeCommentById(commentId),
         comment.root_id && Comment.removeRootComment(comment.root_id, comment._id),
-        Blog.decreaseBlogCommentCount(comment.blog.toString())
+        Blog.increaseBlogCommentCount(comment.blog.toString(), -1)
       ]);
     }).then(() => {
       res.success(null, 204);

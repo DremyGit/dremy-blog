@@ -22,18 +22,6 @@ describe('Test common/cache.js', () => {
         done();
       });
     });
-    it('Get an error using error param', done => {
-      cache.set([], testObj, (err) => {
-        expect(err.name).to.equal('ReplyError');
-        done();
-      });
-    });
-    it('Get an error using error param', done => {
-      cache.set('test-error', testObjExp, "error", (err) => {
-        expect(err.name).to.equal('ReplyError');
-        done();
-      });
-    });
   });
 
   describe('Test cache.get()', () => {
@@ -74,13 +62,6 @@ describe('Test common/cache.js', () => {
         });
       }, 1200)
     });
-
-    it('Get error using wrong param', done => {
-      cache.get([], (err, res) => {
-        expect(err.name).to.equal('ReplyError');
-        done();
-      });
-    });
   });
 
   describe('Test cache.del()', () => {
@@ -95,12 +76,6 @@ describe('Test common/cache.js', () => {
         expect(res).to.equal(0);
         done();
       })
-    });
-    it('Get error using wrong param', done => {
-      cache.del([], (err, res) => {
-        expect(err.name).to.equal('ReplyError');
-        done();
-      });
     });
   })
 });

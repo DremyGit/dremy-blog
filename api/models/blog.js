@@ -2,6 +2,7 @@ const Schema = require('mongoose').Schema;
 const ObjectId = Schema.Types.ObjectId;
 const markdown = require('../common/markdown');
 const toc = require('../common/toc');
+const cache = require('../common/cache');
 
 const BlogSchema = new Schema({
   code: { type: String },
@@ -33,45 +34,47 @@ BlogSchema.pre('save', function(next) {
 });
 
 BlogSchema.statics = {
-  getAllBlogs: function() {
-    return this.find({}).populate(['category', 'tags']).exec();
+  getBlogsByQuery: function (query, opt) {
+    return cache.getSet(`blogs:list:${JSON.stringify(query)}:${JSON.stringify(opt)}`, () => {
+      return this.find(query, {}, opt).populate(['category', 'tags']).exec();
+    });
+  },
+  getBlogById: function (id, disableCache) {
+    return cache.getSet(`blogs:id:${id}`, () => {
+      return this.findById(id).exec();
+    }, disableCache);
   },
 
-  getBlogById: function (id) {
-    return this.findById(id).exec();
-  },
-
-  getBlogsByQuery: function (query) {
-    return this.find.apply(this, query).exec();
-  },
-
-  addBlogCommentCount: function (blogId) {
-    return this.update({_id: blogId}, {$inc: {comment_count: 1}}).exec();
-  },
-
-  decreaseBlogCommentCount: function (blogId) {
-    return this.update({_id: blogId}, {$inc: {comment_count: -1}})
+  increaseBlogCommentCount: function (blogId, num) {
+    cache.del(`blogs:id:${blogId}`);
+    return this.update({_id: blogId}, {$inc: {comment_count: num}}).exec();
   },
 
   removeById: function(id) {
+    cache.del(`blogs:id:${id}`);
+    cache.delMulti(`blogs:list:*`);
     return this.remove({_id: id}).exec();
   },
 
   removeCategoryInBlog: function (categoryId) {
+    cache.delMulti('blogs:*');
     return this.update({category: categoryId}, {$unset: {category: 1}}, {multi: 1})
   },
 
   removeTagInBlog: function (tagId) {
+    cache.delMulti('blogs:*');
     return this.update({tags: tagId}, {$pull: {tags: tagId}}, {multi: 1});
   },
 
   getBlogArchives: function () {
-    return this.aggregate([
-      { "$project": { "year": { "$year": "$create_at" }, "blog": {"code": "$code", "title": "$title", "create_at": "$create_at"}}},
-      { "$sort": { "blog.create_at": -1}},
-      { "$group": { "_id": { "year": "$year", }, "blogs": { "$push": "$blog" } }},
-      { "$project": { "_id": 0, "year": "$_id.year", "blogs": "$blogs" }}
-    ]).exec();
+    return cache.getSet('archive:list', () => {
+      return this.aggregate([
+        { "$project": { "year": { "$year": "$create_at" }, "blog": {"code": "$code", "title": "$title", "create_at": "$create_at"}}},
+        { "$sort": { "blog.create_at": -1}},
+        { "$group": { "_id": { "year": "$year" }, "blogs": { "$push": "$blog" } }},
+        { "$project": { "_id": 0, "year": "$_id.year", "blogs": "$blogs" }}
+      ]).exec();
+    });
   }
 };
 
