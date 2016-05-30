@@ -19,7 +19,12 @@ const server = new WebpackDevServer(compiler, {
   },
 
   proxy: {
-    '/api/*': 'http://localhost:5760/'
+    '/api/*': {
+      target: 'http://localhost:5760',
+      rewrite: function(req) {
+        req.url = req.url.replace(/^\/api/, '');
+      }
+    }
   }
 });
 
