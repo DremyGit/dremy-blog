@@ -26,7 +26,8 @@ export default class Blog extends React.Component {
     }
     const blogId = params.blogName;
     const blog = blogs.getIn(['data', blogId]);
-    const category = categories.data[blog.get('category')];
+    const category = categories.get(blog.get('category'));
+    console.log(category);
     return (
       <div>
         <ArticleHead blog={blog} category={category} center={true} />

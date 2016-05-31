@@ -10,14 +10,15 @@ class ArticleHead extends React.Component {
   render () {
     const { blog, category, center } = this.props;
     const _blog = blog.toJS();
+    const _category = category.toJS();
     return (
       <div styleName={center ? 'center' : null}>
         <h1 styleName="title"><Link to={'/blog/' + _blog.code}>{_blog.title}</Link></h1>
         <div styleName="info">
           <i className="fa fa-book" aria-hidden="true" />
           {' '}
-          <Link to={'/' + category.code}>
-            {category.name}
+          <Link to={'/' + _category.code}>
+            {_category.name}
           </Link>
           {' | '}
           <i className="fa fa-calendar" aria-hidden="true" />

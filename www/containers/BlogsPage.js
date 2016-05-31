@@ -30,7 +30,7 @@ class BlogPage extends React.Component {
           <BlogItem
             key={blogId}
             blog={blogs.getIn(['data', blogId])}
-            category={categories.data[blogs.getIn(['data', blogId, 'category'])]} />
+            category={categories.get(blogs.getIn(['data', blogId, 'category']))} />
         )}
       </div>
     );

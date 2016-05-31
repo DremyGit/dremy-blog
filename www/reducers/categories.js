@@ -1,16 +1,10 @@
 import { FETCH_BLOG_LIST_SUCCESS } from '../constants/blog'
+import { Map } from 'immutable';
 
-const categories = (state = {}, action = {}) => {
+const categories = (state = Map(), action = {}) => {
   switch (action.type) {
     case FETCH_BLOG_LIST_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        loaded: true,
-        loaded_at: Date.now(),
-        data: action.data.entities.categories,
-        error: null
-      };
+      return state.merge(action.data.entities.categories);
 
     default:
       return state;
