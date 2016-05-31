@@ -20,12 +20,15 @@ export default class Blog extends React.Component {
   }
 
   render() {
-    const { blogs, categories, params } = this.props;
-    if (!blogs || !blogs.get('loaded')) {
-      return <h1>加载中</h1>
+    const { blogs, categories, params, status } = this.props;
+    if (status.get('fetching')) {
+      return <div>Loading</div>;
+    }
+    if (!status.get('fetched')) {
+      return <div>Error</div>;
     }
     const blogId = params.blogName;
-    const blog = blogs.getIn(['data', blogId]);
+    const blog = blogs.get(blogId);
     const category = categories.get(blog.get('category'));
     console.log(category);
     return (

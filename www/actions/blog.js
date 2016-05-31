@@ -1,7 +1,7 @@
 import {
-  FETCH_BLOG_LIST_FETCHING,
-  FETCH_BLOG_LIST_SUCCESS,
-  FETCH_BLOG_LIST_FAIL
+  FETCH_ALL_BLOG_FETCHING,
+  FETCH_ALL_BLOG_SUCCESS,
+  FETCH_ALL_BLOG_FAIL
 } from '../constants/blog'
 
 import { normalize, arrayOf} from 'normalizr'
@@ -10,29 +10,29 @@ import 'isomorphic-fetch'
 
 function fetchBlogList() {
   return {
-    type: FETCH_BLOG_LIST_FETCHING
+    type: FETCH_ALL_BLOG_FETCHING
   }
 }
 
 function fetchBlogListSuccess(data) {
   return {
-    type: FETCH_BLOG_LIST_SUCCESS,
+    type: FETCH_ALL_BLOG_SUCCESS,
     data: data
   }
 }
 
 function fetchBlogListFail(error) {
   return {
-    type: FETCH_BLOG_LIST_FAIL,
+    type: FETCH_ALL_BLOG_FAIL,
     error: error
   }
 }
 
 function shouldFetchBlogs(state) {
   console.log(state);
-  const blogs = state.blogs;
-  console.log(blogs.get('loaded') , blogs.get('loading'));
-  if (blogs.get('loaded') || blogs.get('loading')) {
+  const status = state.status;
+  console.log(status.get('fetched') , status.get('fetching'));
+  if (status.get('fetched') || status.get('fetching')) {
     return false
   } else {
     return true

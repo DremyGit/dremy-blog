@@ -16,21 +16,21 @@ class BlogPage extends React.Component {
     dispatch(fetchBlogListIfNeed());
   }
   render() {
-    const { blogs, tags, categories } = this.props;
-    if (blogs.get('loading')) {
+    const { blogs, tags, categories, status } = this.props;
+    if (status.get('fetching')) {
       return <div>Loading</div>;
     }
-    if (!blogs.get('loaded')) {
+    if (!status.get('fetched')) {
       return <div>Error</div>;
     }
-    const blogList = blogs.get('data').keySeq();
+    const blogList = blogs.keySeq();
     return (
       <div>
         {blogList.map(blogId =>
           <BlogItem
             key={blogId}
-            blog={blogs.getIn(['data', blogId])}
-            category={categories.get(blogs.getIn(['data', blogId, 'category']))} />
+            blog={blogs.get(blogId)}
+            category={categories.get(blogs.getIn([blogId, 'category']))} />
         )}
       </div>
     );
