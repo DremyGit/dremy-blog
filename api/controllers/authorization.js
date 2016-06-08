@@ -1,5 +1,5 @@
 const Admin = require('../models').Admin;
-const HttpError = require('../common/http-error');
+const HttpError = require('some-http-error');
 const jwt = require('../common/jwt');
 
 /**

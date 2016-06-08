@@ -1,4 +1,4 @@
-const HttpError = require('./http-error');
+const HttpError = require('some-http-error');
 const crypto = require('crypto');
 const utils = {};
 

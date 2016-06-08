@@ -1,4 +1,4 @@
-const HttpError = require('../common/http-error').HttpError;
+const HttpError = require('some-http-error');
 
 const errorHandlling = (err, req, res, next) => {
   var statusCode;

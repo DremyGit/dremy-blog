@@ -1,5 +1,5 @@
 //const models = require('../models');
-const HttpError = require('../common/http-error');
+const HttpError = require('some-http-error');
 const utils = require('../common/utils');
 
 const database = {};

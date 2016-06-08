@@ -2,7 +2,7 @@
 const archiveController = require('express').Router();
 const cache = require('../common/cache');
 const Blog = require('../models').Blog;
-const HttpError=require('../common/http-error');
+const HttpError=require('some-http-error');
 
 archiveController.get('/', (req, res, next) => {
   /**
