@@ -1,0 +1,23 @@
+div
+  ol.breadcrumb
+    li: a(href="#/") 首页
+    li.active 留言管理
+div
+  table.table.table-bordered.table-hover
+    thead
+      tr
+        th 留言内容
+        th 留言者
+        th 留言者邮箱
+        th 留言者网站
+        th 留言时间
+        th 操作
+    tbody
+      tr(ng-repeat="message in vm.messages")
+        td {{ message.content }}
+        td {{ message.user }}
+        td {{ message.email }}
+        td {{ message.url }}
+        td {{ message.create_at | date : 'yyyy-MM-dd HH:mm' }}
+        td
+          a(href="javascript:" ng-click="vm.delete(message)") 删除

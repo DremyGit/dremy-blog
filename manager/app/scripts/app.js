@@ -32,6 +32,16 @@ angular.module('managerApp')
       templateUrl: 'views/blog/edit.html',
       controller: 'BlogNewController as vm'
     });
+    $stateProvider.state('commentList', {
+      url: '/comments',
+      templateUrl: 'views/comment/list.html',
+      controller: 'CommentListController as vm'
+    });
+    $stateProvider.state('messageList', {
+      url: '/messages',
+      templateUrl: 'views/message/list.html',
+      controller: 'MessageListController as vm'
+    });
     $stateProvider.state('404', {
       url: '/404',
       templateUrl: '404.html'

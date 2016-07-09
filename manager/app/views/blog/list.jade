@@ -9,11 +9,11 @@ div
   table.table.table-bordered.table-hover
     thead
       tr
-      th 文章标题
-      th 点击数
-      th 评论数
-      th 发布日期
-      th 操作
+        th 文章标题
+        th 点击数
+        th 评论数
+        th 发布日期
+        th 操作
     tbody
       tr(ng-repeat="blog in vm.blogs")
         td: a(href="#/blogs/{{blog.code}}") {{ blog.title }}
