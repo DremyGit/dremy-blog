@@ -57,13 +57,7 @@
     <div class="container">
       <div class="row">
       <div class="col-md-2">
-        <ul class="nav nav-pills nav-stacked">
-          <li role="presentation"><a href="#/">首页</a></li>
-          <li role="presentation" class="active"><a href="#/blogs">文章管理</a></li>
-          <li role="presentation"><a href="#/comments">评论管理</a></li>
-          <li role="presentation"><a href="#/messages">留言管理</a></li>
-          <li role="presentation"><a href="#/">Messages</a></li>
-        </ul>
+        <div ng-include="'views/menu.html'" ng-controller="MenuController as vm"></div>
       </div>
       <div class="col-md-10">
         <div ui-view></div>
@@ -82,6 +76,7 @@
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/menu.js"></script>
     <script src="scripts/controllers/blog/list.js"></script>
     <script src="scripts/controllers/blog/edit.js"></script>
     <script src="scripts/controllers/comment/list.js"></script>

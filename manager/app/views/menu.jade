@@ -1,0 +1,4 @@
+ul.nav.nav-pills.nav-stacked
+  li(role="presentation", ng-repeat="menu in vm.menus", ng-class='{active: menu.active}')
+    a(href="{{menu.url}}") {{ menu.name }}
+  //li role="presentation" class="active"><a href="#/blogs">文章管理</a></li>
