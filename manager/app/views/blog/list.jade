@@ -1,4 +1,11 @@
 div
+  ol.breadcrumb
+    li: a(href="#/") 主页
+    li.active 文章管理
+
+  a.btn.btn-primary.btn-sm.pull-right(href="#/blogs/new") 新文章
+
+div
   table.table.table-bordered.table-hover
     thead
       tr
@@ -9,9 +16,10 @@ div
       th 操作
     tbody
       tr(ng-repeat="blog in vm.blogs")
-        td {{ blog.title }}
+        td: a(href="#/blogs/{{blog.code}}") {{ blog.title }}
         td {{ blog.click_count }}
         td {{ blog.comment_count }}
         td {{ blog.create_at | date : 'yyyy-MM-dd HH:mm:ss' }}
-        td 编辑 / 删除
+        td
+          a(ng-click="vm.delete") 删除
 

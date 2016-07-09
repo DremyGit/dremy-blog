@@ -54,7 +54,9 @@ var styles = lazypipe()
   .pipe(gulp.dest, '.tmp/styles');
 
 var jades = lazypipe()
-  .pipe($.pug, {})
+  .pipe($.pug, {
+    pretty: '  '
+  })
   .pipe(gulp.dest, '.tmp/views');
 
 ///////////

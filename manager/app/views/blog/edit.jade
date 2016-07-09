@@ -1,0 +1,55 @@
+style.
+  #title, #code, #time {
+    width: 200px;
+  }
+  select.form-control {
+    width: 200px;
+  }
+  #summary {
+    min-height: 200px;
+  }
+  #content {
+    min-height: 400px;
+  }
+div
+  ol.breadcrumb
+    li: a(href="#/") 主页
+    li: a(href="#/blogs") 文章管理
+    li.active 文章编辑
+
+div
+  form(ng-submit="vm.submit(vm.blog)")
+    .form-group.form-group-sm
+      label.control-label(for='title') 标题
+      input.form-control#title(name="title", ng-model="vm.blog.title")
+    .form-group.form-group-sm
+      label.control-label(for='code') 英文
+      input.form-control#code(name="code", ng-model="vm.blog.code")
+    .form-group.form-group-sm
+      label.control-label(for='category') 分类
+      select.form-control#category(name="category",
+        ng-model="vm.blog.category",
+        ng-options="category.name for category in vm.categories track by category.code")
+        option(value="") 未选择
+    .form-group.form-group-sm
+      label.control-label 标签
+      .row
+        .col-sm-4(ng-repeat="input_tag in [0, 1, 2]")
+          select.form-control(name="tags[{{ $index }}]"
+            ng-model="vm.blog.tags[input_tag]",
+            ng-options="tag.name for tag in vm.tags track by tag.code")
+            option(value="") 未选择
+    .form-group.form-group-sm
+      label.control-label(for='time') 时间
+      input.form-control#time(name="created_at", type="dateTime", ng-model="vm.blog.create_at")
+    .form-group
+      label 概要
+      textarea.form-control#summary(name="markdown.summary", ng-model="vm.blog.markdown.summary")
+    .form-group
+      label 内容
+      textarea.form-control#content(name="markdown.content", ng-model="vm.blog.markdown.content")
+    button.btn.btn-primary 提交
+
+
+
+
