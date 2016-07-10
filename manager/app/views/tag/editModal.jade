@@ -1,0 +1,14 @@
+div
+  .modal-header
+    h4.modal-title 修改标签
+  .modal-body
+    form
+      .form-group.form-group-sm
+        label.control-label(for='name') 标签名称
+        input.form-control#name(name="name", ng-model="tag.name")
+      .form-group.form-group-sm
+        label.control-label(for='code') 英文名称
+        input.form-control#code(name="code", ng-model="tag.code")
+  .modal-footer
+    button.btn.btn-default(type="button", ng-click="cancel()") 关闭
+    button.btn.btn-primary(type="button", ng-click="ok()") 保存

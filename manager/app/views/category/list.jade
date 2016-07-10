@@ -1,0 +1,22 @@
+div
+  ol.breadcrumb
+    li: a(href="#/") 主页
+    li.active 分类管理
+
+div
+  table.table.table-bordered.table-hover
+    thead
+      tr
+        th 分类名称
+        th 英文名
+        th 文章数
+        th 操作
+    tbody
+      tr(ng-repeat="category in vm.categories")
+        td {{ category.name }}
+        td {{ category.code }}
+        td {{ category.count }}
+        td
+          a(href="javascript:" ng-click="vm.edit(category)") 编辑
+          | &nbsp;&nbsp;&nbsp;&nbsp;
+          a(href="javascript:" ng-click="vm.delete(category)") 删除

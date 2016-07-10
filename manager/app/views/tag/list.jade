@@ -1,0 +1,22 @@
+div
+  ol.breadcrumb
+    li: a(href="#/") 主页
+    li.active 标签管理
+
+div
+  table.table.table-bordered.table-hover
+    thead
+      tr
+        th 标签名称
+        th 英文名
+        th 文章数
+        th 操作
+    tbody
+      tr(ng-repeat="tag in vm.tags")
+        td {{ tag.name }}
+        td {{ tag.code }}
+        td {{ tag.count }}
+        td
+          a(href="javascript:" ng-click="vm.edit(tag)") 编辑
+          | &nbsp;&nbsp;&nbsp;&nbsp;
+          a(href="javascript:" ng-click="vm.delete(tag)") 删除

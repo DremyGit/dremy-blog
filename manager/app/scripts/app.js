@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 angular
-  .module('managerApp', ['ui.router']);
+  .module('managerApp', ['ui.router', 'ui.bootstrap']);
 
 angular.module('managerApp')
   .config(function ($stateProvider, $urlRouterProvider) {
@@ -41,6 +41,16 @@ angular.module('managerApp')
       url: '/messages',
       templateUrl: 'views/message/list.html',
       controller: 'MessageListController as vm'
+    });
+    $stateProvider.state('categoryList', {
+      url: '/categories',
+      templateUrl: 'views/category/list.html',
+      controller: 'CategoryListController as vm'
+    });
+    $stateProvider.state('tagList', {
+      url: '/tags',
+      templateUrl: 'views/tag/list.html',
+      controller: 'TagListController as vm'
     });
     $stateProvider.state('404', {
       url: '/404',
