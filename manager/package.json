@@ -34,5 +34,8 @@
   },
   "scripts": {
     "test": "karma start test/karma.conf.js"
+  },
+  "dependencies": {
+    "http-proxy-middleware": "^0.17.0"
   }
 }

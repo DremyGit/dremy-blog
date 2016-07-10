@@ -29,7 +29,7 @@ div
       label.control-label(for='category') 分类
       select.form-control#category(name="category",
         ng-model="vm.blog.category",
-        ng-options="category.name for category in vm.categories track by category.code")
+        ng-options="category._id as category.name for category in vm.categories")
         option(value="") 未选择
     .form-group.form-group-sm
       label.control-label 标签
@@ -37,7 +37,7 @@ div
         .col-sm-4(ng-repeat="input_tag in [0, 1, 2]")
           select.form-control(name="tags[{{ $index }}]"
             ng-model="vm.blog.tags[input_tag]",
-            ng-options="tag.name for tag in vm.tags track by tag.code")
+            ng-options="tag._id as tag.name for tag in vm.tags")
             option(value="") 未选择
     .form-group.form-group-sm
       label.control-label(for='time') 时间

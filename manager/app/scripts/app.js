@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 angular
-  .module('managerApp', ['ui.router', 'ui.bootstrap']);
+  .module('managerApp', ['ui.router', 'ui.bootstrap', 'ngResource']);
 
 angular.module('managerApp')
   .config(function ($stateProvider, $urlRouterProvider) {
@@ -23,7 +23,7 @@ angular.module('managerApp')
       controller: 'BlogListController as vm'
     });
     $stateProvider.state('blogEdit', {
-      url: '/blogs/:blogId',
+      url: '/blogs/:blogName',
       templateUrl: 'views/blog/edit.html',
       controller: 'BlogEditController as vm'
     });

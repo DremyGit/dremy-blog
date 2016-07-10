@@ -9,6 +9,7 @@ var lazypipe = require('lazypipe');
 var rimraf = require('rimraf');
 var wiredep = require('wiredep').stream;
 var runSequence = require('run-sequence');
+var proxy = require('http-proxy-middleware');
 
 var yeoman = {
   app: require('./bower.json').appPath || 'app',
@@ -92,9 +93,17 @@ gulp.task('start:server', function() {
     livereload: true,
     // Change this to '0.0.0.0' to access the server from outside.
     port: 9000,
-    middleware:function(connect, opt){
-      return [['/bower_components',
-        connect["static"]('./bower_components')]]
+    middleware: function(connect, opt){
+      return [
+        ['/bower_components', connect["static"]('./bower_components')],
+        ['/api', proxy({
+          target: 'http://localhost:5760',
+          pathRewrite: {
+            '^/api' : ''
+          },
+          changeOrigin: true
+        })]
+      ]
     }
   });
 });
