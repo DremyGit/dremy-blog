@@ -12,7 +12,7 @@ angular
   .module('managerApp', ['ui.router', 'ui.bootstrap', 'ngResource']);
 
 angular.module('managerApp')
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
     $stateProvider.state('home', {
       url: '/',
       templateUrl: 'views/home.html'
@@ -58,4 +58,6 @@ angular.module('managerApp')
     });
     $urlRouterProvider.when('', '/blogs');
     $urlRouterProvider.otherwise('/404');
+
+    $httpProvider.interceptors.push('AuthHandler');
   });
