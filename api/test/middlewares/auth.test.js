@@ -66,7 +66,7 @@ describe('Test middlewares/auth', () => {
       const req = {auth:{isAuth:false}};
       const res = {};
       authMiddleware.adminRequired(req, res, err => {
-        expect(err).to.be.an('error');
+        expect(err.message).to.equal('Unauthorized');
         done();
       });
     });

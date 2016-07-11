@@ -22,11 +22,11 @@ describe('Test controllers/authorization.js', () => {
       })
       .end(done);
   });
-  it('Get a 401 using a wrong account', done => {
+  it('Get a 400 using a wrong account', done => {
     agent
       .post('/authorization')
       .send({username: 'test', password: 'test'})
-      .expect(401)
+      .expect(400)
       .end(done);
   });
   after(done => {

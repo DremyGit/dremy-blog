@@ -1,5 +1,5 @@
 const jwt = require('../common/jwt');
-const HttpError = require('../common/http-error');
+const HttpError = require('some-http-error');
 const auth = {};
 
 auth.authorization = (req, res, next) => {
