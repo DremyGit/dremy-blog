@@ -1,7 +1,8 @@
 'use strict';
-angular.module('managerApp').controller('TagListController', function ($uibModal) {
+angular.module('managerApp').controller('TagListController', function ($uibModal, Tag) {
   var vm = this;
-  vm.tags = [{"_id":"573027c7907b850c0e333979","name":"标签1","code":"tag-1","count":2},{"_id":"573027d2907b850c0e33397a","name":"标签2","code":"tag-2","count":3},{"_id":"573027da907b850c0e33397b","name":"标签3","code":"tag-3","count":0}];
+  //vm.tags = [{"_id":"573027c7907b850c0e333979","name":"标签1","code":"tag-1","count":2},{"_id":"573027d2907b850c0e33397a","name":"标签2","code":"tag-2","count":3},{"_id":"573027da907b850c0e33397b","name":"标签3","code":"tag-3","count":0}];
+  vm.tags = Tag.query();
   function openModal(tag) {
     return $uibModal.open({
       animation: true,
