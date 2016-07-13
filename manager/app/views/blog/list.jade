@@ -21,5 +21,5 @@ div
         td {{ blog.comment_count }}
         td {{ blog.create_at | date : 'yyyy-MM-dd HH:mm:ss' }}
         td
-          a(ng-click="vm.delete") 删除
+          a(href="javascript:" ng-click="vm.delete(blog)") 删除
 

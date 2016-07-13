@@ -22,15 +22,15 @@ angular.module('managerApp')
       templateUrl: 'views/blog/list.html',
       controller: 'BlogListController as vm'
     });
+    $stateProvider.state('blogNew', {
+      url: '/blogs/new',
+      templateUrl: 'views/blog/edit.html',
+      controller: 'BlogEditController as vm'
+    });
     $stateProvider.state('blogEdit', {
       url: '/blogs/:blogName',
       templateUrl: 'views/blog/edit.html',
       controller: 'BlogEditController as vm'
-    });
-    $stateProvider.state('blogNew', {
-      url: '/blogs/new',
-      templateUrl: 'views/blog/edit.html',
-      controller: 'BlogNewController as vm'
     });
     $stateProvider.state('commentList', {
       url: '/comments',

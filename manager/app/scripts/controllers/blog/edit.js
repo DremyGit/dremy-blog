@@ -1,10 +1,35 @@
 'use strict';
 angular.module('managerApp').controller('BlogEditController', function ($stateParams, Blog, Category, Tag) {
   var vm = this;
-  vm.blog = Blog.get({code: $stateParams.blogName});
+  var blogName = $stateParams.blogName;
+  vm.blog = {};
+  if (blogName) {
+    vm.blog = Blog.get({blogName: blogName});
+  }
   vm.categories = Category.query();
-  vm.tags = Tag.query();
-  vm.submit = function (obj) {
-    console.log(obj);
+  vm.tags       = Tag.query();
+
+  vm.submit = function (blog) {
+    function filteTags(tags) {
+      var length = 0;
+      for (var i in tags) {
+        length++;
+      }
+      i = length;
+      tags.length = length;
+      return Array.prototype.slice.call(tags).filter(function (tag) {
+        return !!tag;
+      });
+    }
+
+
+    blog.tags = filteTags(blog.tags);
+    var data = window.easycopy(blog, ['title', 'code', 'category', 'tags', 'create_at', 'markdown']);
+    if (blog._id) {
+      Blog.update({blogName: blog._id}, data);
+    } else {
+      Blog.save(data);
+    }
+    console.log(data);
   };
 });
