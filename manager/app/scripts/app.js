@@ -59,5 +59,6 @@ angular.module('managerApp')
     $urlRouterProvider.when('', '/blogs');
     $urlRouterProvider.otherwise('/404');
 
+    $httpProvider.interceptors.push('HttpErrorHandle');
     $httpProvider.interceptors.push('AuthHandler');
   });

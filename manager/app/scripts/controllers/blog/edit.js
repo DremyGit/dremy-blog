@@ -22,6 +22,9 @@ angular.module('managerApp').controller('BlogEditController', function ($statePa
       });
     }
 
+    if (!blog.category) {
+      alert('请选择分类');
+    }
 
     blog.tags = filteTags(blog.tags);
     var data = window.easycopy(blog, ['title', 'code', 'category', 'tags', 'create_at', 'markdown']);
