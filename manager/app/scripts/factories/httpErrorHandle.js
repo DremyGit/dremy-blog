@@ -3,10 +3,11 @@ angular.module('managerApp').factory('HttpErrorHandle', function ($q, $injector,
   return {
     responseError: function (rejection) {
       if (rejection.config) {
+        var Alert = $injector.get('Alert');
         if (rejection.config && new RegExp('^' + Configs.API_BASE).test(rejection.config.url)) {
-          window.alert('API 错误: ' + rejection.data.message);
+          Alert.open('API 错误: ' + rejection.data.message);
         } else {
-          window.alert('网络错误, 请重试');
+          Alert.open('网络错误, 请重试');
         }
       }
       return $q.reject(rejection);

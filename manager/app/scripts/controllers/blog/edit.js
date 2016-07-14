@@ -24,6 +24,7 @@ angular.module('managerApp').controller('BlogEditController', function ($statePa
 
     if (!blog.category) {
       alert('请选择分类');
+      return;
     }
 
     blog.tags = filteTags(blog.tags);

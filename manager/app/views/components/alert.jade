@@ -1,0 +1,8 @@
+div
+  .modal-header
+    h4.modal-title 提示框
+  .modal-body
+    p {{ message }}
+  .modal-footer
+    button.btn.btn-default(type="button", ng-click="cancel()") 取消
+    button.btn.btn-primary(type="button", ng-click="ok()") 确定
