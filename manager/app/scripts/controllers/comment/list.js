@@ -1,7 +1,16 @@
 'use strict';
 
-angular.module('managerApp').controller('CommentListController', function (Comment) {
+angular.module('managerApp').controller('CommentListController', function (Comment, Modal, Alert) {
   var vm = this;
-  //vm.comments = [{"_id":"5732d5142aaa81dc0435da77","blog":"57301d8789d0867808ed502a","content":"test comment 1","email":"123@123.com","user":"test1","replies":[],"support_count":1,"create_at":"2016-05-11T06:45:40.488Z"}];
   vm.comments = Comment.query();
+  vm.delete = function (comment) {
+    Modal.open('是否删除评论: "' + comment.content + '"').then(function (confirm) {
+      if (confirm) {
+        Comment.delete({id: comment._id}).$promise.then(function () {
+          Alert.show('删除评论成功');
+          vm.comments = Comment.query();
+        })
+      }
+    });
+  };
 });
