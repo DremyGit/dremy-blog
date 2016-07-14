@@ -87,3 +87,12 @@ body {
     border-bottom: 0;
   }
 }
+
+#alert-div {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 30%;
+}

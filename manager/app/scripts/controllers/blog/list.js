@@ -1,11 +1,16 @@
 'use strict';
 
-angular.module('managerApp').controller('BlogListController', function (Blog) {
+angular.module('managerApp').controller('BlogListController', function (Blog, Modal, Alert) {
   var vm = this;
   vm.blogs = Blog.query();
   vm.delete = function (blog) {
-    Blog.delete({blogName: blog._id}).$promise.then(function () {
-      vm.blogs = Blog.query();
+    Modal.open('是否要删除文章《' + blog.title +'》?').then(function (confirm) {
+      if (confirm) {
+        Blog.delete({blogName: blog._id}).$promise.then(function () {
+          Alert.show('删除文章《' + blog.title +'》成功');
+          vm.blogs = Blog.query();
+        });
+      }
     });
-  }
+  };
 });

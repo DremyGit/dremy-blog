@@ -23,7 +23,7 @@ angular.module('managerApp').service('Modal', function ($uibModal) {
   };
 
   $scope.cancel = function () {
-    $uibModalInstance.$dismiss('cancel');
-  }
+    $uibModalInstance.dismiss('cancel');
+  };
 });
 

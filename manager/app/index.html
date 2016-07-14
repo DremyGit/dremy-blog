@@ -31,24 +31,7 @@
       <div class="navbar navbar-default" role="navigation">
         <div class="container">
           <div class="navbar-header">
-
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-
-            <a class="navbar-brand" href="#/">manager</a>
-          </div>
-
-          <div class="collapse navbar-collapse" id="js-navbar-collapse">
-
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#/">Home</a></li>
-              <li><a ng-href="#/">About</a></li>
-              <li><a ng-href="#/">Contact</a></li>
-            </ul>
+            <a class="navbar-brand" href="#/">Dremy 博客管理</a>
           </div>
         </div>
       </div>
@@ -64,6 +47,8 @@
       </div></div>
     </div>
 
+    <div id="alert-div" alert-div></div>
+    <!--<alert-div></alert-div>-->
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
@@ -96,6 +81,7 @@
     <script src="scripts/factories/authHandler.js"></script>
     <script src="scripts/factories/httpErrorHandle.js"></script>
     <script src="scripts/components/modal.js"></script>
+    <script src="scripts/components/alert.js"></script>
     <!-- endbuild -->
 </body>
 </html>
