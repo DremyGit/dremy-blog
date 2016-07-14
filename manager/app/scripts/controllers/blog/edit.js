@@ -30,9 +30,13 @@ angular.module('managerApp').controller('BlogEditController', function ($statePa
     blog.tags = filteTags(blog.tags);
     var data = window.easycopy(blog, ['title', 'code', 'category', 'tags', 'create_at', 'markdown']);
     if (blog._id) {
-      Blog.update({blogName: blog._id}, data);
+      Blog.update({blogName: blog._id}, data).$promise.then(function () {
+        window.location.href = '#/blogs/' + blog.code
+      });
     } else {
-      Blog.save(data);
+      Blog.save(data).$promise.then(function () {
+        window.location.href = '#/blogs/' + blog.code
+      });
     }
     console.log(data);
   };

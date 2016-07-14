@@ -1,10 +1,10 @@
 'use strict';
-angular.module('managerApp').service('Alert', function ($uibModal) {
+angular.module('managerApp').service('Modal', function ($uibModal) {
   this.open = function (message) {
     var modal = $uibModal.open({
       animation: true,
-      templateUrl: 'views/components/alert.html',
-      controller: 'AlertController',
+      templateUrl: 'views/components/modal.html',
+      controller: 'ModalController',
       keyboard: 'false',
       backdrop: 'static',
       resolve: {
@@ -15,7 +15,7 @@ angular.module('managerApp').service('Alert', function ($uibModal) {
     });
     return modal.result;
   };
-}).controller('AlertController', function ($scope, $uibModalInstance, message) {
+}).controller('ModalController', function ($scope, $uibModalInstance, message) {
   $scope.message = message;
 
   $scope.ok = function () {
