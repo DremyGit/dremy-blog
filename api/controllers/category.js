@@ -3,7 +3,6 @@ const categoryController = require('express').Router();
 const assertAndSetId = require('../middlewares/database').assertAndSetId;
 const adminRequired = require('../middlewares/auth').adminRequired;
 const models = require('../models');
-const cache = require('../common/cache');
 const Category = models.Category;
 const Blog = models.Blog;
 
@@ -16,16 +15,9 @@ categoryController.route('/')
    * @apiSuccess {Object[]} categories All categories
    */
   .get((req, res, next) => {
-    cache.get('categories', (err, cache_categories) => {
-      if (cache_categories) {
-        res.success(cache_categories);
-      } else {
-        Category.getCategoriesWithBlogCount().then(categories => {
-          res.success(categories);
-          cache.set('categories', categories);
-        }).catch(next);
-      }
-    });
+    Category.getCategoriesWithBlogCount().then(categories => {
+      res.success(categories);
+    }).catch(next);
   })
 
   /**
@@ -40,7 +32,7 @@ categoryController.route('/')
   .post(adminRequired, (req, res, next) => {
     const body = req.body;
     const _category = Object.assign(new Category(), body);
-    _category.save().then(category => {
+    Category.createCategory(_category).then(category => {
       res.success(category, 201);
     }).catch(next);
   });
@@ -83,7 +75,7 @@ categoryController.route('/:categoryName')
   .put(adminRequired, (req, res, next) => {
     const body = req.body;
     Category.getCategoryById(req.params.categoryId,true).then(category => {
-      return Object.assign(category, body).save()
+      return Category.updateCategory(Object.assign(category, body))
     }).then(category => {
       res.success(category, 201);
     }).catch(next);

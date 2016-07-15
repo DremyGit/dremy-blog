@@ -20,8 +20,18 @@ const CommentSchema = new Schema({
 });
 
 CommentSchema.statics = {
+  createComment: function (comment) {
+    cache.delMulti('comments:*');
+    return comment.save();
+  },
+
+  createMessage: function (message) {
+    cache.delMulti('messages:*');
+    return message.save();
+  },
+
   getAllComments: function () {
-    return cache.getSet('blogs:comments:list', () => {
+    return cache.getSet('comments:all:list', () => {
       return this.find({blog: {$ne: null}}).exec();
     });
   },
@@ -33,13 +43,13 @@ CommentSchema.statics = {
   },
 
   getCommentById: function (id, disableCache) {
-    return cache.getSet(`blogs:comments:${id}`, () => {
+    return cache.getSet(`comments:${id}`, () => {
       return this.findById(id).exec();
     }, disableCache);
   },
 
   getCommentNestedByBlogId: function (blogId) {
-    return cache.getSet(`blogs:${blogId}:nested`, () => {
+    return cache.getSet(`comments:blogs:${blogId}:nested`, () => {
       return this.find({blog: blogId, reply_to: null}).populate('replies').exec();
     });
   },
@@ -51,22 +61,30 @@ CommentSchema.statics = {
   },
 
   updateSupportCount: function (commentId, num) {
-    cache.delMulti('blogs:*');
+    cache.delMulti('comments:*');
+    cache.delMulti('messages:*');
     return this.update({_id: commentId}, {$inc: {support_count: num}}).exec();
   },
 
   updateRootComment: function (rootId, commentId) {
-    cache.delMulti('blogs:*');
+    cache.delMulti('comments:*');
+    cache.delMulti('messages:*');
     return this.update({_id: rootId}, {$push: {replies: commentId}}).exec();
   },
 
   removeRootComment: function (rootId, commentId) {
-    cache.delMulti('blogs:*');
+    cache.delMulti('comments:*');
+    cache.delMulti('messages:*');
     return this.update({_id: rootId}, {$pull: {replies: commentId}}).exec();
   },
 
   removeCommentById: function (id) {
-    cache.delMulti('blogs:*');
+    cache.delMulti('comments:*');
+    return this.remove({_id: id}).exec();
+  },
+
+  removeMessageById: function (id) {
+    cache.delMulti('messages:*');
     return this.remove({_id: id}).exec();
   }
 };

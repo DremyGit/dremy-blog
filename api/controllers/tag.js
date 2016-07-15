@@ -2,7 +2,6 @@
 const tagController = require('express').Router();
 const assertAndSetId = require('../middlewares/database').assertAndSetId;
 const adminRequired = require('../middlewares/auth').adminRequired;
-const cache = require('../common/cache');
 const models = require('../models');
 const Tag = models.Tag;
 const Blog = models.Blog;
@@ -16,16 +15,9 @@ tagController.route('/')
    * @apiSuccess {Object[]} tags All tags
    */
   .get((req, res, next) => {
-    cache.get('tags', (err, cache_tags) => {
-      if (cache_tags) {
-        res.success(cache_tags);
-      } else {
-        Tag.getTagsWithBlogCount().then(tags => {
-          res.success(tags);
-          cache.set('tags', tags);
-        }).catch(next);
-      }
-    });
+    Tag.getTagsWithBlogCount().then(tags => {
+      res.success(tags);
+    }).catch(next);
   })
 
   /**
@@ -40,7 +32,7 @@ tagController.route('/')
   .post(adminRequired, (req, res, next) => {
     const body = req.body;
     const _tag = Object.assign(new Tag(), body);
-    _tag.save().then(tag => {
+    Tag.createTag(_tag).then(tag => {
       res.success(tag, 201);
     }).catch(next);
   });

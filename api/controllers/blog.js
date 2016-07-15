@@ -35,7 +35,7 @@ blogController.route('/')
   .post(adminRequired, (req, res, next) => {
     const body = req.body;
     let _blog = Object.assign(new Blog(), body);
-    _blog.save().then(blog => {
+    Blog.createBlog(_blog).then(blog => {
       res.success(blog, 201);
     }).catch(next);
   });
@@ -71,7 +71,7 @@ blogController.route('/:blogName')
     const body = req.body;
     Blog.getBlogById(blogId, true).then(blog => {
       Object.assign(blog, body);
-      return blog.save()
+      return Blog.updateBlog(blog);
     }).then(blog => {
       res.success(blog, 201);
     }).catch(next);
@@ -158,14 +158,14 @@ blogController.route('/:blogName/comments')
       Comment.getCommentById(replyId).then(replyTo => {
         _comment.reply_to = replyTo.toObject();
         _comment.root_id = rootId = replyTo.root_id || replyId;
-        return _comment.save()
+        return Comment.createComment(_comment)
       }).then(comment => {
         res.success(comment, 201);
         Blog.increaseBlogCommentCount(blogId, 1);
         Comment.updateRootComment(rootId, comment._id);
       }).catch(next);
     } else {
-      _comment.save().then(comment => {
+      Comment.createComment(_comment).then(comment => {
         res.success(comment, 201);
         Blog.increaseBlogCommentCount(blogId, 1);
       }).catch(next);

@@ -30,7 +30,7 @@ workController.route('/')
   .post(adminRequired, (req, res, next) => {
     const body = req.body;
     const _work = Object.assign(new Work(), body);
-    _work.save().then(work => {
+    Work.createWork(_work).then(work => {
       res.success(work, 201);
     }).catch(next);
   });
@@ -55,7 +55,7 @@ workController.route('/:workId')
     const body = req.body;
     Work.getWorkById(workId, true).then(work => {
       Object.assign(work, body);
-      return work.save();
+      return Work.updateWork(work);
     }).then(work => {
       res.success(work, 201);
     }).catch(next);

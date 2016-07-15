@@ -15,25 +15,31 @@ TagSchema.pre('save', function (next) {
 });
 
 TagSchema.statics = {
-  getAllTags: function () {
-    return cache.getSet('blogs:tags:all', () => {
-      return this.find({}).exec();
-    });
+  createTag: function (tag) {
+    cache.del('tags:all');
+    return tag.save();
   },
 
   getTagById: function (id, disableCache) {
-    return cache.getSet(`blogs:tags:${id}`, () => {
+    return cache.getSet(`tags:${id}`, () => {
       return this.findById(id).exec();
     }, disableCache);
   },
 
+  updateTag: function (tag) {
+    cache.del('tags:all');
+    cache.del(`tags:${tag._id}`);
+    return tag.save();
+  },
+
   removeTagById: function (id) {
-    cache.delMulti('blogs:tags:*');
+    cache.del('tags:all');
+    cache.del(`tags:${id}`);
     return this.remove({_id: id}).exec();
   },
 
   getTagsWithBlogCount: function () {
-    return cache.getSet(`blogs:tags:all:count`, () => {
+    return cache.getSet('tags:all', () => {
       return this.aggregate([
         { "$lookup": { "from": "blogs", "localField": "_id", "foreignField": "tags", "as": "blogs" }},
         { "$project": { "code": 1, "name": 1, "count": { "$size": "$blogs" }}}

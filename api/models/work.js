@@ -19,6 +19,11 @@ WorkSchema.pre('save', function (next) {
 
 
 WorkSchema.statics = {
+  createWork: function (work) {
+    cache.del('works:all');
+    return work.save();
+  },
+
   getAllWorks: function () {
     return cache.getSet('works:all', () => {
       return this.find({}).exec();
@@ -31,8 +36,15 @@ WorkSchema.statics = {
     }, disableCache);
   },
 
+  updateWork: function (work) {
+    cache.del('works:all');
+    cache.del(`works:${work._id}`);
+    return work.save();
+  },
+
   removeWorkById: function (id) {
-    cache.delMulti('works:*');
+    cache.del('works:all');
+    cache.del(`works:${id}`);
     return this.remove({_id: id}).exec();
   }
 };

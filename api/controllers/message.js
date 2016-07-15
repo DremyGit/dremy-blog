@@ -46,13 +46,13 @@ messageController.route('/')
       Comment.getCommentById(replyId).then(replyTo => {
         _message.reply_to = replyTo.toObject();
         _message.root_id = rootId = replyTo.root_id || replyId;
-        return _message.save()
+        return Comment.createMessage(_message);
       }).then(message => {
         res.success(message, 201);
         Comment.updateRootComment(rootId, message._id);
       }).catch(next);
     } else {
-      _message.save().then(message => {
+      Comment.createMessage(_message).then(message => {
         res.success(message, 201);
       }).catch(next);
     }
@@ -71,7 +71,7 @@ messageController.route('/:messageId')
    */
   .delete(adminRequired, (req, res, next) => {
     const messageId = req.params.messageId;
-    Comment.removeCommentById(messageId).then(() => {
+    Comment.removeMessageById(messageId).then(() => {
       res.success(null, 204);
     }).catch(next);
   });

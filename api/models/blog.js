@@ -45,6 +45,17 @@ BlogSchema.statics = {
     }, disableCache);
   },
 
+  createBlog: function (blog) {
+    cache.delMulti(`blogs:list:*`);
+    return blog.save();
+  },
+
+  updateBlog: function (blog) {
+    cache.del(`blogs:id:${blog._id}`);
+    cache.delMulti(`blogs:list:*`);
+    return blog.save();
+  },
+
   increaseBlogCommentCount: function (blogId, num) {
     cache.del(`blogs:id:${blogId}`);
     return this.update({_id: blogId}, {$inc: {comment_count: num}}).exec();
