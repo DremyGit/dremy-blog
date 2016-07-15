@@ -32,7 +32,7 @@ var paths = {
   ],
   karma: 'test/karma.conf.js',
   views: {
-    main: yeoman.app + '/index.html',
+    main: [yeoman.app + '/index.html', yeoman.app + '/login.html'],
     files: [yeoman.app + '/views/**/*.html']
   },
   jades: [yeoman.app + '/views/**/*.jade']

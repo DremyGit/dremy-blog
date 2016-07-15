@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>登录 | Dremy博客</title>
+    <!-- build:css(.) styles/vendor.css-->
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+    <!-- endbuild-->
+    <!-- build:css(.tmp) styles/main.css-->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild-->
+  </head>
+  <body>
+    <div class="header">
+      <div class="navbar navbar-default" role="navigation">
+        <div class="container">
+          <div class="navbar-header"><a class="navbar-brand" href="#/">Dremy 博客管理</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="panel panel-default">
+        <div class="panel-heading">登录</div>
+        <div class="panel-body">
+          <form id="form-login">
+            <div class="form-group">
+              <label class="control-label" for="username">账号</label>
+              <input class="form-control" id="username" name="username">
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="password">密码</label>
+              <input class="form-control" id="password" name="password" type="password">
+            </div>
+            <button class="btn btn-success" type="submit">登录</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+      var form = window.document.getElementById('form-login');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var xhr = new XMLHttpRequest({url: ''});
+        xhr.open('POST', '/api/authorization');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+          username: form.username.value,
+          password: form.password.value
+        }));
+        xhr.onload = function () {
+          var data = JSON.parse(xhr.responseText);
+          if (xhr.status >= 400) {
+            alert(data.message);
+            return;
+          }
+          if (data.token) {
+            sessionStorage.setItem('token', data.token);
+            window.location.href = "/#/"
+          }
+        }
+      })
+    </script>
+  </body>
+</html>

@@ -28,7 +28,8 @@ angular.module('managerApp').factory('AuthHandler', function ($q, $injector, Con
 
         case 400:
           if (/\/authorization/.test(rejection.config.url)) {
-            window.alert('密码输入错误,请刷新页面');
+            window.sessionStorage.removeItem('token');
+            window.location.href = '/login.html'
           }
           return $q.reject(rejection);
 

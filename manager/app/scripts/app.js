@@ -62,3 +62,6 @@ angular.module('managerApp')
     $httpProvider.interceptors.push('HttpErrorHandle');
     $httpProvider.interceptors.push('AuthHandler');
   });
+if (!sessionStorage.getItem('token')) {
+  window.location.href = '/login.html';
+}
