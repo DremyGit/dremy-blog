@@ -24,12 +24,11 @@ angular.module('managerApp').factory('AuthHandler', function ($q, $injector, Con
             var $http = $injector.get('$http');
             return $http(rejection.config);
           });
-          break;
 
         case 400:
           if (/\/authorization/.test(rejection.config.url)) {
             window.sessionStorage.removeItem('token');
-            window.location.href = '/login.html'
+            window.location.href = '/login.html';
           }
           return $q.reject(rejection);
 

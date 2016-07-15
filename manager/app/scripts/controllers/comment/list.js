@@ -9,7 +9,7 @@ angular.module('managerApp').controller('CommentListController', function (Comme
         Comment.delete({id: comment._id}).$promise.then(function () {
           Alert.show('删除评论成功');
           vm.comments = Comment.query();
-        })
+        });
       }
     });
   };

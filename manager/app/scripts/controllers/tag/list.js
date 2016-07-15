@@ -24,7 +24,7 @@ angular.module('managerApp').controller('TagListController',
         Tag.save({}, tag).$promise.then(function () {
           Alert.show('新建标签 ' + tag.name + ' 成功');
           refreshTags();
-        })
+        });
       });
     };
     vm.edit = function (tag) {
@@ -33,7 +33,7 @@ angular.module('managerApp').controller('TagListController',
         Tag.update({id: tag.code}, newTag).$promise.then(function () {
           Alert.show('修改标签成功');
           refreshTags();
-        })
+        });
       });
     };
     vm.delete = function (tag) {
@@ -42,7 +42,7 @@ angular.module('managerApp').controller('TagListController',
           Tag.delete({id: tag._id}).$promise.then(function () {
             Alert.show('删除标签成功');
             refreshTags();
-          })
+          });
         }
       });
     };

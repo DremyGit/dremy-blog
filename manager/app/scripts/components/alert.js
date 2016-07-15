@@ -14,7 +14,7 @@ angular.module('managerApp').service('Alert', function () {
   };
   this.getAlerts = function () {
     return self.alerts;
-  }
+  };
 }).controller('AlertController', function ($scope, Alert) {
   $scope.show = Alert.show;
   $scope.close = Alert.close;

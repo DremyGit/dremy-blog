@@ -9,7 +9,7 @@ angular.module('managerApp').controller('MessageListController', function (Messa
         Message.delete({id: message._id}).$promise.then(function () {
           Alert.show('删除留言成功');
           vm.comments = Message.query();
-        })
+        });
       }
     });
   };

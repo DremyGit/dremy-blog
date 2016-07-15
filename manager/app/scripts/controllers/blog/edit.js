@@ -33,12 +33,12 @@ angular.module('managerApp').controller('BlogEditController',
       if (blog._id) {
         Blog.update({blogName: blog._id}, data).$promise.then(function () {
           Alert.show('修改文章成功', 'success');
-          window.location.href = '#/blogs/' + blog.code
+          window.location.href = '#/blogs/' + blog.code;
         });
       } else {
         Blog.save(data).$promise.then(function () {
           Alert.show('新建文章成功', 'success');
-          window.location.href = '#/blogs/' + blog.code
+          window.location.href = '#/blogs/' + blog.code;
         });
       }
     };

@@ -24,7 +24,7 @@ angular.module('managerApp').controller('CategoryListController',
         Category.save({}, category).$promise.then(function () {
           Alert.show('新建分类 ' + category.name + ' 成功');
           refreshCategory();
-        })
+        });
       });
     };
     vm.edit = function (category) {
@@ -42,7 +42,7 @@ angular.module('managerApp').controller('CategoryListController',
           Category.delete({id: category._id}).$promise.then(function () {
             Alert.show('删除分类成功');
             refreshCategory();
-          })
+          });
         }
       });
     };
