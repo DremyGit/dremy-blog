@@ -32,7 +32,7 @@ CommentSchema.statics = {
 
   getAllComments: function () {
     return cache.getSet('comments:all:list', () => {
-      return this.find({blog: {$ne: null}}).exec();
+      return this.find({blog: {$ne: null}}).populate('blog', {title: 1, code: 1}).exec();
     });
   },
 
