@@ -2,5 +2,5 @@ uib-tabset
   uib-tab(index="0", heading="Markdown")
     textarea.form-control.md-input.md-markdown(id="input-{{field}}", ng-model="model[field]")
   uib-tab(index="1", heading="预览", ng-click="preview()")
-    .form-control.md-input.md-preview {{ html }}
+    .form-control.md-input.md-preview(ng-bind-html="html")
   button.btn.btn-success.pull-right(id="btn-upload-{{field}}", type="button") 上传图片

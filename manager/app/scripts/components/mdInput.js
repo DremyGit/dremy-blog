@@ -12,10 +12,11 @@ angular.module('managerApp').directive('mdInput', function () {
     controller: 'mdInputController'
   };
 });
-angular.module('managerApp').controller('mdInputController', function ($scope, $timeout, mdService, Configs) {
+angular.module('managerApp').controller('mdInputController', function ($scope, $timeout, $http, $sce, mdService, Configs) {
   var uploadOption = mdService.getUploadOption($scope.field, function (up, file, info) {
-    var uploadedUrl = Configs.UPLOAD_DOMAIN + '/' + JSON.parse(info).key;
-    var str = uploadedUrl;
+    var key = JSON.parse(info).key;
+    var uploadedUrl = Configs.UPLOAD_DOMAIN + '/' + key
+    var str = '![' + key + '](' + uploadedUrl + ')';
     var strPos = mdService.getCaretPos('input-' + $scope.field);
     var text = $scope.model[$scope.field] || '';
     $scope.model[$scope.field] = text.substring(0, strPos) + str + text.substring(strPos, text.length);
@@ -28,8 +29,14 @@ angular.module('managerApp').controller('mdInputController', function ($scope, $
     uploader = new window.QiniuJsSDK().uploader(uploadOption);
     console.log(uploader);
   }, 500);
+  function trustHtml(html) {
+    return $sce.trustAsHtml(html);
+  }
   $scope.preview = function () {
-    $scope.html = $scope.model[$scope.field];
+    $scope.html = trustHtml('');
+    $http.post(Configs.API_BASE + '/blogs/markdown', {markdown: $scope.model[$scope.field]}).then(function (res) {
+      $scope.html = trustHtml(res.data.html);
+    });
   };
 }).service('mdService', function (Configs) {
 
