@@ -8,6 +8,7 @@ const adminRequired = require('../middlewares/auth').adminRequired;
 const models = require('../models');
 const Blog =  models.Blog;
 const Comment = models.Comment;
+const marked = require('../common/markdown');
 const Tag = models.Tag;
 
 
@@ -40,6 +41,11 @@ blogController.route('/')
     }).catch(next);
   });
 
+blogController.post('/markdown', adminRequired, (req, res, next) => {
+  const markdown = req.body.markdown || '';
+  const html = marked(markdown);
+  res.success({html: html});
+});
 
 blogController.route('/:blogName')
   .all(assertAndSetId('blogName', Blog))

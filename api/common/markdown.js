@@ -5,7 +5,7 @@ const renderer = new marked.Renderer();
 
 renderer.heading = (text, level) => {
   const escape = text.toLowerCase().replace(/[^\u4e00-\u9fa50-9a-z]+/g, '-');
-  return `<h${level + 1} id="${escape}">${text}</h${level + 1}>`;
+  return `<h${level} id="${escape}">${text}</h${level}>`;
 };
 
 marked.setOptions({

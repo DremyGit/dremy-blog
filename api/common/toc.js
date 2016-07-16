@@ -1,11 +1,11 @@
 'use strict';
 
 const toc = (markdown) => {
-  const re = /^(#{1,5})\s+?(.*)/gm;
+  const re = /^(#{2,5})\s+?(.*)/gm;
   const _toc = [];
   let arr = [];
   let match;
-  let lastLevel = 0;
+  let lastLevel = 1;
   while ((match = re.exec(markdown)) != null ) {
     const level = match[1].length;
     const text = match[2];
@@ -18,7 +18,7 @@ const toc = (markdown) => {
     if (level > lastLevel + 1) {
       return [];
     }
-    if (level == 1) {
+    if (level == 2) {
       _toc.push(_tree);
     } else {
       for (let i = arr.length - 1; i >= 0; i--) {
