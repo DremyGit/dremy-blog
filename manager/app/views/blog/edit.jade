@@ -44,10 +44,12 @@ div
       input.form-control#time(name="created_at", type="dateTime", ng-model="vm.blog.create_at")
     .form-group
       label 概要
-      textarea.form-control#summary(name="markdown.summary", ng-model="vm.blog.markdown.summary")
+      //textarea.form-control#summary(name="markdown.summary", ng-model="vm.blog.markdown.summary")
+      md-input(model="vm.blog.markdown", field="summary")
     .form-group
       label 内容
-      textarea.form-control#body(name="markdown.body", ng-model="vm.blog.markdown.body")
+      //textarea.form-control#body(name="markdown.body", ng-model="vm.blog.markdown.body")
+      md-input(model="vm.blog.markdown", field="body")
     button.btn.btn-primary 提交
 
 

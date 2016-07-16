@@ -3,10 +3,15 @@ angular.module('managerApp').controller('BlogEditController',
   function ($stateParams, Blog, Category, Tag, Modal, Alert) {
     var vm = this;
     var blogName = $stateParams.blogName;
-    vm.blog = {};
+    vm.blog = {
+    };
     if (blogName) {
       vm.blog = Blog.get({blogName: blogName});
     }
+    if (!vm.blog.markdown) {
+      vm.blog.markdown = {};
+    }
+    vm.blog.markdown = window.easycopy(vm.blog.markdown, ['summary', 'body']);
     vm.categories = Category.query();
     vm.tags       = Tag.query();
 
