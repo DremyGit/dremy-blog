@@ -12,11 +12,13 @@ angular.module('managerApp').directive('mdInput', function () {
     controller: 'mdInputController'
   };
 });
-angular.module('managerApp').controller('mdInputController', function ($scope, $timeout, $http, $sce, mdService, Configs) {
+angular.module('managerApp').controller('mdInputController', function ($scope, $http, $sce, mdService, Configs) {
   var uploadOption = mdService.getUploadOption($scope.field, function (up, file, info) {
     var key = JSON.parse(info).key;
     var uploadedUrl = Configs.UPLOAD_DOMAIN + '/' + key
-    var str = '![' + key + '](' + uploadedUrl + ')';
+    var path = key.split('/');
+    var filename = path[path.length - 1];
+    var str = '![' + filename + '](' + uploadedUrl + ')\n';
     var strPos = mdService.getCaretPos('input-' + $scope.field);
     var text = $scope.model[$scope.field] || '';
     $scope.model[$scope.field] = text.substring(0, strPos) + str + text.substring(strPos, text.length);
@@ -24,11 +26,10 @@ angular.module('managerApp').controller('mdInputController', function ($scope, $
     mdService.setCaretPos('input-' + $scope.field, strPos + str.length);
   });
   var uploader;
-  $timeout(function () {
-    console.log(uploader);
+  $http.get(Configs.API_BASE + '/uptoken').then(function (res) {
+    uploadOption.uptoken = res.data.uptoken;
     uploader = new window.QiniuJsSDK().uploader(uploadOption);
-    console.log(uploader);
-  }, 500);
+  });
   function trustHtml(html) {
     return $sce.trustAsHtml(html);
   }
@@ -80,7 +81,6 @@ angular.module('managerApp').controller('mdInputController', function ($scope, $
     return {
       runtimes: 'html5,html4',
       browse_button: 'btn-upload-' + field,
-      uptoken_url: Configs.API_BASE + '/uptoken',
       get_new_uptoken: false,
       domain: Configs.UPLOAD_DOMAIN,
       max_retries: 3,
@@ -96,7 +96,10 @@ angular.module('managerApp').controller('mdInputController', function ($scope, $
           window.alert('上传失败\n' + err + '\n' + errTip);
         },
         Key: function(up, file) {
-          return Configs.UPLOAD_PREFIX + file.name + Configs.UPLOAD_SUFFIX;
+          var name = file.name.split('.');
+          var ext = '.' + name.splice(name.length - 1);
+          name = name.join('.');
+          return Configs.UPLOAD_PREFIX + name + new Date().getMilliseconds() + ext;
         }
       }
     };

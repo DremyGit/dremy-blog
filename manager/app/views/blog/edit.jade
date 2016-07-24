@@ -5,11 +5,8 @@ style.
   select.form-control {
     width: 200px;
   }
-  #summary {
-    min-height: 200px;
-  }
-  #body {
-    min-height: 400px;
+  #blog-edit {
+    padding-bottom: 200px;
   }
 div
   ol.breadcrumb
@@ -17,7 +14,7 @@ div
     li: a(href="#/blogs") 文章管理
     li.active 文章编辑
 
-div
+div#blog-edit
   form(ng-submit="vm.submit(vm.blog)")
     .form-group.form-group-sm
       label.control-label(for='title') 标题
