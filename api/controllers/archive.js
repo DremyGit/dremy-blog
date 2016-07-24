@@ -1,10 +1,11 @@
 'use strict';
-const archiveController = require('express').Router();
 const cache = require('../common/cache');
 const Blog = require('../models').Blog;
 const HttpError=require('some-http-error');
 
-archiveController.get('/', (req, res, next) => {
+const archiveController = {};
+
+archiveController.getArchives = (req, res, next) => {
   /**
    * @api {get} /archives Get archives
    * @apiName GetArchives
@@ -15,7 +16,7 @@ archiveController.get('/', (req, res, next) => {
     Blog.getBlogArchives().then(archives => {
       res.success(archives);
     }).catch(next);
-});
+};
 
 
 /**
@@ -27,7 +28,7 @@ archiveController.get('/', (req, res, next) => {
  * @apiParam {Number} month
  * @apiSuccess {Object[]} blogs
  */
-archiveController.get('/:year/:month/blogs', (req, res, next) => {
+archiveController.getBlogsByArchive = (req, res, next) => {
   const year = req.params.year;
   const month = req.params.month;
   cache.get('archives:'+year+':'+month, (err, archive) => {
@@ -45,6 +46,6 @@ archiveController.get('/:year/:month/blogs', (req, res, next) => {
       }).catch(next);
     }
   });
-});
+};
 
 module.exports = archiveController;

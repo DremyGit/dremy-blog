@@ -1,14 +1,23 @@
-const uploadController = require('express').Router();
-const privates = require('../config/private');
-const adminRequired = require('../middlewares/auth').adminRequired;
 const qiniu = require("qiniu");
 
-uploadController.get('/', (req, res, next) => {
-  qiniu.conf.ACCESS_KEY = privates.qiniu.ACCESS_KEY;
-  qiniu.conf.SECRET_KEY = privates.qiniu.SECRET_KEY;
+if (process.env.NODE_ENV !== 'test') {
+  var privates = require('../config/private');
+}
+
+const uploadController = {};
+
+/**
+ * @api {get} /uptoken Get Qiniu uptoken
+ * @apiName GetUpToken
+ * @apiGroup Upload
+ *
+ * @apiSuccess {String} uptoken Qiniu uptoken
+ */
+uploadController.getUptoken = (req, res, next) => {
+  qiniu.conf.ACCESS_KEY = privates && privates.qiniu.ACCESS_KEY || '';
+  qiniu.conf.SECRET_KEY = privates && privates.qiniu.SECRET_KEY || '';
   var bucket = 'dremy';
   res.success({uptoken: new qiniu.rs.PutPolicy(bucket).token()});
-  //res.success({uptoken: 'haha'})
-});
+};
 
 module.exports = uploadController;

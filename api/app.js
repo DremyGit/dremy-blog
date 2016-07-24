@@ -4,14 +4,14 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
 const middlewares = require('./middlewares');
-const router = require('./config/router');
+const controllers = require('./controllers');
 
 app.use(middlewares.responseJson);
 app.listen(config.port);
 app.use(bodyParser.json());
 app.use(middlewares.authorization);
 
-router(app);
+app.use(controllers);
 
 app.use(middlewares.errorHandling);
 
