@@ -1,5 +1,6 @@
 import { Map } from 'immutable'
 import {
+  FETCH_BLOG_FETCHING,
   FETCH_ALL_BLOG_FETCHING,
   FETCH_ALL_BLOG_SUCCESS,
   FETCH_ALL_BLOG_FAIL
@@ -7,6 +8,9 @@ import {
 
 const status = (state = Map(), action = {}) => {
   switch (action.type) {
+    case FETCH_BLOG_FETCHING:
+      console.log('FETCH_BLOG_FETCHING');
+      return state;
     case FETCH_ALL_BLOG_FETCHING:
       console.log('FETCH_ALL_BLOG_FETCHING');
       return state.merge({

@@ -37,7 +37,11 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <div>
-          <Router history={history} routes={routeConfig} />
+          <Router
+            onUpdate={() => window.scrollTo(0, 0)}
+            history={history}
+            routes={routeConfig}
+          />
           <DevTools />
         </div>
       </Provider>
