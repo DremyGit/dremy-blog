@@ -23,6 +23,7 @@ const routeConfig = [
     indexRoute: { component: BlogsPage },
     childRoutes: [
       {path: 'blog', component: BlogsPage },
+      {path: 'blog/p/:pageNum', component: BlogsPage},
       {path: 'blog/:blogName', component: BlogPage},
       {path: 'tag', component: TagPage },
       {path: 'category', component: CategoryPage },

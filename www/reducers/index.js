@@ -4,11 +4,13 @@ import blogs from './blogs';
 import tags from './tags';
 import categories from './categories';
 import status from './status';
+import pager from './pager'
 
 export default combineReducers({
   routing: routerReducer,
-  blogs: blogs,
-  tags: tags,
-  categories: categories,
-  status: status
+  blogs,
+  tags,
+  categories,
+  status,
+  pager
 });

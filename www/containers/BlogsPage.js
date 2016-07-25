@@ -16,22 +16,39 @@ class BlogPage extends React.Component {
     dispatch(fetchBlogListIfNeed());
   }
   render() {
-    const { blogs, tags, categories, status } = this.props;
+    const { blogs, tags, categories, status, pager, params } = this.props;
     if (status.get('fetching')) {
       return <div>Loading</div>;
     }
     if (!status.get('fetched')) {
       return <div>Error</div>;
     }
-    const blogList = blogs.keySeq();
+
+    const page = params.pageNum || 1;
+    const size = pager.getIn(['blog', 'size']);
+    const blogList = pager.getIn(['blog', 'list']);
+    const showBlogs = blogList
+                      .toSeq()
+                      .skip((page - 1) * size)
+                      .take(size);
+
     return (
       <div>
-        {blogList.map(blogId =>
-          <BlogItem
-            key={blogId}
-            blog={blogs.get(blogId)}
-            category={categories.get(blogs.getIn([blogId, 'category']))} />
-        )}
+        <div>
+          {showBlogs.map(blogId =>
+            <BlogItem
+              key={blogId}
+              blog={blogs.get(blogId)}
+              category={categories.get(blogs.getIn([blogId, 'category']))} />
+          )}
+        </div>
+        <div>
+          第{ page }页
+          {' '}
+          <Link to={'/blog/p/' + (+page + 1)}>下一页</Link>
+          {' '}
+          共{ Math.round(blogList.size / size) }页
+        </div>
       </div>
     );
   }
