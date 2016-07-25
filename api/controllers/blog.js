@@ -53,8 +53,12 @@ blogController.markdown = (req, res, next) => {
  */
 blogController.getBlogById = (req, res, next) => {
   const blogId = req.params.blogId;
-  Blog.getBlogById(blogId).then(blog => {
-    res.success(blog)
+  Promise.resolve(req.auth.isAuth).then(isAuth => {
+    return isAuth
+            ? Blog.getBlogByIdAdmin(blogId)
+            : Blog.getBlogById(blogId);
+  }).then(blog => {
+    res.success(blog);
   }).catch(next);
 };
 

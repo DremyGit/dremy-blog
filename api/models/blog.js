@@ -36,13 +36,18 @@ BlogSchema.pre('save', function(next) {
 BlogSchema.statics = {
   getBlogsByQuery: function (query, opt) {
     return cache.getSet(`blogs:list:${JSON.stringify(query)}:${JSON.stringify(opt)}`, () => {
-      return this.find(query, {}, opt).populate(['category', 'tags']).exec();
+      return this.find(query, {'markdown': 0, 'html.body': 0, 'toc': 0}, opt).populate(['category', 'tags']).exec();
     });
   },
   getBlogById: function (id, disableCache) {
     return cache.getSet(`blogs:id:${id}`, () => {
-      return this.findById(id).exec();
+      return this.findById(id, {'markdown': 0}).populate(['category', 'tags']).exec();
     }, disableCache);
+  },
+  getBlogByIdAdmin: function (id, disableCache) {
+    return cache.getSet(`blogs:id:${id}:admin`, () => {
+      return this.findById(id).exec();
+    })
   },
 
   createBlog: function (blog) {
@@ -51,7 +56,7 @@ BlogSchema.statics = {
   },
 
   updateBlog: function (blog) {
-    cache.del(`blogs:id:${blog._id}`);
+    cache.delMulti(`blogs:id:${blog._id}*`);
     cache.delMulti(`blogs:list:*`);
     return blog.save();
   },
@@ -62,7 +67,7 @@ BlogSchema.statics = {
   },
 
   removeById: function(id) {
-    cache.del(`blogs:id:${id}`);
+    cache.delMulti(`blogs:id:${id}*`);
     cache.delMulti(`blogs:list:*`);
     return this.remove({_id: id}).exec();
   },
