@@ -4,6 +4,7 @@
   "description": "The web for my blog",
   "main": "index.js",
   "scripts": {
+    "start": "node dev-server.js",
     "build": "webpack --config webpack.config.production.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,6 +20,7 @@
   "homepage": "https://github.com/DremyGit/dremy-blog#readme",
   "dependencies": {
     "babel-polyfill": "^6.8.0",
+    "express": "^4.14.0",
     "font-awesome": "^4.6.1",
     "history": "^2.1.1",
     "immutable": "^3.8.1",
