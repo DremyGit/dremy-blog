@@ -1,0 +1,43 @@
+.pager {
+  margin: 40px 0;
+  height: 30px;
+}
+.wrap {
+  float: left;
+  position: relative;
+  left: 50%;
+}
+.numberGroup {
+  float: left;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  left: -50%;
+
+  li {
+    margin: 0 10px;
+    display: inline-block;
+
+    &.active,
+    &:hover {
+      background-color: #888;
+      a {
+        color: #fff;
+      }
+    }
+
+    a {
+      display: block;
+      padding: 6px 10px;
+    }
+  }
+}
+
+.linkPrev {
+  position: absolute;
+  line-height: 30px;
+}
+.linkNext {
+  float: right;
+  line-height: 30px;
+}

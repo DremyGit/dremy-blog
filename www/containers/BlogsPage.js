@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import BlogItem from '../components/BlogItem/BlogItem';
+import Pager from '../components/Pager/Pager';
 import { connect } from 'react-redux';
 import {
   fetchBlogListIfNeed
@@ -24,7 +25,7 @@ class BlogPage extends React.Component {
       return <div>Error</div>;
     }
 
-    const page = params.pageNum || 1;
+    const page = +params.pageNum || 1;
     const size = pager.getIn(['blog', 'size']);
     const blogList = pager.getIn(['blog', 'list']);
     const showBlogs = blogList
@@ -42,13 +43,7 @@ class BlogPage extends React.Component {
               category={categories.get(blogs.getIn([blogId, 'category']))} />
           )}
         </div>
-        <div>
-          第{ page }页
-          {' '}
-          <Link to={'/blog/p/' + (+page + 1)}>下一页</Link>
-          {' '}
-          共{ Math.round(blogList.size / size) }页
-        </div>
+        <Pager totalNum={blogList.size} currentPage={page} perPage={3} showPage={3} baseUrl="/blog/p" />
       </div>
     );
   }

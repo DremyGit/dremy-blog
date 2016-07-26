@@ -53,14 +53,7 @@ function fetchBlogListFail(error) {
 }
 
 function shouldFetchBlogs(state) {
-  console.log(state);
-  const status = state.status;
-  console.log(status.get('fetched') , status.get('fetching'));
-  if (status.get('fetched') || status.get('fetching')) {
-    return false
-  } else {
-    return true
-  }
+  return !(state.blogs && state.blogs.size);
 }
 
 export const fetchBlogListIfNeed = () => {
