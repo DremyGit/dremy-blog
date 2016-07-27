@@ -13,16 +13,16 @@ export default function configureStore(initialState) {
   )(createStore)(reducer, initialState);
 
   if (module.hot) {
-    module.hot.accept('../reducers/blogs.js', () => {
-      const nextRootReducer = require('../reducers/blogs.js');
+    module.hot.accept('../reducers/blog.js', () => {
+      const nextRootReducer = require('../reducers/blog.js');
       store.replaceReducer(nextRootReducer)
     });
-    module.hot.accept('../reducers/tags.js', () => {
-      const nextRootReducer = require('../reducers/tags.js');
+    module.hot.accept('../reducers/tag.js', () => {
+      const nextRootReducer = require('../reducers/tag.js');
       store.replaceReducer(nextRootReducer)
     })
-    module.hot.accept('../reducers/categories.js', () => {
-      const nextRootReducer = require('../reducers/categories.js');
+    module.hot.accept('../reducers/category.js', () => {
+      const nextRootReducer = require('../reducers/category.js');
       store.replaceReducer(nextRootReducer)
     })
   }

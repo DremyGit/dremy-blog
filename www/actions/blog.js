@@ -9,7 +9,7 @@ import {
 
 import { normalize, arrayOf} from 'normalizr'
 import { blogSchema } from '../reducers/schema';
-import 'isomorphic-fetch'
+import { getData } from '../helpers/fetchUtils';
 
 function fetchBlogFetching(name) {
   return {
@@ -53,19 +53,18 @@ function fetchBlogListFail(error) {
 }
 
 function shouldFetchBlogs(state) {
-  return !(state.blogs && state.blogs.size);
+  //return !(state.get('blogs') && state.get('blogs').size);
+  return !state.getIn(['blog', 'isFetched']);
 }
 
 export const fetchBlogListIfNeed = () => {
   return (dispatch, getState) => {
     if (shouldFetchBlogs(getState())) {
       dispatch(fetchBlogList());
-      return fetch('/api/blogs')
-        .then(res => res.json())
-        .then(res => {
-          res = normalize(res, arrayOf(blogSchema));
-          dispatch(fetchBlogListSuccess(res))
-        }).catch(fetchBlogListFail);
+      return getData('/blogs').then(data => {
+        data = normalize(data, arrayOf(blogSchema));
+        return dispatch(fetchBlogListSuccess(data))
+      });
     } else {
       return Promise.resolve();
     }
@@ -73,19 +72,18 @@ export const fetchBlogListIfNeed = () => {
 };
 
 function shouldFetchBlog(blogId, state) {
-  return !(state.blogs && state.blogs.getIn([blogId, 'html', 'body']));
+  return !(state.getIn(['blog', 'entities', blogId, 'html', 'body']));
 }
 
-export const fetchBlogIfNeed = (blogId) => {
+export const fetchBlogIfNeed = (params) => {
+  const blogId = params.blogName;
   return (dispatch, getState) => {
     if (shouldFetchBlog(blogId, getState())) {
       dispatch(fetchBlogFetching(blogId));
-      return fetch(`/api/blogs/${blogId}`)
-        .then(res => res.json())
-        .then(res => {
-          res = normalize(res, blogSchema);
-          dispatch(fetchBlogSuccess(res));
-        }).catch(fetchBlogFailed)
+      return getData(`/blogs/${blogId}`).then(data => {
+        data = normalize(data, blogSchema);
+        return dispatch(fetchBlogSuccess(data));
+      });
     } else {
       return Promise.resolve();
     }

@@ -22,8 +22,6 @@ class Pager extends React.Component {
     if (showObj.end > totalPage) {
       showObj.end = totalPage;
     }
-    console.log(showObj);
-    console.log('totalPage', totalPage);
     for (var i = showObj.start; i <= showObj.end; i++) {
       pageNumber.push(
         <li key={i} styleName={i === currentPage ? 'active' : null}>

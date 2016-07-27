@@ -1,9 +1,9 @@
 import { Schema, arrayOf } from 'normalizr';
 
 
-const blogSchema = new Schema('blogs', { idAttribute: 'code' });
-const tagSchema = new Schema('tags',  { idAttribute: 'code' });
-const categorySchema = new Schema('categories',  { idAttribute: 'code' });
+const blogSchema = new Schema('blog', { idAttribute: 'code' });
+const tagSchema = new Schema('tag',  { idAttribute: 'code' });
+const categorySchema = new Schema('category',  { idAttribute: 'code' });
 
 blogSchema.define({
   category: categorySchema,

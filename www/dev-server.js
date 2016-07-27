@@ -52,5 +52,5 @@ server.listen(port, 'localhost', function (err, result) {
   if (err) {
     console.log(err);
   }
-  console.log('Listening at localhost:' + port);
+  console.info('DevServer runnint at localhost: %d', port);
 });
