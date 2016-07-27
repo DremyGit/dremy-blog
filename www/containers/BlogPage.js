@@ -5,7 +5,11 @@ import { connect } from 'react-redux';
 import { fetchBlogIfNeed, fetchBlogListIfNeed } from '../actions/blog'
 import 'isomorphic-fetch';
 
-@connect(state => state)
+@connect(state => ({
+  blogs: state.get('blogs'),
+  categories: state.get('categories'),
+  status: state.get('status')
+}))
 export default class Blog extends React.Component {
 
   componentWillMount() {

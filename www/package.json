@@ -4,7 +4,8 @@
   "description": "The web for my blog",
   "main": "index.js",
   "scripts": {
-    "start": "node dev-server.js",
+    "start": "node bin/server.js",
+    "dev": "node dev-server.js",
     "build": "webpack --config webpack.config.production.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,21 +21,27 @@
   "homepage": "https://github.com/DremyGit/dremy-blog#readme",
   "dependencies": {
     "babel-polyfill": "^6.8.0",
+    "babel-register": "^6.11.5",
     "express": "^4.14.0",
     "font-awesome": "^4.6.1",
     "history": "^2.1.1",
+    "http-proxy-middleware": "^0.17.0",
     "immutable": "^3.8.1",
     "isomorphic-fetch": "^2.2.1",
     "normalizr": "^2.1.0",
+    "piping": "^1.0.0-rc.3",
     "react": "^15.0.2",
     "react-css-modules": "^3.7.6",
     "react-dom": "^15.0.2",
+    "react-helmet": "^3.1.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.4.0",
     "react-router-redux": "^4.0.4",
     "redux": "^3.5.2",
+    "redux-immutable": "^3.0.6",
     "redux-router": "^1.0.0-beta8",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "webpack-isomorphic-tools": "^2.5.0"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",

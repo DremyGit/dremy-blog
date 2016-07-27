@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import CSSModules from 'react-css-modules';
 import styles from './Navigation.scss';
 
-@connect(state => state)
+@connect(state => ({}))
 @CSSModules(styles)
 class Navigation extends React.Component {
   isActiveMenu(menu) {

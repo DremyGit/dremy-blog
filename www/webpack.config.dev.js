@@ -1,23 +1,32 @@
 const path = require('path');
 const webpack = require('webpack');
+const assetPath = path.join(__dirname, './static/dist');
+
+var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
+var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack.isomorphic-tools'));
 
 module.exports = {
+  context: path.resolve(__dirname, '.'),
   devtool: 'cheap-module-eval-source-map',
   entry: [
-    'webpack-dev-server/client?http://localhost:3000',
+    'webpack-dev-server/client?http://localhost:3001',
     'webpack/hot/only-dev-server',
     './client'
   ],
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: '/static/'
+    path: assetPath,
+    filename: '[name]-[hash].js',
+    chunkFilename: '[name]-[chunkhash].js',
+    //filename: 'bundle.js',
+    //publicPath: '/static/'
+    publicPath: 'http://localhost:3001/dist/'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"development"'
-    })
+    }),
+    webpackIsomorphicToolsPlugin.development()
   ],
   module: {
     loaders: [
