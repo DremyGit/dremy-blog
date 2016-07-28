@@ -1,35 +1,33 @@
 import React from 'react';
 import { Link } from 'react-router';
 import ArticleBody from '../Article/ArticleBody';
+import ArticleHead from '../Article/ArticleHead'
 import CSSModules from 'react-css-modules';
 import styles from './BlogItem.scss';
 import { timeFormat } from '../../utils/time.js'
 
 
 class BlogItem extends React.Component {
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.blog !== this.props.blog
+        || nextProps.category !== this.props.category;
+  }
+
   render () {
     const { blog, category } = this.props;
-    const _blog = blog.toJS();
     return (
       <div styleName="blogItem">
-        <h1 styleName="title"><Link to={'/blog/' + _blog.code}>{_blog.title}</Link></h1>
-        <div styleName="info">
-          <i className="fa fa-book" aria-hidden="true" />
-          {' '}
-          <Link to={'/' + category.code}>
-            {category.name}
-          </Link>
-          {' | '}
-          <i className="fa fa-calendar" aria-hidden="true" />
-          {' '} {timeFormat(new Date(_blog.create_at))} {' | '}
-          <i className="fa fa-commenting" aria-hidden="true" />
-          {' '} {_blog.comment_count}
-        </div>
+        <ArticleHead
+          blog={blog}
+          category={category}
+          center={false}
+        />
+        <ArticleBody
+          html={blog.getIn(['html', 'summary'])}
+        />
         <div>
-          <ArticleBody html={_blog.html.summary} />
-        </div>
-        <div>
-          <Link to={'/blog/' + _blog.code}>阅读全文</Link>
+          <Link to={`/blog/${blog.get('code')}`}>查看全文</Link>
         </div>
       </div>
     )
