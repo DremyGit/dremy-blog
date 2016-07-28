@@ -1,9 +1,25 @@
 .main {
   width: 100%;
   margin: 0 auto;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;;
   padding: 0 10px;
   max-width: 800px;
+  position: relative;
+
+
+}
+.enter {
+  width: 100%;
+  transform: translateY(50px);
+  opacity: 0;
+}
+.enterActive {
+  transition:
+    transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 1.0s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transform: translateY(0);
+  opacity: 1;
+}
+.leave {
+  display: none;
 }
