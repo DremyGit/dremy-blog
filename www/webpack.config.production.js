@@ -1,28 +1,42 @@
 var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var path = require('path');
+var CleanPlugin = require('clean-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
+var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack.isomorphic-tools'));
+
+const rootPath = path.resolve(__dirname, '.');
+const assetsPath = path.join(rootPath, 'dist');
 
 module.exports = {
-  entry: [
-    './client'
-  ],
+  context: rootPath,
+  entry: {
+    bundle: './client'
+  },
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    path: assetsPath,
+    filename: '[name]-[hash].js',
+    chunkFilename: '[name]-[chunkhash].js',
     publicPath: '/static/'
   },
   plugins: [
-    new ExtractTextPlugin("style.css"),
+    new CleanPlugin([assetsPath], { root:  rootPath}),
+    new ExtractTextPlugin('[name]-[chunkhash].css', {allChunks: true}),
     new webpack.DefinePlugin({
       "process.env": {
-        NODE_ENV: JSON.stringify("production")
-      }
+        NODE_ENV: '"production"'
+      },
+      __CLIENT__: true,
+      __SERVER__: false,
+      __DEVELOPMENT__: false,
+      __DEVTOOLS__: false
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
       }
-    })
+    }),
+    webpackIsomorphicToolsPlugin
   ],
   module: {
     loaders: [
@@ -37,12 +51,12 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style','css?modules&localIdentName=[local]_[hash:base64:5]!sass!autoprefixer?{browsers:["> 5%"]}'),
+        loader: ExtractTextPlugin.extract('style','css?modules&localIdentName=[hash:base64:5]!sass!autoprefixer?{browsers:["> 5%"]}'),
         exclude: /node_modules/
       },
       {
         test: /\.(jpe?g|png)$/,
-        loader: 'url?limit=4096',
+        loader: 'url?limit=8192',
         exclude: /node_modules/
       },
       {
@@ -59,7 +73,7 @@ module.exports = {
         loader: "file"
       }, {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "url?limit=10000&mimetype=image/svg+xml"
+        loader: "url?limit=8192&mimetype=image/svg+xml"
       }
     ]
   },

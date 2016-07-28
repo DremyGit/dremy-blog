@@ -20,6 +20,7 @@ require('babel-register')(config);
 global.__CLIENT__ = false;
 global.__SERVER__ = true;
 global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
+global.__DEVTOOLS__ = __DEVELOPMENT__;
 
 if (__DEVELOPMENT__) {
   if (!require('piping')({

@@ -29,7 +29,7 @@ render(
         history={history}
         routes={routes}
       />
-      <DevTools />
+      { __DEVTOOLS__ ? <DevTools /> : null}
     </div>
   </Provider>,
   document.getElementById('app')

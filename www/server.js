@@ -13,8 +13,6 @@ import { dispatchFetches } from './helpers/fetchUtils';
 
 import Html from './helpers/Html';
 
-
-
 const app = Express();
 const port = 3000;
 app.use('/api', proxy({
@@ -23,8 +21,7 @@ app.use('/api', proxy({
     '^/api': ''
   }
 }));
-// 每当收到请求时都会触发
-//app.use('/static', Express.static(path.join(__dirname, 'dist')));
+app.use('/static', Express.static(path.join(__dirname, 'dist')));
 app.use(handleRender);
 
 function handleRender(req, res) {
@@ -56,7 +53,10 @@ function handleRender(req, res) {
           </Provider>
         );
         res.send('<!doctype html>\n' +
-          renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store}/>).replace(/ data-reactid="(.*?)"/g, ''));
+          renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store}/>)
+            .replace(/ data-reactid="(.*?)"/g, '')
+            .replace(/<!--\s*\/?react.*?-->/g, '')
+        );
       }).catch(err => {
         console.error(err);
         if (__DEVELOPMENT__) {
@@ -67,31 +67,7 @@ function handleRender(req, res) {
     } else {
       res.status(404).send('Not found')
     }
-
-
-
-
-
   })
-}
-
-
-function renderFullPage(html, initialState) {
-  return `
-    <!doctype html>
-    <html>
-      <head>
-        <title>Redux Universal Example</title>
-      </head>
-      <body>
-        <div id="root">${html}</div>
-        <script>
-          window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
-        </script>
-        <script src="/static/bundle.js"></script>
-      </body>
-    </html>
-    `
 }
 
 app.listen(port, function () {

@@ -4,8 +4,10 @@
   "description": "The web for my blog",
   "main": "index.js",
   "scripts": {
-    "start": "node bin/server.js",
-    "dev": "concurrent --kill-others \"node dev-server\" \"node bin/server\"",
+    "start": "npm run start-prod",
+    "start-dev": "concurrent --kill-others \"node dev-server\" \"node bin/server\"",
+    "start-prod": "concurrent --kill-others \"npm run build\" \"npm run prod-server\"",
+    "prod-server": "NODE_ENV=production node bin/server",
     "build": "webpack --config webpack.config.production.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,6 +24,7 @@
   "dependencies": {
     "babel-polyfill": "^6.8.0",
     "babel-register": "^6.11.5",
+    "clean-webpack-plugin": "^0.1.10",
     "concurrently": "^2.2.0",
     "express": "^4.14.0",
     "font-awesome": "^4.6.1",
