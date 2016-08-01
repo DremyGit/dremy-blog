@@ -4,6 +4,7 @@ var CleanPlugin = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack.isomorphic-tools'));
+var config = require('./config');
 
 const rootPath = path.resolve(__dirname, '.');
 const assetsPath = path.join(rootPath, 'dist');
@@ -17,10 +18,10 @@ module.exports = {
     path: assetsPath,
     filename: '[name]-[hash].js',
     chunkFilename: '[name]-[chunkhash].js',
-    publicPath: '/static/'
+    publicPath: config.staticHost + config.staticPath + '/'
   },
   plugins: [
-    new CleanPlugin([assetsPath], { root:  rootPath}),
+    new CleanPlugin([assetsPath, rootPath + '/webpack-assets.json'], { root:  rootPath}),
     new ExtractTextPlugin('[name]-[chunkhash].css', {allChunks: true}),
     new webpack.DefinePlugin({
       "process.env": {

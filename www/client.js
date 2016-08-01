@@ -9,7 +9,8 @@ import configureStore from './stores';
 import routes from './constants/routes'
 import DevTools from './containers/ReduxDevTools.js';
 import { syncHistoryWithStore } from 'react-router-redux'
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, browserHistory } from 'react-router';
+import { dispatchFetches } from './helpers/fetchUtils';
 
 // 通过服务端注入的全局变量得到初始 state
 const initialState = fromJS(window.__INITIAL_STATE__);

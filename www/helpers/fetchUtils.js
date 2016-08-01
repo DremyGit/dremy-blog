@@ -1,7 +1,18 @@
-import 'isomorphic-fetch'
+import 'isomorphic-fetch';
+import config from '../config';
 
 export const getData = (url) => {
-  return fetch(`http://localhost:3000/api${url}`).then(res => {
+  var basePath;
+  if (__SERVER__) {
+    basePath = config.apiProxyUrl;
+  }
+
+  if (__CLIENT__) {
+    basePath = config.apiWebUrl;
+  }
+
+
+  return fetch(`${basePath}${url}`).then(res => {
     if (res.status !== 200) {
       return res.text().then(body => {
         throw new Error(body);

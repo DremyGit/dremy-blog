@@ -10,18 +10,19 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import { match, RouterContext, createMemoryHistory } from 'react-router'
 import routes from './constants/routes'
 import { dispatchFetches } from './helpers/fetchUtils';
+import config from './config';
 
 import Html from './helpers/Html';
 
 const app = Express();
-const port = 3000;
+const port = config.serverPort;
 app.use('/api', proxy({
-  target: 'http://localhost:5760',
+  target: config.apiProxyUrl,
   pathRewrite: {
     '^/api': ''
   }
 }));
-app.use('/static', Express.static(path.join(__dirname, 'dist')));
+app.use(config.staticPath, Express.static(path.join(__dirname, 'dist')));
 app.use(handleRender);
 
 function handleRender(req, res) {

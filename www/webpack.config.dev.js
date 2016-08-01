@@ -4,12 +4,13 @@ const assetPath = path.join(__dirname, './static/dist');
 
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack.isomorphic-tools'));
+var devPort = require('./config').serverPort + 1;
 
 module.exports = {
   context: path.resolve(__dirname, '.'),
   devtool: 'cheap-module-eval-source-map',
   entry: [
-    'webpack-dev-server/client?http://localhost:3001',
+    'webpack-dev-server/client?http://localhost:' + devPort,
     'webpack/hot/only-dev-server',
     './client'
   ],
@@ -19,7 +20,7 @@ module.exports = {
     chunkFilename: '[name]-[chunkhash].js',
     //filename: 'bundle.js',
     //publicPath: '/static/'
-    publicPath: 'http://localhost:3001/dist/'
+    publicPath: 'http://localhost:' + devPort +'/static/'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
