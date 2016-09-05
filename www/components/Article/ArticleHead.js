@@ -12,12 +12,20 @@ class ArticleHead extends React.Component {
         || nextProps.category !== this.props.category
   }
   render () {
-    const { blog, category, center } = this.props;
+    const { blog, category, center, link, marginTop, marginBottom } = this.props;
     const _blog = blog.toJS();
     const _category = category.toJS();
     return (
-      <div styleName={center ? 'center' : null}>
-        <h1 styleName="title"><Link to={`/blog/${_blog.code}`}>{_blog.title}</Link></h1>
+      <div
+        className={styles.header}
+        styleName={center ? 'center' : null}
+        style={{marginTop, marginBottom }}>
+        <h1 styleName="title">
+          { link ?
+            <Link to={`/blog/${_blog.code}`}>{_blog.title}</Link> :
+            _blog.title
+          }
+        </h1>
         <div styleName="info">
           <i className="fa fa-book" />
           {' '}
@@ -38,6 +46,9 @@ class ArticleHead extends React.Component {
 ArticleHead.propTypes = {
   blog: React.PropTypes.object.isRequired,
   category: React.PropTypes.object.isRequired,
-  center: React.PropTypes.bool
+  center: React.PropTypes.bool,
+  link: React.PropTypes.bool,
+  marginTop: React.PropTypes.number,
+  marginBottom: React.PropTypes.number
 };
 export default CSSModules(ArticleHead, styles);

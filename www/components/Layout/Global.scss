@@ -10,8 +10,10 @@ html {
 }
 
 a,
-a:hover,
 a:visited {
   text-decoration: none;
-  color: #555;
+  color: #666;
+}
+a:hover {
+  color: #999;
 }

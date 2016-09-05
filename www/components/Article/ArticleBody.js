@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import styles from './ArticleBody.scss';
-import '../assets/highlightjs/solarized-light.css';
+import '../../assets/highlightjs/solarized-light.css';
 
 class ArticleBody extends React.Component {
   shouldComponentUpdate(nextProps) {
@@ -9,10 +9,10 @@ class ArticleBody extends React.Component {
   }
   componentDidMount() {
     //console.log(this.refs.div);
-    this.refs.article.querySelectorAll('pre > code').forEach(element => {
-      console.log(element);
-      hljs.highlightBlock(element);
-    })
+    const codeAreas = this.refs.article.querySelectorAll('pre > code:not(.hljs)');
+    for (let i = 0; i < codeAreas.length; i++) {
+      hljs.highlightBlock(codeAreas[i]);
+    }
   }
   render() {
     return (

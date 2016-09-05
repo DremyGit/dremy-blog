@@ -1,17 +1,20 @@
+.header {
+  margin: 30px 10px;
+}
+
 .title {
   margin: 10px 0;
-
-  > a {
-    display: inline;
-    font-size: 24px;
-    font-weight: normal;
-  }
+  color: #333;
+  font-size: 24px;
+  font-weight: normal;
 }
 .info {
   color: #888;
   font-size: 12px;
 }
 
-.center {
-  text-align: center;
+@media (min-width: 768px) {
+  .center {
+    text-align: center;
+  }
 }

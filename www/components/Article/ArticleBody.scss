@@ -2,10 +2,11 @@
 
   font-size: 16px;
 
-  > p {
+  > p,
+  > blockquote > p {
 
-    line-height: 1.6;
-    margin: 10px 0;
+    line-height: 2.0;
+    margin: 20px 10px;
 
     > img {
       display: block;
@@ -14,19 +15,76 @@
     }
   }
 
-  > ul, ol {
+  > blockquote {
+    border-left: #bbb 6px solid;
+    margin: 20px 10px;
+    padding: 10px 10px 10px 30px;
+    background-color: #f3f3f3;
+  }
+
+  ul, ol {
     padding-left: 30px;
     > li {
-      margin: 10px;
+      line-height: 1.6;
+      margin: 5px 0 5px 3px;
+
+      > p {
+        margin: 0;
+      }
     }
   }
 
-  > pre > code {
+  code {
     font-size: 14px;
-    padding: 20px;
-    border-radius: 8px;
     font-family: 'Source Code Pro', monospace;
-    line-height: 1.5;
+    background-color: #f3f3f3;
+    padding: 4px;
+    border-radius: 8px;
   }
 
+  > pre {
+    margin: 20px 0;
+    display: block;
+    overflow-x: auto;
+
+    > code {
+      padding: 20px 20px 10px 20px;
+      border-radius: 8px;
+      font-family: 'Source Code Pro', monospace;
+      line-height: 1.5;
+    }
+  }
+
+  a {
+    font-size: 90%;
+    border-bottom: 1px dashed #666;
+    position: relative;
+    top: -1px;
+    padding-bottom: 1px;
+    margin: 0 2px;
+  }
+
+  > h1 {
+    color: #222;
+    font-size: 26px;
+    margin: 50px 10px 20px 10px;
+  }
+
+  > h2 {
+    color: #222;
+    font-size: 24px;
+    margin: 50px 10px 20px 10px;
+  }
+
+  > h3 {
+    color: #222;
+    font-size: 20px;
+    margin: 30px 10px 20px 10px;
+  }
+
+  > h4 {
+    color: #222;
+    font-size: 18px;
+    margin: 25px 10px 20px 10px;
+  }
 }

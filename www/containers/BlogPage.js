@@ -1,6 +1,5 @@
 import React from 'react';
-import ArticleBody from '../components/Article/ArticleBody';
-import ArticleHead from '../components/Article/ArticleHead';
+import Article from '../components/Article/Article';
 import { connect } from 'react-redux';
 import { fetchBlogIfNeed } from '../actions/blog'
 import { dispatchFetch } from '../helpers/fetchUtils'
@@ -30,8 +29,7 @@ export default class Blog extends React.Component {
     const category = categoryEntities.get(blog.get('category'));
     return (
       <div>
-        <ArticleHead blog={blog} category={category} center={true} />
-        <ArticleBody html={blog.getIn(['html', 'body'])} />
+        <Article blog={blog} category={category} />
       </div>
     )
   }

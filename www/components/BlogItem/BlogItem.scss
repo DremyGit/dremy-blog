@@ -1,5 +1,6 @@
 .blogItem {
-  margin-top: 100px;
+  margin-top: 60px;
+  margin-bottom: 80px;
 }
 .title {
   margin: 10px 0;
@@ -13,4 +14,13 @@
 .info {
   color: #888;
   font-size: 12px;
+}
+.look {
+
+  > a {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 16px;
+    border-bottom: 1px dashed #666;
+  }
 }

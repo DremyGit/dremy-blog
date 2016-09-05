@@ -22,12 +22,13 @@ class BlogItem extends React.Component {
           blog={blog}
           category={category}
           center={false}
+          link={true}
         />
         <ArticleBody
           html={blog.getIn(['html', 'summary'])}
         />
-        <div>
-          <Link to={`/blog/${blog.get('code')}`}>查看全文</Link>
+        <div styleName="look">
+          <Link to={`/blog/${blog.get('code')}`}>查看全文 &gt;</Link>
         </div>
       </div>
     )

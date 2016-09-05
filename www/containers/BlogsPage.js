@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import BlogItem from '../components/BlogItem/BlogItem';
 import Pager from '../components/Pager/Pager';
 import { connect } from 'react-redux';
+import config from '../config';
 import {
   fetchBlogListIfNeed
 } from '../actions/blog';
@@ -31,7 +32,7 @@ class BlogPage extends React.Component {
     }
     const page = +params.pageNum || 1;
     // Need Config
-    const size = 3;
+    const size = config.blogItemPerPage;
     const showBlogs = blogList
                       .toSeq()
                       .reverse()
@@ -47,7 +48,7 @@ class BlogPage extends React.Component {
               category={categoryEntities.get(blogEntities.getIn([blogId, 'category']))} />
           )}
         </div>
-        <Pager totalNum={blogList.size} currentPage={page} perPage={3} showPage={3} baseUrl="/blog/p" />
+        <Pager totalNum={blogList.size} currentPage={page} perPage={config.blogItemPerPage} showPage={config.showPageNum} baseUrl="/blog/p" />
       </div>
     );
   }
