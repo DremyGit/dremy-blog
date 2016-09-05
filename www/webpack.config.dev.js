@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const assetPath = path.join(__dirname, './static/dist');
 
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack.isomorphic-tools'));
 var devPort = require('./config').serverPort + 1;
@@ -24,6 +25,9 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new CopyWebpackPlugin([
+      { from: './assets/highlightjs/highlight.pack.js' }
+    ]),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"development"',
       __CLIENT__: true,

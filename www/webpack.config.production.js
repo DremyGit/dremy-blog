@@ -3,6 +3,7 @@ var path = require('path');
 var CleanPlugin = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack.isomorphic-tools'));
 var config = require('./config');
 
@@ -23,6 +24,10 @@ module.exports = {
   plugins: [
     new CleanPlugin([assetsPath, rootPath + '/webpack-assets.json'], { root:  rootPath}),
     new ExtractTextPlugin('[name]-[chunkhash].css', {allChunks: true}),
+    new CopyWebpackPlugin([
+      // {output}/file.txt
+      { from: './assets/highlightjs/highlight.pack.js' }
+    ]),
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: '"production"'

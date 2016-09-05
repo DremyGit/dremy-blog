@@ -1,5 +1,7 @@
 .article {
 
+  font-size: 16px;
+
   > p {
 
     line-height: 1.6;
@@ -12,11 +14,19 @@
     }
   }
 
-  > ul {
+  > ul, ol {
     padding-left: 30px;
     > li {
       margin: 10px;
     }
+  }
+
+  > pre > code {
+    font-size: 14px;
+    padding: 20px;
+    border-radius: 8px;
+    font-family: 'Source Code Pro', monospace;
+    line-height: 1.5;
   }
 
 }

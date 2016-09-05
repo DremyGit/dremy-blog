@@ -22,6 +22,9 @@ export default class Html extends Component {
     const {assets, component, store} = this.props;
     const content = component ? ReactDOM.renderToString(component) : '';
     const head = Helmet.rewind();
+    const assetsPathArr = (assets.javascript.bundle || assets.javascript.main).split('/');
+    assetsPathArr.pop();
+    const assetsPath = assetsPathArr.join('/');
 
     return (
       <html lang="zh-cn">
@@ -33,6 +36,7 @@ export default class Html extends Component {
         {head.script.toComponent()}
 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400" rel="stylesheet" />
         {/* styles (will be present only in production with webpack extract text plugin) */}
         {Object.keys(assets.styles).map((style, key) =>
           <link href={assets.styles[style]} key={key} media="screen, projection"
@@ -47,6 +51,8 @@ export default class Html extends Component {
       <body>
       <div id="app" dangerouslySetInnerHTML={{__html: content}}/>
       <script dangerouslySetInnerHTML={{__html: `window.__INITIAL_STATE__=${JSON.stringify(store.getState())};`}} charSet="UTF-8"/>
+      <script src={assetsPath + '/highlight.pack.js'}></script>
+      { !__DEVELOPMENT__ ? <script>hljs.initHighlighting()</script> : null }
       <script src={assets.javascript.bundle || assets.javascript.main} charSet="UTF-8"/>
       </body>
       </html>
