@@ -1,6 +1,7 @@
 import React from 'react';
 import ArticleBody from './ArticleBody';
 import ArticleHead from './ArticleHead';
+import ArticleTOC from './ArticleToC';
 import styles from './Article.scss';
 
 export default class Article extends React.Component {
@@ -21,6 +22,7 @@ export default class Article extends React.Component {
             marginBottom={40}
           />
           <ArticleBody html={blog.getIn(['html', 'body'])} />
+          <ArticleTOC toc={blog.get('toc')} />
         </div>
       </div>
     )

@@ -1,0 +1,41 @@
+.tocPanel {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  overflow-y: hidden;
+  width: 23%;
+  color: #999;
+
+  @media (max-width: 1480px) {
+    display: none;
+  }
+
+  ul {
+    padding-left: 30px;
+  }
+
+  li {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin: 4px 0;
+
+    a {
+      color: #999;
+      padding: 2px 0;
+      display: inline-block;
+
+      &:hover,
+      &.active {
+        color: #666;
+      }
+    }
+  }
+}
+
+.number {
+}
+
+.text {
+  margin-left: 10px;
+}
