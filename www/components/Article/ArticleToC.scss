@@ -5,6 +5,7 @@
   overflow-y: hidden;
   width: 23%;
   color: #999;
+  font-size: 14px;
 
   @media (max-width: 1480px) {
     display: none;
@@ -25,8 +26,12 @@
       padding: 2px 0;
       display: inline-block;
 
-      &:hover,
-      &.active {
+      &:hover {
+        color: #666
+      }
+
+      &:global(.active) {
+        font-size: 16px;
         color: #666;
       }
     }
