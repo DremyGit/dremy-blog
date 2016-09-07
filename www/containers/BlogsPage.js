@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Helmet from 'react-helmet';
 import BlogItem from '../components/BlogItem/BlogItem';
 import Pager from '../components/Pager/Pager';
 import { connect } from 'react-redux';
@@ -40,6 +41,12 @@ class BlogPage extends React.Component {
                       .take(size);
     return (
       <div>
+        <Helmet
+          title='博客列表 Dremy_博客'
+          meta={[
+            { "name": "description", "content": "Dremy_博客 博客列表" }
+          ]}
+        />
         <div>
           {showBlogs.map(blogId =>
             <BlogItem
