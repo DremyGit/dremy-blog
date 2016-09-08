@@ -15,6 +15,9 @@
   align-items: baseline;
   position: relative;
 
+  @media (max-width: 480px) {
+    display: block;
+  }
 }
 
 .logo {
@@ -28,6 +31,14 @@
   margin: 0;
   display: flex;
   align-items: baseline;
+
+  @media (max-width: 480px) {
+    margin-top: 18px;
+    justify-content: space-around;
+    .listItem {
+      margin: 0;
+    }
+  }
 
   .active {
     .menuLink {
@@ -60,11 +71,16 @@
   &:focus {
     border-bottom: 1px #888 solid;
   }
+
+  @media (max-width: 480px) {
+    display: none;
+  }
 }
 
 .searchInput {
-    padding: 5px;
-    background-color: #f5f5f5;
-    border: none;
-    outline: none;
+  padding: 5px;
+  background-color: #f5f5f5;
+  border: none;
+  outline: none;
+
 }
