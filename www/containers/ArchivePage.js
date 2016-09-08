@@ -23,10 +23,10 @@ export default class ArchivePage extends React.Component {
 
   render() {
     const { blogEntities, isBlogListFetched } = this.props;
-    const groupedBlogs = blogEntities.groupBy(blog => blog.get('create_at').substr(0, 4));
     if (!isBlogListFetched) {
       return <div>Loading</div>;
     }
+    const groupedBlogs = blogEntities.groupBy(blog => blog.get('create_at').substr(0, 4));
     return (
       <div>
         <Helmet

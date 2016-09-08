@@ -1,18 +1,41 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Helmet from 'react-helmet';
+import { connect } from 'react-redux';
+import TagPanel from '../components/TagPanel/TagPanel';
+import { fetchTagListIfNeed } from '../actions/tag';
+import { dispatchFetch } from '../helpers/fetchUtils';
 
-const TagPage = () => {
-  return (
-    <div>
-      <Helmet
-        title='博客标签 Dremy_博客'
-        meta={[
+
+@connect(state => ({
+  tagEntities: state.getIn(['tag', 'entities']),
+  isTagListFetched: state.getIn(['tag', 'isFetched'])
+}))
+export default class TagPage extends React.Component {
+  static fetches = [
+    fetchTagListIfNeed
+  ];
+
+  componentDidMount() {
+    dispatchFetch(TagPage.fetches, this.props);
+  }
+  render () {
+    const { tagEntities, isTagListFetched } = this.props;
+    if (!isTagListFetched) {
+      return <div>Loading</div>;
+    }
+    return (
+      <div>
+        <Helmet
+          title='博客标签 Dremy_博客'
+          meta={[
             { "name": "description", "content": "Dremy_博客 博客标签" }
           ]}
-      />
-      <h1>Tag List!</h1>
-    </div>
-  )
+        />
+        <div>共有16个标签</div>
+        <TagPanel tags={tagEntities.sort((a, b) => new Date(a.get('create_at')) > new Date(b.get('create_at'))).valueSeq()} />
+      </div>
+    )
+  }
 };
 export default TagPage;

@@ -1,4 +1,5 @@
 import { FETCH_BLOG_SUCCESS, FETCH_ALL_BLOG_SUCCESS } from '../constants/blog'
+import { FETCH_TAG_LIST_SUCCESS } from '../constants/tag';
 import { Map } from 'immutable';
 
 const tag = (state = Map({entities: {}}), action = {}) => {
@@ -11,7 +12,13 @@ const tag = (state = Map({entities: {}}), action = {}) => {
     case FETCH_ALL_BLOG_SUCCESS:
       return state.mergeDeep({
         entities: action.data.entities.tag,
-        list: Object.getOwnPropertyNames(action.data.entities.tag),
+        result: Object.getOwnPropertyNames(action.data.entities.tag),
+      });
+
+    case FETCH_TAG_LIST_SUCCESS:
+      return state.mergeDeep({
+        entities: action.data.entities.tag,
+        result: action.data.result,
         isFetched: true
       });
 

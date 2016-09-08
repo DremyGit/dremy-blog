@@ -9,7 +9,9 @@ import { dispatchFetch } from '../helpers/fetchUtils';
 
 @connect(state => ({
   blogEntities: state.getIn(['blog', 'entities']),
-  categoryEntities: state.getIn(['category', 'entities'])
+  categoryEntities: state.getIn(['category', 'entities']),
+  isBlogListFetched: state.getIn(['blog', 'isFetched']),
+  isCategoryListFetched: state.getIn(['category', 'isFetched'])
 }))
 export default class CategoryPage extends React.Component {
 
@@ -23,7 +25,12 @@ export default class CategoryPage extends React.Component {
   }
 
   render() {
-    const { blogEntities, categoryEntities } = this.props;
+    const { blogEntities, categoryEntities, isBlogListFetched, isCategoryListFetched } = this.props;
+
+    if (!isBlogListFetched || !isCategoryListFetched) {
+      return <div>Loading</div>
+    }
+
     const sortedCategoryEntities = categoryEntities.sort((a, b) => a.get('count') < b.get('count'));
     return (
       <div>
