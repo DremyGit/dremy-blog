@@ -7,6 +7,11 @@ import {
   FETCH_ALL_BLOG_FAIL
 } from '../constants/blog'
 
+import {
+  FETCH_CATEGORY_LIST_FETCHING,
+  FETCH_CATEGORY_LIST_SUCCESS
+} from '../constants/category';
+
 import { normalize, arrayOf} from 'normalizr'
 import { blogSchema } from '../reducers/schema';
 import { getData } from '../helpers/fetchUtils';
@@ -89,3 +94,4 @@ export const fetchBlogIfNeed = (params) => {
     }
   }
 };
+

@@ -1,0 +1,38 @@
+.item {
+}
+
+.cycle {
+  border-radius: 100%;
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  background-color: #666;
+}
+
+.date {
+  margin: 0 0 0 15px;
+  font-size: 14px;
+  display: inline-block;
+  position: relative;
+  top: -4px;
+
+
+  @media (max-width: 480px) {
+    display: none;
+  }
+}
+
+.text {
+  margin: 0 0 0 15px;
+  font-size: 16px;
+  display: inline-block;
+  max-width: 70%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  @media (max-width: 480px) {
+    max-width: 80%;
+  }
+
+}
