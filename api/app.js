@@ -10,6 +10,7 @@ app.use(middlewares.responseJson);
 app.listen(config.port);
 app.use(bodyParser.json());
 app.use(middlewares.authorization);
+app.use(middlewares.querySort);
 
 app.use(controllers);
 

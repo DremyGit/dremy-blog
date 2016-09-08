@@ -35,6 +35,7 @@ BlogSchema.pre('save', function(next) {
 
 BlogSchema.statics = {
   getBlogsByQuery: function (query, opt) {
+    opt.sort = Object.assign({'create_at': -1}, opt.sort);
     return cache.getSet(`blogs:list:${JSON.stringify(query)}:${JSON.stringify(opt)}`, () => {
       return this.find(query, {'markdown': 0, 'html.body': 0, 'toc': 0}, opt).populate(['category', 'tags']).exec();
     });
@@ -97,7 +98,7 @@ BlogSchema.statics = {
 BlogSchema.index({code: 1}, {unique: 1});
 BlogSchema.index({category: 1});
 BlogSchema.index({tags: 1});
-BlogSchema.index({created_at: -1});
+BlogSchema.index({create_at: -1});
 
 module.exports = BlogSchema;
 

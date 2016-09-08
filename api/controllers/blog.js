@@ -16,7 +16,8 @@ const blogController = {};
  * @apiSuccess {Object[]} blogs All blogs
  */
 blogController.getAllBlogs = (req, res, next) => {
-  Blog.getBlogsByQuery({}).then(blogs => {
+  const opt = { sort: req.sortObj };
+  Blog.getBlogsByQuery({}, opt).then(blogs => {
     res.success(blogs);
   }).catch(next);
 };
