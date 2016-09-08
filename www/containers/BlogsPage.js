@@ -36,7 +36,6 @@ class BlogPage extends React.Component {
     const size = config.blogItemPerPage;
     const showBlogs = blogList
                       .toSeq()
-                      .reverse()
                       .skip((page - 1) * size)
                       .take(size);
     return (
