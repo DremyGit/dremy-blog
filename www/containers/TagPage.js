@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import TagPanel from '../components/TagPanel/TagPanel';
 import { fetchTagListIfNeed } from '../actions/tag';
 import { dispatchFetch } from '../helpers/fetchUtils';
+import styles from '../components/TagPanel/TagPanel.scss';
 
 
 @connect(state => ({
@@ -32,7 +33,7 @@ export default class TagPage extends React.Component {
             { "name": "description", "content": "Dremy_博客 博客标签" }
           ]}
         />
-        <div>共有16个标签</div>
+        <div className={styles.title}>共有 {tagEntities.size} 个标签：</div>
         <TagPanel tags={tagEntities.sort((a, b) => new Date(a.get('create_at')) > new Date(b.get('create_at'))).valueSeq()} />
       </div>
     )

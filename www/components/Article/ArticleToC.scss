@@ -19,12 +19,11 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    margin: 4px 0;
+    margin: 8px 0;
 
     a {
       color: #999;
       padding: 2px 0;
-      display: inline-block;
 
       &:hover {
         color: #666
