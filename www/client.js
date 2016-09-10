@@ -20,12 +20,30 @@ const store = configureStore(initialState);
 const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState: (state) => state.get('routing').toJS()
 });
+let lastKey;
+
+history.listen(location => {
+  setTimeout(() => {
+    if (location.action === 'POP') {
+      return;
+    }
+    var hash = window.location.hash;
+    if (hash) {
+      var element = document.querySelector(hash);
+      if (element) {
+        element.scrollIntoView({block: 'start', behavior: 'smooth'});
+      }
+    } else if (lastKey !== location.key) {
+      window.scrollTo(0, 0);
+      lastKey = location.key;
+    }
+  });
+});
 
 render(
   <Provider store={store}>
     <div>
       <Router
-        onUpdate={() => window.scrollTo(0, 0)}
         history={history}
         routes={routes}
       />

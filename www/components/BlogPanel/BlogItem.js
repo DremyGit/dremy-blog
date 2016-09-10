@@ -10,8 +10,7 @@ import { timeFormat } from '../../utils/time.js'
 class BlogItem extends React.Component {
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.blog !== this.props.blog
-        || nextProps.category !== this.props.category;
+    return nextProps.blog !== this.props.blog;
   }
 
   render () {

@@ -3,6 +3,11 @@ import styles from './BlogListTitle.scss';
 
 export default class BlogListTitle extends React.Component {
 
+  shouldComponentUpdate(nextProps) {
+    return !nextProps.title !== this.props.title
+        || !nextProps.count !== this.props.count;
+  }
+
   render() {
     const { title, count } = this.props;
     return (

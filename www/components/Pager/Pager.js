@@ -6,6 +6,10 @@ import CSSModules from 'react-css-modules';
 @CSSModules(styles)
 class Pager extends React.Component {
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {
     const { totalNum, currentPage, showPage, perPage, baseUrl } = this.props;
     const totalPage = Math.ceil(totalNum / perPage);

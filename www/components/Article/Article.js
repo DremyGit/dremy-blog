@@ -5,11 +5,12 @@ import ArticleTOC from './ArticleToC';
 import styles from './Article.scss';
 
 export default class Article extends React.Component {
+
   shouldComponentUpdate(nextProps) {
     return nextProps.blog !== this.props.blog
-        || nextProps.category !== this.props.category
-        || nextProps.tags !== this.props.tags;
+        || nextProps.category !== this.props.category;
   }
+
   render() {
     const { blog, category, tags } = this.props;
     return (
