@@ -17,3 +17,13 @@ a:visited {
 a:hover {
   color: #999;
 }
+
+a:global(.underline) {
+  font-size: 90%;
+  border-bottom: 1px dashed #666;
+  position: relative;
+  top: -1px;
+  padding-bottom: 1px;
+  margin: 0 2px;
+}
+

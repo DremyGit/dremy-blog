@@ -10,10 +10,10 @@ export default class TagPanel extends React.Component {
   }
 
   calculateFontSize(tags, minSize, maxSize) {
-    var max = tags.max((a, b) => a.get('count') > b.get('count')).get('count');
-    var min = tags.min((a, b) => a.get('count') < b.get('count')).get('count');
-    console.log(max, min);
-    return tags.map(tag => tag.set('fontSize', minSize + Math.log(tag.get('count') + 1) / Math.log(max + 1) * (maxSize - minSize)));
+    const orderdTags = tags.sort((a, b) => a.get('count') < b.get('count'));
+    const max = orderdTags.first().get('count');
+    const min = orderdTags.last().get('count');
+    return tags.map(tag => tag.set('fontSize', minSize + Math.log(tag.get('count') - min + 1) / Math.log(max - min + 1) * (maxSize - minSize)));
   }
 
   render() {
@@ -22,7 +22,7 @@ export default class TagPanel extends React.Component {
     return (
       <div className={styles.container}>
         {ntags.map(tag =>
-          <TagItem key={tag.get('code')} name={tag.get('name')} link={`l/tag/${tag.get('code')}`} fontSize={tag.get('fontSize')} />
+          <TagItem key={tag.get('code')} name={tag.get('name')} link={`/tag/${tag.get('code')}`} fontSize={tag.get('fontSize')} />
         )}
       </div>
     )

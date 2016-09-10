@@ -36,7 +36,12 @@ export default class ArchivePage extends React.Component {
           ]}
         />
         {groupedBlogs.entrySeq().map(([year, blogs]) =>
-            <ListBlock key={year} blogs={blogs.toList()} title={'' + year} />
+            <ListBlock
+              key={year}
+              link={`/archive/${year}`}
+              blogs={blogs.toList()}
+              title={'' + year}
+            />
         )}
       </div>
     )

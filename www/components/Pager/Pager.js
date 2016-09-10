@@ -8,7 +8,7 @@ class Pager extends React.Component {
 
   render() {
     const { totalNum, currentPage, showPage, perPage, baseUrl } = this.props;
-    const totalPage = Math.round(totalNum / perPage);
+    const totalPage = Math.ceil(totalNum / perPage);
     const pageNumber = [];
     const showObj = {
       prev: currentPage !== 1,

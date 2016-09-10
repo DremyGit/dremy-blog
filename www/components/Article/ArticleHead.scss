@@ -13,6 +13,19 @@
   font-size: 12px;
 }
 
+.col > i {
+  margin-right: 8px;
+}
+.col+.col::before {
+  margin: 0 8px;
+  content: '|';
+}
+
+.tag + .tag::before {
+  content: '、';
+}
+
+
 @media (min-width: 768px) {
   .center {
     text-align: center;

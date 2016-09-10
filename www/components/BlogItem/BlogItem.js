@@ -15,12 +15,13 @@ class BlogItem extends React.Component {
   }
 
   render () {
-    const { blog, category } = this.props;
+    const { blog, category, tags } = this.props;
     return (
       <div styleName="blogItem">
         <ArticleHead
           blog={blog}
           category={category}
+          tags={tags}
           center={false}
           link={true}
         />

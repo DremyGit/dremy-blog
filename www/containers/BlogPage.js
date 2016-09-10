@@ -8,6 +8,7 @@ import { dispatchFetch } from '../helpers/fetchUtils'
 @connect(state => ({
   blogEntities: state.getIn(['blog', 'entities']),
   categoryEntities: state.getIn(['category', 'entities']),
+  tagEntities: state.getIn(['tag', 'entities'])
 }))
 export default class Blog extends React.Component {
 
@@ -20,7 +21,7 @@ export default class Blog extends React.Component {
   }
 
   render() {
-    const { blogEntities, categoryEntities, params } = this.props;
+    const { blogEntities, categoryEntities, tagEntities, params, tags } = this.props;
     const blogId = params.blogName;
     const isBlogFetched = blogEntities.getIn([blogId, 'html', 'body']);
     if (!isBlogFetched) {
@@ -28,6 +29,7 @@ export default class Blog extends React.Component {
     }
     const blog = blogEntities.get(blogId);
     const category = categoryEntities.get(blog.get('category'));
+    //const tags = tagEntities.filter(tag => tag.get('code') === blog.get('tags'))));
     const description = blog.getIn(['html', 'summary'])
                             .replace(/<.*?>|\r?\n/g, ' ')
                             .replace(/  +/g, ' ')
@@ -40,7 +42,7 @@ export default class Blog extends React.Component {
             { "name": "description", "content": description }
           ]}
         />
-        <Article blog={blog} category={category} />
+        <Article blog={blog} category={category} tags={blog.get('tags').map(tag => tagEntities.get(tag))} />
       </div>
     )
   }

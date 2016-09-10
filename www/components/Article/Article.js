@@ -7,16 +7,18 @@ import styles from './Article.scss';
 export default class Article extends React.Component {
   shouldComponentUpdate(nextProps) {
     return nextProps.blog !== this.props.blog
-        || nextProps.category !== this.props.category;
+        || nextProps.category !== this.props.category
+        || nextProps.tags !== this.props.tags;
   }
   render() {
-    const { blog, category } = this.props;
+    const { blog, category, tags } = this.props;
     return (
       <div>
         <div className={styles.top}>
           <ArticleHead
             blog={blog}
             category={category}
+            tags={tags}
             center={true}
             marginTop={80}
             marginBottom={40}

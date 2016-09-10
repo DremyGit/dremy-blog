@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import Helmet from 'react-helmet';
 import BlogItem from '../components/BlogItem/BlogItem';
+import BlogListTitle from '../components/BlogPanel/BlogListTitle';
 import Pager from '../components/Pager/Pager';
 import { connect } from 'react-redux';
 import config from '../config';
@@ -15,6 +16,7 @@ import { dispatchFetch } from '../helpers/fetchUtils'
   blogList: state.getIn(['blog', 'list']),
   isBlogListFetched: state.getIn(['blog', 'isFetched']),
   categoryEntities: state.getIn(['category', 'entities']),
+  tagEntities: state.getIn(['tag', 'entities'])
 }))
 class BlogPage extends React.Component {
 
@@ -27,34 +29,53 @@ class BlogPage extends React.Component {
   }
 
   render() {
-    const { blogEntities, blogList, isBlogListFetched, categoryEntities, params } = this.props;
+    const { blogEntities, blogList, isBlogListFetched, categoryEntities, tagEntities, params, location } = this.props;
     if (!isBlogListFetched) {
       return <div>Loading</div>
     }
+    const pageType = location.pathname.split('/')[1];
+
+    let filtedBlogs;
+    let title;
+    if (pageType === 'category') {
+      filtedBlogs = blogEntities.filter(blog => blog.get('category') === params.categoryName).valueSeq();
+      title = categoryEntities.getIn([params.categoryName, 'name']);
+    } else if (pageType === 'tag') {
+      filtedBlogs = blogEntities.filter(blog => blog.get('tags').includes(params.tagName)).valueSeq();
+      title = tagEntities.getIn([params.tagName, 'name']);
+    } else if (pageType === 'archive') {
+      filtedBlogs = blogEntities.filter(blog => new Date(blog.get('create_at')).getFullYear() === +params.year).valueSeq();
+      title = +params.year;
+    } else {
+      filtedBlogs = blogEntities.valueSeq();
+      title = '全部文章';
+    }
+
     const page = +params.pageNum || 1;
     // Need Config
     const size = config.blogItemPerPage;
-    const showBlogs = blogList
-                      .toSeq()
-                      .skip((page - 1) * size)
-                      .take(size);
+    const showBlogs = filtedBlogs
+                        .skip((page - 1) * size)
+                        .take(size);
     return (
       <div>
         <Helmet
-          title='博客列表 Dremy_博客'
+          title={`${title} Dremy_博客`}
           meta={[
             { "name": "description", "content": "Dremy_博客 博客列表" }
           ]}
         />
+        <BlogListTitle title={title} count={filtedBlogs.size} />
         <div>
-          {showBlogs.map(blogId =>
+          {showBlogs.map(blog =>
             <BlogItem
-              key={blogId}
-              blog={blogEntities.get(blogId)}
-              category={categoryEntities.get(blogEntities.getIn([blogId, 'category']))} />
+              key={blog.get('code')}
+              blog={blog}
+              category={categoryEntities.get(blog.get('category'))}
+              tags={blog.get('tags').map(tag => tagEntities.get(tag))} />
           )}
         </div>
-        <Pager totalNum={blogList.size} currentPage={page} perPage={config.blogItemPerPage} showPage={config.showPageNum} baseUrl="/blog/p" />
+        <Pager totalNum={filtedBlogs.size} currentPage={page} perPage={config.blogItemPerPage} showPage={config.showPageNum} baseUrl="/blog/p" />
       </div>
     );
   }

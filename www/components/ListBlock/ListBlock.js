@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import ListItem from './ListItem';
 import ListLine from './ListLine';
 import styles from './ListBlock.scss';
@@ -12,7 +13,7 @@ export default class ListBlock extends React.Component {
   }
 
   render() {
-    const { blogs, title } = this.props;
+    const { blogs, title, link } = this.props;
     let components = [];
     for (let i = 0; i < blogs.size; i++) {
       if (i !== 0) {
@@ -22,7 +23,7 @@ export default class ListBlock extends React.Component {
     }
     return (
       <div className={styles.block}>
-        <div className={styles.title}>{title}<span className={styles.span}>（ {blogs.size} 篇文章）</span></div>
+        <div className={styles.title}><Link to={link}>{title}<span className={styles.span}>（ {blogs.size} 篇文章）</span></Link></div>
         <div className={styles.list}>
           {components}
         </div>
@@ -33,5 +34,6 @@ export default class ListBlock extends React.Component {
 
 ListBlock.propTypes = {
   blogs: React.PropTypes.object.isRequired,
-  title: React.PropTypes.string.isRequired
+  title: React.PropTypes.string.isRequired,
+  link: React.PropTypes.string.isRequired
 };

@@ -12,7 +12,7 @@ class ArticleHead extends React.Component {
         || nextProps.category !== this.props.category
   }
   render () {
-    const { blog, category, center, link, marginTop, marginBottom } = this.props;
+    const { blog, category, tags, center, link, marginTop, marginBottom } = this.props;
     const _blog = blog.toJS();
     const _category = category.toJS();
     return (
@@ -27,16 +27,26 @@ class ArticleHead extends React.Component {
           }
         </h1>
         <div styleName="info">
-          <i className="fa fa-book" />
-          {' '}
-          <Link to={`/category/${_category.code}`}>
-            {_category.name}
-          </Link>
-          {' | '}
-          <i className="fa fa-calendar" />
-          {' '} {timeFormat(new Date(_blog.create_at))} {' | '}
-          <i className="fa fa-commenting" />
-          {' '} {_blog.comment_count}
+          <span styleName="col">
+            <i className="fa fa-book" />
+            <Link to={`/category/${_category.code}`} className="underline">
+              {_category.name}
+            </Link>
+          </span>
+          <span styleName="col">
+            <i className="fa fa-calendar" />
+            {timeFormat(new Date(_blog.create_at))}
+          </span>
+          <span styleName="col">
+            <i className="fa fa-commenting" />
+            {_blog.comment_count} 篇评论
+          </span>
+          <span styleName="col">
+            <i className="fa fa-tags" />
+            {tags.map(tag =>
+              <span key={tag.get('code')} styleName="tag"><Link styleName="tag" className="underline" to={`/tag/${tag.get('code')}`}>{tag.get('name')}</Link></span>
+            )}
+          </span>
         </div>
       </div>
     )

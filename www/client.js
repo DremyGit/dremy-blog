@@ -15,7 +15,6 @@ import { dispatchFetches } from './helpers/fetchUtils';
 // 通过服务端注入的全局变量得到初始 state
 const initialState = fromJS(window.__INITIAL_STATE__);
 
-console.log(initialState);
 // 使用初始 state 创建 Redux store
 const store = configureStore(initialState);
 const history = syncHistoryWithStore(browserHistory, store, {

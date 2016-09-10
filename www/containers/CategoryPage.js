@@ -42,7 +42,12 @@ export default class CategoryPage extends React.Component {
         />
         {
           sortedCategoryEntities.valueSeq().map(category =>
-            <ListBlock key={category.get('code')} blogs={this.props.blogEntities.toList().filter(blog => blog.get('category') === category.get('code'))} title={category.get('name')} />
+            <ListBlock
+              key={category.get('code')}
+              link={`/category/${category.get('code')}`}
+              blogs={this.props.blogEntities.toList().filter(blog => blog.get('category') === category.get('code'))}
+              title={category.get('name')}
+            />
           )
         }
       </div>
