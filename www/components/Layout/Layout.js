@@ -5,6 +5,7 @@ import AnimationGroup from 'react-addons-css-transition-group';
 import './Global.scss';
 import 'font-awesome/css/font-awesome.css';
 import Navigation from '../Navigation/Navigation';
+import Footer from '../Footer/Footer';
 
 const maxWidth = '800px';
 
@@ -22,11 +23,12 @@ class Layout extends React.Component {
             leave: styles.leave
           }}
           transitionEnterTimeout={1000}
-          transitionLeaveTimeout={1000}
+          transitionLeaveTimeout={3}
         >
           <div className={styles.main} key={location.pathname} >
             {React.cloneElement(this.props.children, { ...props })}
           </div>
+          <Footer key={location.key}/>
         </AnimationGroup>
       </div>
     )
