@@ -14,16 +14,17 @@ export default class ListBlock extends React.Component {
 
   render() {
     const { blogs, title, link } = this.props;
+    const sortedBlogs = blogs.sort((a, b) => a.get('create_at') < b.get('create_at'));
     let components = [];
-    for (let i = 0; i < blogs.size; i++) {
+    for (let i = 0; i < sortedBlogs.size; i++) {
       if (i !== 0) {
         components.push(<ListLine key={`line-${i}`} />);
       }
-      components.push(<ListItem key={`blog-${i}`} blog={blogs.get(i)} />);
+      components.push(<ListItem key={`blog-${i}`} blog={sortedBlogs.get(i)} />);
     }
     return (
       <div className={styles.block}>
-        <div className={styles.title}><Link to={link}>{title}<span className={styles.span}>（ {blogs.size} 篇文章）</span></Link></div>
+        <div className={styles.title}><Link to={link}>{title}<span className={styles.span}>（ {sortedBlogs.size} 篇文章）</span></Link></div>
         <div className={styles.list}>
           {components}
         </div>

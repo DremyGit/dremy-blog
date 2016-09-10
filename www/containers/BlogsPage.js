@@ -39,21 +39,23 @@ class BlogPage extends React.Component {
     let title;
 
     if (pageType === 'category') {
-      filtedBlogs = blogEntities.filter(blog => blog.get('category') === params.categoryName).valueSeq();
+      filtedBlogs = blogEntities.filter(blog => blog.get('category') === params.categoryName);
       title = '分类：' + categoryEntities.getIn([params.categoryName, 'name']);
     } else if (pageType === 'tag') {
-      filtedBlogs = blogEntities.filter(blog => blog.get('tags').includes(params.tagName)).valueSeq();
+      filtedBlogs = blogEntities.filter(blog => blog.get('tags').includes(params.tagName));
       title = '标签：' + tagEntities.getIn([params.tagName, 'name']);
     } else if (pageType === 'archive') {
       filtedBlogs = blogEntities.filter(blog => new Date(blog.get('create_at')).getFullYear() === +params.year).valueSeq();
       title = +params.year + ' 年';
     } else {
-      filtedBlogs = blogEntities.valueSeq();
+      filtedBlogs = blogEntities;
     }
 
     const page = +params.pageNum || 1;
     const size = config.blogItemPerPage;
     const showBlogs = filtedBlogs
+                        .sort((a, b) => new Date(a.get('create_at') < new Date(b.get('create_at'))))
+                        .valueSeq()
                         .skip((page - 1) * size)
                         .take(size);
     return (
