@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import Helmet from 'react-helmet';
 import ListBlock from '../components/ListBlock/ListBlock';
+import Loading from '../components/Loading/Loading';
 
 import { connect } from 'react-redux';
 import { fetchBlogListIfNeed } from '../actions/blog';
@@ -24,7 +25,7 @@ export default class ArchivePage extends React.Component {
   render() {
     const { blogEntities, isBlogListFetched } = this.props;
     if (!isBlogListFetched) {
-      return <div>Loading</div>;
+      return <Loading />
     }
     const groupedBlogs = blogEntities.groupBy(blog => blog.get('create_at').substr(0, 4));
     return (

@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import TagPanel from '../components/TagPanel/TagPanel';
+import Loading from '../components/Loading/Loading';
 import { fetchTagListIfNeed } from '../actions/tag';
 import { dispatchFetch } from '../helpers/fetchUtils';
 import styles from '../components/TagPanel/TagPanel.scss';
@@ -23,7 +24,7 @@ export default class TagPage extends React.Component {
   render () {
     const { tagEntities, isTagListFetched } = this.props;
     if (!isTagListFetched) {
-      return <div>Loading</div>;
+      return <Loading />
     }
     return (
       <div>

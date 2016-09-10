@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { fetchBlogListIfNeed } from '../actions/blog';
 import { fetchCategoryListIfNeed } from '../actions/category';
 import { dispatchFetch } from '../helpers/fetchUtils';
+import Loading from '../components/Loading/Loading';
 
 @connect(state => ({
   blogEntities: state.getIn(['blog', 'entities']),
@@ -28,7 +29,7 @@ export default class CategoryPage extends React.Component {
     const { blogEntities, categoryEntities, isBlogListFetched, isCategoryListFetched } = this.props;
 
     if (!isBlogListFetched || !isCategoryListFetched) {
-      return <div>Loading</div>
+      return <Loading />
     }
 
     const sortedCategoryEntities = categoryEntities.sort((a, b) => a.get('count') < b.get('count'));
@@ -45,7 +46,7 @@ export default class CategoryPage extends React.Component {
             <ListBlock
               key={category.get('code')}
               link={`/category/${category.get('code')}`}
-              blogs={this.props.blogEntities.toList().filter(blog => blog.get('category') === category.get('code'))}
+              blogs={blogEntities.toList().filter(blog => blog.get('category') === category.get('code'))}
               title={category.get('name')}
             />
           )

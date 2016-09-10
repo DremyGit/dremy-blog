@@ -10,6 +10,7 @@ import {
   fetchBlogListIfNeed
 } from '../actions/blog';
 import { dispatchFetch } from '../helpers/fetchUtils'
+import Loading from '../components/Loading/Loading';
 
 @connect(state => ({
   blogEntities: state.getIn(['blog', 'entities']),
@@ -30,7 +31,7 @@ class BlogPage extends React.Component {
   render() {
     const { blogEntities, isBlogListFetched, categoryEntities, tagEntities, params, location } = this.props;
     if (!isBlogListFetched) {
-      return <div>Loading</div>
+      return <Loading />
     }
 
     const pageType = location.pathname.split('/')[1];

@@ -6,6 +6,10 @@
   max-width: 800px;
   position: relative;
   min-height: 400px;
+
+  @media (max-height: 640px) {
+    height: 400px;
+  }
 }
 .enter {
   width: 100%;

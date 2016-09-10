@@ -4,6 +4,7 @@ import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { fetchBlogIfNeed } from '../actions/blog'
 import { dispatchFetch } from '../helpers/fetchUtils'
+import Loading from '../components/Loading/Loading';
 
 @connect(state => ({
   blogEntities: state.getIn(['blog', 'entities']),
@@ -32,7 +33,7 @@ export default class Blog extends React.Component {
     const blogId = params.blogName;
     const isBlogFetched = blogEntities.getIn([blogId, 'html', 'body']);
     if (!isBlogFetched) {
-      return <div>Loading</div>;
+      return <Loading />
     }
     const blog = blogEntities.get(blogId);
     const category = categoryEntities.get(blog.get('category'));
