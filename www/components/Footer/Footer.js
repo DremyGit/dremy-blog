@@ -6,8 +6,8 @@ export default class Footer extends React.Component {
     return (
       <div className={styles.container}>
         <div className={styles.center}>
-          <div>&copy; 2014-2016 dremy.cn. All Rights Reserved.</div>
-          <div>Powered by React</div>
+          <div>&copy; 2016 dremy.cn. All Rights Reserved.</div>
+          <div>Powered by React.js</div>
           <div>皖ICP备16015002号</div>
         </div>
       </div>

@@ -16,10 +16,7 @@ class ArticleHead extends React.Component {
     const _blog = blog.toJS();
     const _category = category.toJS();
     return (
-      <div
-        className={styles.header}
-        styleName={center ? 'center' : null}
-        style={{marginTop, marginBottom }}>
+      <div className={styles.header} styleName={center ? 'center' : null} >
         <h1 styleName="title">
           { link ?
             <Link to={`/blog/${_blog.code}`}>{_blog.title}</Link> :
@@ -44,7 +41,7 @@ class ArticleHead extends React.Component {
           <span styleName="col">
             <i className="fa fa-tags" />
             {tags.map(tag =>
-              <span key={tag.get('code')} styleName="tag"><Link styleName="tag" className="underline" to={`/tag/${tag.get('code')}`}>{tag.get('name')}</Link></span>
+              <span key={tag.get('code')} styleName="tag">{' '}<Link styleName="tag" className="underline" to={`/tag/${tag.get('code')}`}>{tag.get('name')}</Link></span>
             )}
           </span>
         </div>

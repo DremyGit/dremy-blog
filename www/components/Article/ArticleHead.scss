@@ -1,5 +1,9 @@
 .header {
-  margin: 30px 10px;
+  margin: 80px 10px 40px 10px;
+
+  @media (max-width: 480px) {
+    margin-top: 30px;
+  }
 }
 
 .title {
@@ -11,6 +15,7 @@
 .info {
   color: #888;
   font-size: 12px;
+  line-height: 2.0;
 }
 
 .col > i {
@@ -21,7 +26,10 @@
   content: '|';
 }
 
-.tag + .tag::before {
+.tag a {
+  white-space: nowrap;
+}
+.tag:not(:last-child)::after {
   content: '、';
 }
 
