@@ -3,10 +3,6 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-
-  @media (max-height: 640px) {
-    height: 400px;
-  }
 }
 .spinner {
   width: 60px;
