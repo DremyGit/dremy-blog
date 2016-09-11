@@ -1,5 +1,5 @@
 doctype xml
-urlset
+urlset(xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
 
     //- 主页
     url
@@ -19,5 +19,6 @@ urlset
     each article in blogs
         url
             loc #{host}/blog/#{article.code}
+            lastmod #{article.update_at}
             changefreq weekly
             priority 0.9
