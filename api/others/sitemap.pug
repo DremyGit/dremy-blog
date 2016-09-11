@@ -1,0 +1,23 @@
+doctype xml
+urlset
+
+    //- 主页
+    url
+        loc #{host}
+        changefreq daily
+        priority 1.0
+
+    //- 二级页面
+    - var second = ['category', 'tag', 'archive', 'about']
+    each type in second
+        url
+            loc #{host}/#{type}
+            changefreq daily
+            priority 0.6
+
+    //- 博客页
+    each article in blogs
+        url
+            loc #{host}/blog/#{article.code}
+            changefreq weekly
+            priority 0.9

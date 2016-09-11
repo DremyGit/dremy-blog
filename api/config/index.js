@@ -1,4 +1,5 @@
 var config = {
+  host: 'https://dremy.cn',
   port: "5760",
   mongodb: "mongodb://localhost/dremy_blog",
   redis: {
