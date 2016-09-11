@@ -36,7 +36,7 @@ function handleRender(req, res) {
   const memoryHistory = createMemoryHistory(req.path);
   const store = configureStore(Map({}));
   const history = syncHistoryWithStore(memoryHistory, store, {
-    selectLocationState: (state) => state.get('routing').toJS()
+    selectLocationState: (state) => state.get('routing')
   });
 
   match({ history, routes }, (error, redirectLocation, renderProps) => {

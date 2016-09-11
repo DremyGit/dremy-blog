@@ -5,12 +5,14 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { fromJS } from 'immutable';
+import ReactGA from 'react-ga';
 import configureStore from './stores';
 import routes from './constants/routes'
 import DevTools from './containers/ReduxDevTools.js';
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Router, browserHistory } from 'react-router';
 import { dispatchFetches } from './helpers/fetchUtils';
+import config from './config';
 
 // 通过服务端注入的全局变量得到初始 state
 const initialState = fromJS(window.__INITIAL_STATE__);
@@ -18,25 +20,24 @@ const initialState = fromJS(window.__INITIAL_STATE__);
 // 使用初始 state 创建 Redux store
 const store = configureStore(initialState);
 const history = syncHistoryWithStore(browserHistory, store, {
-  selectLocationState: (state) => state.get('routing').toJS()
+  selectLocationState: (state) => state.get('routing') || {}
 });
-let lastKey;
 
+ReactGA.initialize(config.googleAnalyticsGA, {
+  debug: __DEVELOPMENT__,
+  titleCase: false
+});
+
+ReactGA.set({ page: window.location.pathname });
+ReactGA.pageview(window.location.pathname);
 history.listen(location => {
   setTimeout(() => {
     if (location.action === 'POP') {
       return;
     }
-    var hash = window.location.hash;
-    if (hash) {
-      var element = document.querySelector(hash);
-      if (element) {
-        element.scrollIntoView({block: 'start', behavior: 'smooth'});
-      }
-    } else if (lastKey !== location.key) {
-      window.scrollTo(0, 0);
-      lastKey = location.key;
-    }
+    window.scrollTo(0, 0);
+    ReactGA.set({ page: window.location.pathname });
+    ReactGA.pageview(window.location.pathname);
   });
 });
 
@@ -47,7 +48,7 @@ render(
         history={history}
         routes={routes}
       />
-      { __DEVTOOLS__ ? <DevTools /> : null}
+      { __DEVELOPMENT__ ? <DevTools /> : null}
     </div>
   </Provider>,
   document.getElementById('app')
