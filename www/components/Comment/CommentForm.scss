@@ -1,0 +1,53 @@
+.title {
+  font-size: 18px;
+}
+
+.row {
+  display: flex;
+  margin: 30px auto;
+  max-width: 380px;
+  @media (max-width: 480px) {
+    margin: 30px 10px;
+  }
+}
+
+.key {
+  width: 80px;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.input,
+.textarea {
+  flex: 1 1 0;
+  font-size: 14px;
+  color: #555;
+  border: #bbb 1px solid;
+}
+.input {
+  height: 24px;
+}
+
+.info {
+  flex-shrink: 0;
+  margin-left: 12px;
+  color: #999;
+  font-size: 12px;
+  align-self: flex-end;
+}
+
+.textarea {
+  height: 80px;
+}
+
+.submit {
+  display: block;
+  border: #bbb 1px solid;
+  padding: 8px 12%;
+
+  &:hover {
+    color: #fff;
+    background-color: #bbb;
+  }
+}
+

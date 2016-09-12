@@ -2,17 +2,9 @@ import 'isomorphic-fetch';
 import config from '../config';
 
 export const getData = (url) => {
-  var basePath;
-  if (__SERVER__) {
-    basePath = config.apiProxyUrl;
-  }
-
-  if (__CLIENT__) {
-    basePath = config.apiWebUrl;
-  }
 
 
-  return fetch(`${basePath}${url}`).then(res => {
+  return myFetch(url).then(res => {
     if (res.status !== 200) {
       return res.text().then(body => {
         throw new Error(body);
@@ -20,6 +12,17 @@ export const getData = (url) => {
     }
     return res.json();
   })
+};
+
+export const myFetch = (url, obj) => {
+  var basePath;
+  if (__SERVER__) {
+    basePath = config.apiProxyUrl;
+  }
+  if (__CLIENT__) {
+    basePath = config.apiWebUrl;
+  }
+  return fetch(`${basePath}${url}`, obj)
 };
 
 export const dispatchDatas = (dispatch, components, params) => {

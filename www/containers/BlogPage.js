@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { fetchBlogIfNeed } from '../actions/blog'
 import { dispatchFetch } from '../helpers/fetchUtils'
 import Loading from '../components/Loading/Loading';
+import CommentArea from '../components/Comment/CommentArea';
 
 @connect(state => ({
   blogEntities: state.getIn(['blog', 'entities']),
@@ -50,6 +51,7 @@ export default class Blog extends React.Component {
           ]}
         />
         <Article blog={blog} category={category} tags={blog.get('tags').map(tag => tagEntities.get(tag))} />
+        <CommentArea blog={blog} dispatch={this.props.dispatch} />
       </div>
     )
   }
