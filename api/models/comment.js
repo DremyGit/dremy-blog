@@ -7,13 +7,15 @@ const CommentSchema = new Schema({
   blog:     { type: ObjectId, ref: 'Blog' },
   create_at:{ type: Date, default: Date.now },
   email:    { type: String },
+  url:    { type: String },
   content:  { type: String },
   support_count: { type: Number, default: 0 },
   root_id: { type: ObjectId, ref: 'Comment' },
   reply_to: {
     _id:    { type: ObjectId },
     user:   { type: String },
-    content:{ type: String }
+    content:{ type: String },
+    url:    { type: String }
   },
   replies: [{ type: ObjectId, ref: 'Comment'}],
   __v: { type: Number, select: false }
@@ -50,13 +52,13 @@ CommentSchema.statics = {
 
   getCommentNestedByBlogId: function (blogId) {
     return cache.getSet(`comments:blogs:${blogId}:nested`, () => {
-      return this.find({blog: blogId, reply_to: null}).populate('replies').exec();
+      return this.find({blog: blogId, reply_to: null}).populate('replies', {email: 0}).exec();
     });
   },
 
   getMessagesNested: function () {
     return cache.getSet('messages:all:nested', () => {
-      return this.find({blog: null, reply_to: null}).populate('replies').exec();
+      return this.find({blog: null, reply_to: null}).populate('replies', {email: 0}).exec();
     });
   },
 

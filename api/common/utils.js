@@ -33,7 +33,7 @@ utils.isValidUrl = (url) =>
 
 
 utils.verifyUserForm = (form) => {
-  if (!utils.isValidName(form.name)) {
+  if (!utils.isValidName(form.user)) {
     throw new HttpError.BadRequestError('Name error');
   }
   if (!utils.isValidEmail(form.email)) {
@@ -47,5 +47,12 @@ utils.verifyUserForm = (form) => {
 
 utils.md5 = (string) =>
   crypto.createHash('md5').update(string).digest('hex');
+
+utils.toNormalUrl = (url) => {
+  if (!/^https?:\/\//.test(url)) {
+    return 'http://' + url;
+  }
+  return url;
+};
 
 module.exports = utils;

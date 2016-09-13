@@ -84,12 +84,12 @@ describe('Test common/utils', () => {
 
   describe('Test utils.verifyUesrForm()', () => {
     it('should not throw HttpError', () => {
-      expect(utils.verifyUserForm.bind(utils,{name:'test',email:'a@a.com'})).to.not.throw(/Url/);
+      expect(utils.verifyUserForm.bind(utils,{user:'test',email:'a@a.com'})).to.not.throw(/Url/);
     });
     it('should throw HttpError', () => {
-      expect(utils.verifyUserForm.bind(utils,{name:'',email:'',url:''})).to.throw(/Name/);
-      expect(utils.verifyUserForm.bind(utils,{name:'test',email:'',url:''})).to.throw(/Email/);
-      expect(utils.verifyUserForm.bind(utils,{name:'test',email:'a@a.com',url:'haha'})).to.throw(/Url/);
+      expect(utils.verifyUserForm.bind(utils,{user:'',email:'',url:''})).to.throw(/Name/);
+      expect(utils.verifyUserForm.bind(utils,{user:'test',email:'',url:''})).to.throw(/Email/);
+      expect(utils.verifyUserForm.bind(utils,{user:'test',email:'a@a.com',url:'haha'})).to.throw(/Url/);
     });
   });
 
@@ -98,4 +98,14 @@ describe('Test common/utils', () => {
       expect(utils.md5('123456')).to.equal('e10adc3949ba59abbe56e057f20f883e');
     });
   });
+
+  describe('Test toNormalUrl()', () => {
+    it('change to normalUrl', () => {
+      expect(utils.toNormalUrl('dremy.cn')).to.equal('http://dremy.cn');
+    });
+    it('did not change url', () => {
+      expect(utils.toNormalUrl('http://dremy.cn')).to.equal('http://dremy.cn');
+      expect(utils.toNormalUrl('https://dremy.cn')).to.equal('https://dremy.cn');
+    })
+  })
 });

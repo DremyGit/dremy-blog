@@ -132,6 +132,7 @@ blogController.createComment = (req, res, next) => {
   const replyId = req.body.reply_id;
   let rootId;
   utils.verifyUserForm(body);
+  body.url = body.url && utils.toNormalUrl(body.url);
   const _comment = Object.assign(new Comment(), body);
   _comment.blog = blogId;
   if (replyId) {
