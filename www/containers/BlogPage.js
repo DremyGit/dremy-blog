@@ -3,6 +3,7 @@ import Article from '../components/Article/Article';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { fetchBlogIfNeed } from '../actions/blog'
+import { fetchCommentsIfNeed } from '../actions/comment'
 import { dispatchFetch } from '../helpers/fetchUtils'
 import Loading from '../components/Loading/Loading';
 import CommentArea from '../components/Comment/CommentArea';
@@ -30,11 +31,15 @@ export default class Blog extends React.Component {
   }
 
   render() {
-    const { blogEntities, categoryEntities, tagEntities, params } = this.props;
+    const { blogEntities, categoryEntities, tagEntities, params, dispatch } = this.props;
     const blogId = params.blogName;
     const isBlogFetched = blogEntities.getIn([blogId, 'html', 'body']);
     if (!isBlogFetched) {
       return <Loading />
+    }
+    const isCommentFetched = blogEntities.getIn([blogId, 'isCommentFetched']);
+    if (!isCommentFetched) {
+      dispatch(fetchCommentsIfNeed(params));
     }
     const blog = blogEntities.get(blogId);
     const category = categoryEntities.get(blog.get('category'));

@@ -1,5 +1,6 @@
 import { OrderedMap, Map } from 'immutable'
 import { FETCH_BLOG_SUCCESS, FETCH_ALL_BLOG_SUCCESS } from '../constants/blog'
+import { FETCH_COMMENT_SUCCESS } from '../constants/comment'
 
 const blog = (state = Map(), action = {}) => {
   switch (action.type) {
@@ -14,6 +15,10 @@ const blog = (state = Map(), action = {}) => {
         isFetched: true,
         list: action.data.result
       });
+
+    case FETCH_COMMENT_SUCCESS:
+      return state.setIn(['entities', action.blog, 'isCommentFetched'], true);
+
     default:
       return state;
   }

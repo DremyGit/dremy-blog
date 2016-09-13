@@ -11,4 +11,8 @@ blogSchema.define({
   tags: arrayOf(tagSchema)
 });
 
+commentSchema.define({
+  replies: arrayOf(commentSchema)
+});
+
 export { blogSchema, tagSchema, categorySchema, commentSchema }

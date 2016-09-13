@@ -7,7 +7,7 @@ export default class CommentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      user: '',
       email: '',
       url: '',
       content: ''
@@ -15,25 +15,30 @@ export default class CommentForm extends React.Component {
   }
 
   submit() {
-    const { dispatch, blog } = this.props;
+    const { dispatch, blog, replyComment } = this.props;
     dispatch(submitComment(blog.get('code'), {
-      username: this.state.username,
+      user: this.state.user,
       email: this.state.email,
       url: this.state.url,
-      content: this.state.content
+      content: this.state.content,
+      reply_id: replyComment && replyComment._id
     }));
   }
 
 
   render() {
+    const { replyComment } = this.props;
     return (
       <div>
-        <div className={styles.title}>发表评论</div>
+        {replyComment
+          ? <div className={styles.reply}>回复 {replyComment.user}</div>
+          : <div className={styles.title}>发表评论</div>
+        }
         <div className={styles.row}>
           <div className={styles.key}>用户名</div>
           <input className={styles.input}
-            onChange={(e) => this.setState({username: e.target.value})}
-            value={this.state.username}
+            onChange={(e) => this.setState({user: e.target.value})}
+            value={this.state.user}
           />
           <div className={styles.info}>（必填）</div>
         </div>
