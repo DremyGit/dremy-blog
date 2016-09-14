@@ -9,26 +9,26 @@
 
 ### API
 
-+ Express
-+ MongoDB
-+ Redis
-+ jwt
++ [Express](http://expressjs.com)
++ [MongoDB](https://www.mongodb.com)
++ [Redis](http://redis.io)
++ [jwt](https://jwt.io/)
 
 ### Web
 
-+ React (with server rendering)
-+ Redux
-+ Immutable
-+ Webpack
-+ Sass
-+ Css Module
++ [React](https://facebook.github.io/react/) (with server rendering)
++ [Redux](https://github.com/reactjs/redux)
++ [Immutable](facebook.github.io/immutable-js/)
++ [Webpack](https://webpack.github.io/)
++ [Sass](http://sass-lang.com)
++ [CSS Module](https://github.com/css-modules/css-modules)
 
 ### Manager
 
-+ Angularjs 1.X
-+ Sass
-+ Pug
-+ Angular-b
++ [Angularjs](https://angular.io)
++ [Sass](http://sass-lang.com)
++ [Pug](https://pugjs.org/)
++ [gulp](http://gulpjs.com)
 
 ## About
 
