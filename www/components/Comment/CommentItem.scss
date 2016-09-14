@@ -1,0 +1,54 @@
+.item {
+  border-top: 1px #999 dashed;
+  padding: 15px 0 10px;
+}
+
+.info {
+  margin: 10px 0;
+
+  :global(.underline) {
+    font-size: 100%;
+    top: 0;
+  }
+}
+
+.container {
+  padding-left: 30px;
+
+  @media (max-width: 480px) {
+    padding-left: 20px;
+  }
+}
+
+.content {
+  font-size: 16px;
+  line-height: 26px;
+  margin: 10px 0;
+}
+
+.line {
+  margin: 10px 0;
+}
+
+.time {
+  color: #999
+}
+
+.link {
+  float: right;
+  margin-left: 40px;
+  margin-right: 10px;
+}
+
+.container > .commentForm {
+
+  @media (max-width: 480px) {
+    margin-left: -22px;
+  }
+}
+
+.container > .item > .container > .commentForm {
+  @media (max-width: 480px) {
+    margin-left: -42px;
+  }
+}

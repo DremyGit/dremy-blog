@@ -11,7 +11,9 @@ import CommentArea from '../components/Comment/CommentArea';
 @connect(state => ({
   blogEntities: state.getIn(['blog', 'entities']),
   categoryEntities: state.getIn(['category', 'entities']),
-  tagEntities: state.getIn(['tag', 'entities'])
+  tagEntities: state.getIn(['tag', 'entities']),
+  commentEntities: state.getIn(['comment', 'entities']),
+  blogComments: state.getIn(['comment', 'blog'])
 }))
 export default class Blog extends React.Component {
 
@@ -23,15 +25,12 @@ export default class Blog extends React.Component {
     dispatchFetch(Blog.fetches, this.props)
   }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.blogEntities !== this.props.blogEntities
-        || nextProps.categoryEntities !== this.props.categoryEntities
-        || nextProps.tagEntities !== this.props.tagEntities
-        || nextProps.params.blogName !== this.props.params.blogName;
+  componentDidUpdate() {
+    console.log('Blog page updated');
   }
 
   render() {
-    const { blogEntities, categoryEntities, tagEntities, params, dispatch } = this.props;
+    const { blogEntities, categoryEntities, tagEntities, commentEntities, params, dispatch, blogComments } = this.props;
     const blogId = params.blogName;
     const isBlogFetched = blogEntities.getIn([blogId, 'html', 'body']);
     if (!isBlogFetched) {
@@ -56,7 +55,11 @@ export default class Blog extends React.Component {
           ]}
         />
         <Article blog={blog} category={category} tags={blog.get('tags').map(tag => tagEntities.get(tag))} />
-        <CommentArea blog={blog} dispatch={this.props.dispatch} />
+        <CommentArea
+          blog={blog}
+          commentEntities={commentEntities}
+          comments={blogComments && blogComments.get(blogId)}
+          dispatch={this.props.dispatch} />
       </div>
     )
   }

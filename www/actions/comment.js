@@ -50,10 +50,11 @@ function submitCommentFetching() {
   }
 }
 
-function submitCommentSuccess(data) {
+function submitCommentSuccess(data, blog) {
   return {
     type: SUBMIT_COMMENT_SUCCESS,
-    data: data
+    data: data,
+    blog: blog
   }
 }
 
@@ -69,8 +70,13 @@ export const submitComment = (blogName, data) => {
       }
     }).then(res => res.json())
       .then(data => {
+        if (data.statusCode >= 400) {
+          throw new Error(data.message);
+        }
         data = normalize(data, commentSchema);
-        return dispatch(submitCommentSuccess(data))
+        return dispatch(submitCommentSuccess(data, blogName))
+      }).catch(err => {
+        alert(err.toString());
       })
   }
 };
