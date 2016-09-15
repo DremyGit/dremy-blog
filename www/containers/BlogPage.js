@@ -21,12 +21,8 @@ export default class Blog extends React.Component {
     fetchBlogIfNeed
   ];
 
-  componentWillMount() {
+  componentDidMount() {
     dispatchFetch(Blog.fetches, this.props)
-  }
-
-  componentDidUpdate() {
-    console.log('Blog page updated');
   }
 
   render() {

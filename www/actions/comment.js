@@ -60,7 +60,7 @@ function submitCommentSuccess(data, blog) {
 
 export const submitComment = (blogName, data) => {
   return (dispatch, getState) => {
-    dispatch(submitCommentFetching);
+    dispatch(submitCommentFetching());
     return myFetch(`/blogs/${blogName}/comments`, {
       method: 'POST',
       body: JSON.stringify(data),

@@ -35,6 +35,10 @@ module.exports = {
       extension: 'svg',
       parser: WebpackIsomorphicToolsPlugin.url_loader_parser
     },
+    file: {
+      extension: 'html',
+      parser: WebpackIsomorphicToolsPlugin.url_loader_parser
+    },
     style_modules: {
       extensions: ['css', 'less','scss'],
       filter: function(module, regex, options, log) {

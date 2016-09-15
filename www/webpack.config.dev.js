@@ -59,6 +59,11 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.html?$/,
+        loader: 'html',
+        exclude: /node_modules/
+      },
+      {
         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
         loader: "url?limit=10000&mimetype=application/font-woff"
       }, {
