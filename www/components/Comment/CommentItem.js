@@ -17,10 +17,13 @@ export default class CommentItem extends React.Component {
     const comment = commentEntities.get(commentId);
     const UserSpan = (props) => {
       const { user, url } = props;
+      if (user === 'dremy' || user === 'Dremy') {
+        return <span>Dremy<span className={styles.host}>（博主）</span></span>
+      }
       if (url) {
         return <a target="_blank" className="underline" href={url}>{user}</a>;
       }
-      return <span className={styles.user}>{user}</span>
+      return <span>{user}</span>
     };
     return (
       <div className={styles.item}>

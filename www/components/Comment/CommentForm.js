@@ -13,6 +13,7 @@ export default class CommentForm extends React.Component {
       email: '',
       url: '',
       content: '',
+      receive_email: true,
       userError: null,
       emailError: null,
       urlError: null,
@@ -31,6 +32,7 @@ export default class CommentForm extends React.Component {
       email: this.state.email,
       url: this.state.url,
       content: this.state.content,
+      receive_email: this.state.receive_email,
       reply_id: replyComment && replyComment.get('_id')
     })).then(() => {
       this.setState({
@@ -38,6 +40,7 @@ export default class CommentForm extends React.Component {
         email: '',
         url: '',
         content: '',
+        receive_email: true,
         userError: null,
         emailError: null,
         urlError: null,
@@ -93,6 +96,14 @@ export default class CommentForm extends React.Component {
         </div>
         <div className={styles.row}>
           <div className={styles.key}></div>
+          <input
+            type="checkbox"
+            checked={this.state.receive_email}
+            onChange={e => this.changeReceived(e)}
+          /> 当收到回复时邮件通知我
+        </div>
+        <div className={styles.row}>
+          <div className={styles.key}></div>
           <a className={styles.submit}
              styleName={this.isValid.call(this) ? null : 'disabled'}
              href="javascript:"
@@ -111,6 +122,9 @@ export default class CommentForm extends React.Component {
     }
     if (!/^[\u4e00-\u9fa5\w][- \u4e00-\u9fa5\w]{0,15}[\u4e00-\u9fa5\w]$/.test(user)) {
       return this.setState({userError: '至少2个字符, 勿使用特殊字符'})
+    }
+    if (/dremy/i.test(user)) {
+      return this.setState({userError: '请勿占用博主名称'})
     }
     this.setState({userError: null})
   }
@@ -143,6 +157,10 @@ export default class CommentForm extends React.Component {
       return this.setState({contentError: '请输入评论内容'})
     }
     this.setState({contentError: null})
+  }
+
+  changeReceived(e) {
+    this.setState({receive_email: !this.state.receive_email});
   }
 
   isValid() {
