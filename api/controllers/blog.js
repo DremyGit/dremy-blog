@@ -7,6 +7,7 @@ const Comment = models.Comment;
 const marked = require('../common/markdown');
 const mail = require('../common/mail');
 const HttpError = require('some-http-error');
+const privateConfig = require('../config/private');
 
 const blogController = {};
 
@@ -129,8 +130,11 @@ blogController.getCommentsByBlogId = (req, res, next) => {
  */
 blogController.createComment = (req, res, next) => {
   const body = req.body;
-  if (!req.auth.isAuth && /^dremy$/i.test(body.user)) {
-    throw new HttpError.ForbiddenError('Access denied');
+  if (/^dremy$/i.test(body.user)) {
+    if (!req.auth.isAuth) {
+      throw new HttpError.ForbiddenError('Access denied');
+    }
+    body.email = body.email || privateConfig.email.receiver;
   }
   const blogId = req.params.blogId;
   const replyId = req.body.reply_id;
