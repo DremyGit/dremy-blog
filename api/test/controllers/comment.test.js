@@ -22,6 +22,11 @@ describe('Test controllers/comment.js', () => {
     email: 'example@example.com',
     content: 'Comment reply'
   };
+  let dremyComment = {
+    user: 'Dremy',
+    email: 'example@example.com',
+    content: 'I\'m Dremy'
+  };
 
   before((done) => {
     helper.clear('comments', () => {
@@ -72,6 +77,21 @@ describe('Test controllers/comment.js', () => {
         })
         .end(done);
     });
+    it('Create comment with dremy as user', done => {
+      agent
+        .post(`/blogs/${testBlog._id}/comments`)
+        .send(dremyComment)
+        .expect(403)
+        .end(done);
+    });
+    it('Create comment by Admin', done => {
+      agent
+        .post(`/blogs/${testBlog._id}/comments`)
+        .set(helper.adminHeader())
+        .send(dremyComment)
+        .expect(201)
+        .end(done)
+    })
   });
 
   describe('Get /comments', () => {
@@ -123,11 +143,11 @@ describe('Test controllers/comment.js', () => {
         .expect(204)
         .end(done);
     });
-    it('comment count should be 1', (done) => {
+    it('comment count should be 2', (done) => {
       agent
         .get('/blogs/' + testBlog._id)
         .expect(res => {
-          expect(res.body.comment_count).to.equal(1);
+          expect(res.body.comment_count).to.equal(2);
         })
         .end(done);
     });
