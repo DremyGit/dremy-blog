@@ -18,6 +18,7 @@ const CommentSchema = new Schema({
     url:    { type: String }
   },
   replies: [{ type: ObjectId, ref: 'Comment'}],
+  receive_email: { type: Boolean, default: false},
   __v: { type: Number, select: false }
 });
 

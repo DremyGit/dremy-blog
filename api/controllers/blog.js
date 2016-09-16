@@ -5,6 +5,7 @@ const models = require('../models');
 const Blog =  models.Blog;
 const Comment = models.Comment;
 const marked = require('../common/markdown');
+const mail = require('../common/mail');
 
 
 const blogController = {};
@@ -135,20 +136,34 @@ blogController.createComment = (req, res, next) => {
   body.url = body.url && utils.toNormalUrl(body.url);
   const _comment = Object.assign(new Comment(), body);
   _comment.blog = blogId;
+  let _replyTo;
   if (replyId) {
     Comment.getCommentById(replyId).then(replyTo => {
-      _comment.reply_to = replyTo.toObject();
+      _comment.reply_to = _replyTo = replyTo.toObject();
       _comment.root_id = rootId = replyTo.root_id || replyId;
       return Comment.createComment(_comment)
     }).then(comment => {
       res.success(comment, 201);
       Blog.increaseBlogCommentCount(blogId, 1);
       Comment.updateRootComment(rootId, comment._id);
+      Blog.getBlogById(blogId).then(blog => {
+        if (_replyTo.user === 'dremy' || _replyTo.user === 'Dremy') {
+          return mail.sendReplyMetionToTheUser(blog, comment, _replyTo)
+        }
+        if (_replyTo.receive_email) {
+            mail.sendReplyMetionToTheUser(blog, comment, _replyTo);
+        }
+        setTimeout(() => {
+          mail.sendReplyMetionToMe(blog, comment, _replyTo);
+        }, 10e3)
+      })
     }).catch(next);
   } else {
     Comment.createComment(_comment).then(comment => {
       res.success(comment, 201);
       Blog.increaseBlogCommentCount(blogId, 1);
+      Blog.getBlogById(blogId)
+        .then(blog => mail.sendCommentMentionToMe(blog, comment))
     }).catch(next);
   }
 };
