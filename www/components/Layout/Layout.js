@@ -14,7 +14,7 @@ class Layout extends React.Component {
     const { ...props, location } = this.props;
     const styles = require('./Layout.scss');
     return (
-      <div>
+      <div className={styles.container}>
         <Navigation {...props} />
         <AnimationGroup
           transitionName={{

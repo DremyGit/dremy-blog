@@ -1,16 +1,96 @@
 .container {
+  box-sizing: border-box;;
   margin-top: 100px;
-  padding: 40px 0;
+  padding: 50px 40px;
   background-color: #333;
   color: #fff;
-}
-
-.center {
-  text-align: center;
   font-size: 12px;
-  font-weight: 100;
+  font-weight: 300;
+  height: 160px;
+
+  @media (max-width: 480px) {
+    height: 200px;
+    padding: 40px 20px;
+  }
 }
 
-.center > * {
-  margin: 8px;
+  .center {
+    max-width: 760px;
+    margin: 0 auto;
+    position: relative;
+    @media (max-width: 480px) {
+      text-align: center;
+    }
+  }
+
+.left {
+  @media (min-width: 481px) {
+    position: absolute;
+    left: 0;
+  }
+
+  > div {
+    margin: 15px 0;
+  }
 }
+.right {
+  @media (min-width: 481px) {
+    position: absolute;
+    right: 0;
+    top: 15px;
+  }
+
+  > div {
+    display: inline-block;
+    margin: 15px;
+    position: relative;
+
+    > a > img {
+      max-width: 24px;
+    }
+
+    @media (min-width: 481px) {
+      &:hover {
+        .pop {
+          visibility: visible;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+
+.pop {
+
+  visibility: hidden;
+  opacity: 0;
+  background-color: #fff;
+  position: absolute;
+  top: -51px;
+  left: -52px;
+  text-align: center;
+  width: 120px;
+  padding: 4px;
+  border-radius: 5px;
+  height: 30px;
+  line-height: 30px;
+  color: #333;
+  transition: opacity 1s cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  a {
+    color: #333;
+  }
+
+  &::after {
+    border-color: #fff transparent transparent;
+    border-style: solid;
+    border-width: 9px;
+    content: " ";
+    left: 50%;
+    margin-left: -9px;
+    position: absolute;
+    bottom: -18px;
+  }
+}
+
