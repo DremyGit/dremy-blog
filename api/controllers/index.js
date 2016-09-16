@@ -41,7 +41,7 @@ router.route('/comments')
 
 router.route('/comments/:commentId')
   .all(assertAndSetId('commentId', Comment))
-  .get(commentController.getCommentById)
+  .get(auth.adminRequired, commentController.getCommentById)
   .delete(auth.adminRequired, commentController.deleteComment);
 
 router.route('/comments/:commentId/supports')

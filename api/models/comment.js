@@ -53,13 +53,13 @@ CommentSchema.statics = {
 
   getCommentNestedByBlogId: function (blogId) {
     return cache.getSet(`comments:blogs:${blogId}:nested`, () => {
-      return this.find({blog: blogId, reply_to: null}).populate('replies', {email: 0}).exec();
+      return this.find({blog: blogId, reply_to: null}, {email: 0, receive_email: 0}).populate('replies', {email: 0, receive_email: 0}).exec();
     });
   },
 
   getMessagesNested: function () {
     return cache.getSet('messages:all:nested', () => {
-      return this.find({blog: null, reply_to: null}).populate('replies', {email: 0}).exec();
+      return this.find({blog: null, reply_to: null}, {email: 0, receive_email: 0}).populate('replies', {email: 0, receive_email: 0}).exec();
     });
   },
 

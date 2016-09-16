@@ -103,6 +103,7 @@ describe('Test controllers/comment.js', () => {
     it('Get comment by id', (done) => {
       agent
         .get('/comments/' + testComment._id)
+        .set(helper.adminHeader())
         .expect(200)
         .expect(res=> {
           const result = res.body;
