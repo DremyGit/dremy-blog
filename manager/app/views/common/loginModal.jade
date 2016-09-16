@@ -8,6 +8,6 @@ div
         input.form-control#username(name="username", ng-model="vm.user.username")
       .form-group.form-group-sm
         label.control-label(for='password') 密码
-        input.form-control#password(name="password", ng-model="vm.user.password")
+        input.form-control#password(name="password", ng-model="vm.user.password", type="password")
   .modal-footer
     button.btn.btn-primary(type="button", ng-click="vm.submit()") 登录

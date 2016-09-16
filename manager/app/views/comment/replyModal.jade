@@ -1,0 +1,15 @@
+style.
+  textarea {
+    min-height: 100px;
+  }
+div
+  .modal-header
+    h4.modal-title 回复用户 {{:: comment.user }}
+  .modal-body
+    p {{:: comment.content }}
+    form
+      .form-group.form-group-sm
+        textarea.form-control#name(name="content", ng-model="reply.content")
+  .modal-footer
+    button.btn.btn-default(type="button", ng-click="cancel()") 取消
+    button.btn.btn-primary(type="button", ng-click="ok()") 回复

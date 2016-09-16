@@ -1,3 +1,11 @@
+style.
+  #content {
+    max-width: 500px;
+  }
+  .option {
+    margin: 0 3px;
+  }
+
 div
   ol.breadcrumb
     li: a(href="#/") 主页
@@ -13,15 +21,18 @@ div
         th 评论者邮箱
         th 评论者网站
         th 评论时间
+        th 允许邮件
         th 操作
     tbody
       tr(ng-repeat="comment in vm.comments")
         td {{ comment.blog.title }}
-        td {{ comment.content }}
+        td#content {{ comment.content }}
         td {{ comment.user }}
         td {{ comment.email }}
-        td {{ comment.url }}
+        td: a(href="{{ comment.url }}" target="_blank") {{ comment.url }}
         td {{ comment.create_at | date : 'yyyy-MM-dd HH:mm' }}
+        td {{ comment.receive_email ? '是' : '否' }}
         td
-          a(href="javascript:" ng-click="vm.delete(comment)") 删除
+          a.option(href="javascript:" ng-click="vm.reply(comment)") 回复
+          a.option(href="javascript:" ng-click="vm.delete(comment)") 删除
 
