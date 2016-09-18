@@ -22,7 +22,9 @@ export default class Blog extends React.Component {
   ];
 
   componentDidMount() {
-    dispatchFetch(Blog.fetches, this.props)
+    dispatchFetch(Blog.fetches, this.props);
+    const { dispatch, params } = this.props;
+    dispatch(fetchCommentsIfNeed(params));
   }
 
   render() {
@@ -34,7 +36,6 @@ export default class Blog extends React.Component {
     }
     const isCommentFetched = blogEntities.getIn([blogId, 'isCommentFetched']);
     if (!isCommentFetched) {
-      dispatch(fetchCommentsIfNeed(params));
     }
     const blog = blogEntities.get(blogId);
     const category = categoryEntities.get(blog.get('category'));

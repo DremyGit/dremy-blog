@@ -45,7 +45,7 @@ class BlogPage extends React.Component {
       filtedBlogs = blogEntities.filter(blog => blog.get('tags').includes(params.tagName));
       title = `标签「${tagEntities.getIn([params.tagName, 'name'])}」`;
     } else if (pageType === 'archive') {
-      filtedBlogs = blogEntities.filter(blog => new Date(blog.get('create_at')).getFullYear() === +params.year).valueSeq();
+      filtedBlogs = blogEntities.filter(blog => new Date(blog.get('create_at')).getFullYear() === +params.year);
       title = +params.year + ' 年';
     } else if (pageType === 'search') {
       const words = new RegExp(params.words, 'i');
@@ -80,7 +80,7 @@ class BlogPage extends React.Component {
               blog={blog}
               category={categoryEntities.get(blog.get('category'))}
               tags={blog.get('tags').map(tag => tagEntities.get(tag))} />
-          )}
+          ).toArray()}
         </div>
         <Pager totalNum={filtedBlogs.size} currentPage={page} perPage={config.blogItemPerPage} showPage={config.showPageNum} baseUrl="/blog/p" />
       </div>

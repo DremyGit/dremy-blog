@@ -43,7 +43,7 @@ export default class ArchivePage extends React.Component {
               blogs={blogs.toList()}
               title={'' + year}
             />
-        )}
+        ).toArray()}
       </div>
     )
   }

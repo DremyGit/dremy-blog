@@ -23,7 +23,7 @@ export default class TagPanel extends React.Component {
       <div className={styles.container}>
         {ntags.map(tag =>
           <TagItem key={tag.get('code')} name={tag.get('name')} link={`/tag/${tag.get('code')}`} fontSize={tag.get('fontSize')} />
-        )}
+        ).toArray()}
       </div>
     )
   }

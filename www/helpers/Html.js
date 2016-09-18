@@ -36,7 +36,7 @@ export default class Html extends Component {
         {head.script.toComponent()}
 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400" rel="stylesheet" />
+        { __DEVELOPMENT__ ? null : <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400" rel="stylesheet" /> }
         {/* styles (will be present only in production with webpack extract text plugin) */}
         {Object.keys(assets.styles).map((style, key) =>
           <link href={assets.styles[style]} key={key} media="screen, projection"

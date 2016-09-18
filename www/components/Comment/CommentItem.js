@@ -69,7 +69,7 @@ export default class CommentItem extends React.Component {
               dispatch={this.props.dispatch}
               blog={this.props.blog}
             />
-          )}
+          ).toArray()}
         </div>
       </div>
     )

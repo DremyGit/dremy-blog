@@ -40,9 +40,9 @@ class ArticleHead extends React.Component {
           </span>
           <span styleName="col">
             <i className="fa fa-tags" />
-            {tags.map(tag =>
+            {tags.valueSeq().map(tag =>
               <span key={tag.get('code')} styleName="tag">{' '}<Link styleName="tag" className="underline" to={`/tag/${tag.get('code')}`}>{tag.get('name')}</Link></span>
-            )}
+            ).toArray()}
           </span>
         </div>
       </div>

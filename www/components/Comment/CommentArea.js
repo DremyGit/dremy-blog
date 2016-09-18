@@ -18,7 +18,7 @@ export default class CommentArea extends React.Component {
                 key={commentId}
                 commentId={commentId}
                 {...this.props}
-              />)
+              />).toArray()
             : <Loading />
           }
           <CommentForm {...this.props}/>

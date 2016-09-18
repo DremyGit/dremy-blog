@@ -49,7 +49,7 @@ export default class CategoryPage extends React.Component {
               blogs={blogEntities.toList().filter(blog => blog.get('category') === category.get('code'))}
               title={category.get('name')}
             />
-          )
+          ).toArray()
         }
       </div>
     )

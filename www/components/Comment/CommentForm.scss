@@ -28,11 +28,11 @@
 
 .input,
 .textarea {
-  flex: 1 1 0;
+  flex: auto;
   font-size: 14px;
   color: #555;
   border: #bbb 1px solid;
-  width: 0;
+  width: 240px;
 }
 .input {
   height: 24px;

@@ -35,7 +35,7 @@ export default class TagPage extends React.Component {
           ]}
         />
         <div className={styles.title}>共有 {tagEntities.size} 个标签：</div>
-        <TagPanel tags={tagEntities.sort((a, b) => new Date(a.get('create_at')) > new Date(b.get('create_at'))).valueSeq()} />
+        <TagPanel tags={tagEntities.sort((a, b) => a.get('create_at') > b.get('create_at')).valueSeq()} />
       </div>
     )
   }
