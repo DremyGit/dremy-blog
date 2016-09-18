@@ -49,6 +49,7 @@
     "redux-immutable": "^3.0.6",
     "redux-router": "^1.0.0-beta8",
     "redux-thunk": "^2.1.0",
+    "source-code-pro": "git://github.com/adobe-fonts/source-code-pro.git#release",
     "webpack-isomorphic-tools": "^2.5.0"
   },
   "devDependencies": {
