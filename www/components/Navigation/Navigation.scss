@@ -76,17 +76,17 @@
   :global(.fa-search) {
     font-size: 16px;
     color: #42a5f5;
+    padding: 8px;
   }
 
   > .searchInput {
-    right: -20px;
     padding: 4px 0;
-    margin-right: -16px;
+    margin-right: -24px;
     outline: none;
     border: none;
     border-bottom: 1px #42a5f6 solid;
     transition: width 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
-    width: 1px;
+    width: 0;
   }
 
   &.active > .searchInput {

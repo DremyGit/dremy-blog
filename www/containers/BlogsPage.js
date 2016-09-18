@@ -60,7 +60,11 @@ class BlogPage extends React.Component {
     const page = +params.pageNum || 1;
     const size = config.blogItemPerPage;
     const showBlogs = filtedBlogs
-                        .sort((a, b) => a.get('create_at') < b.get('create_at'))
+                        .sort((a, b) => {
+                          if (a.get('create_at') < b.get('create_at')) return 1;
+                          if (a.get('create_at') > b.get('create_at')) return -1;
+                          return 0;
+                        })
                         .valueSeq()
                         .skip((page - 1) * size)
                         .take(size);

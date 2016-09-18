@@ -78,6 +78,7 @@ class Navigation extends React.Component {
               value={this.state.searchContent}
               onChange={e => this.setState({searchContent: e.target.value})}
               onKeyDown={e => this.handleKeyDown(e)}
+              placeholder="搜索标题或关键词"
               onBlur={e => setTimeout(() =>this.setState({searchInput: false}), 300)}
             />
             <a href="javascript:" onClick={e => this.handleSearch()}>

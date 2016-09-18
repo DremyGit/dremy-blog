@@ -10,7 +10,11 @@ export default class TagPanel extends React.Component {
   }
 
   calculateFontSize(tags, minSize, maxSize) {
-    const orderdTags = tags.sort((a, b) => a.get('count') < b.get('count'));
+    const orderdTags = tags.sort((a, b) => {
+      if (a.get('count') < b.get('count')) return 1;
+      if (a.get('count') > b.get('count')) return -1;
+      return 0;
+    });
     const max = orderdTags.first().get('count');
     const min = orderdTags.last().get('count');
     return tags.map(tag => tag.set('fontSize', minSize + Math.log(tag.get('count') - min + 1) / Math.log(max - min + 1) * (maxSize - minSize)));

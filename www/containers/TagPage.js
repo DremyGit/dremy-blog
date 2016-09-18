@@ -26,6 +26,11 @@ export default class TagPage extends React.Component {
     if (!isTagListFetched) {
       return <Loading />
     }
+    const sortedTags = tagEntities.sort((a, b) => {
+      if (a.get('create_at') > b.get('create_at')) return 1;
+      if (a.get('create_at') < b.get('create_at')) return -1;
+      return 0;
+    }).toList();
     return (
       <div>
         <Helmet
@@ -35,7 +40,7 @@ export default class TagPage extends React.Component {
           ]}
         />
         <div className={styles.title}>共有 {tagEntities.size} 个标签：</div>
-        <TagPanel tags={tagEntities.sort((a, b) => a.get('create_at') > b.get('create_at')).valueSeq()} />
+        <TagPanel tags={sortedTags} />
       </div>
     )
   }

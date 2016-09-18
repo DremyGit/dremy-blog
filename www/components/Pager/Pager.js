@@ -34,6 +34,10 @@ class Pager extends React.Component {
       )
     }
 
+    if (totalPage <= 1) {
+      return null;
+    }
+
     return (
       <div styleName="pager">
         {showObj.prev

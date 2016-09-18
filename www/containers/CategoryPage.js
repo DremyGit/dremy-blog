@@ -32,7 +32,11 @@ export default class CategoryPage extends React.Component {
       return <Loading />
     }
 
-    const sortedCategoryEntities = categoryEntities.sort((a, b) => a.get('count') < b.get('count'));
+    const sortedCategoryEntities = categoryEntities.sort((a, b) => {
+      if (a.get('count') < b.get('count')) return 1;
+      if (a.get('count') > b.get('count')) return -1;
+      return 0;
+    });
     return (
       <div>
         <Helmet
