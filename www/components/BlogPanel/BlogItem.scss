@@ -1,6 +1,10 @@
 .blogItem {
   margin-top: 60px;
   margin-bottom: 80px;
+
+  @media (max-width: 480px) {
+    margin-top: 0;
+  }
 }
 .title {
   margin: 10px 0;

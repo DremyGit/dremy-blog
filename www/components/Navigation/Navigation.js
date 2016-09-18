@@ -5,16 +5,46 @@ import styles from './Navigation.scss';
 
 @CSSModules(styles)
 class Navigation extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchInput: false,
+      searchContent: ''
+    }
+  }
+
   isActiveMenu(menu) {
     const { routes } = this.props;
-    return routes[1] && routes[1].path === menu.href;
+    const part = (routes[1] && routes[1].path) || 'blog';
+    return menu.pattern.test(part);
   }
+
+  doSearch() {
+    console.log(this.state.searchContent);
+  }
+
+  handleSearch() {
+    if (this.state.searchContent) {
+      this.doSearch()
+    } else {
+      this.setState({searchInput: !this.state.searchInput})
+    }
+  }
+
+  handleKeyDown(e) {
+    if (e.keyCode === 13) {
+      this.doSearch();
+    }
+  }
+
   render() {
     const menus = [
-      { href: 'category', name: '分类' },
-      { href: 'tag', name: '标签' },
-      { href: 'archive', name: '归档' },
-      { href: 'about', name: '关于' }
+      { href: '', pattern: /blog/ ,name: '首页'},
+      { href: 'category', pattern: /category/, name: '分类' },
+      { href: 'tag', pattern: /tag/, name: '标签' },
+      { href: 'archive', pattern: /archive/, name: '归档' },
+      { href: 'about', pattern: /about/, name: '关于' }
     ];
     const { maxWidth } = this.props;
     const styles = require('./Navigation.scss');
@@ -34,9 +64,15 @@ class Navigation extends React.Component {
           <ul styleName="menu">
             {menuList}
           </ul>
-          <div styleName="search">
-            <i className="fa fa-search" aria-hidden="true" />
-            <input styleName="searchInput" type="text" />
+          <div className={styles.search} styleName={this.state.searchInput && 'active'}>
+            <input styleName="searchInput"
+              value={this.state.searchContent}
+              onChange={e => this.setState({searchContent: e.target.value})}
+              onKeyDown={e => this.handleKeyDown(e)}
+            />
+            <a href="javascript:" onClick={e => this.handleSearch()}>
+              <i className="fa fa-search" aria-hidden="true" />
+            </a>
           </div>
         </div>
       </div>
