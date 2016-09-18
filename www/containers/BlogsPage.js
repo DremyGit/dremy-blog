@@ -40,13 +40,19 @@ class BlogPage extends React.Component {
 
     if (pageType === 'category') {
       filtedBlogs = blogEntities.filter(blog => blog.get('category') === params.categoryName);
-      title = '分类：' + categoryEntities.getIn([params.categoryName, 'name']);
+      title = `分类「${categoryEntities.getIn([params.categoryName, 'name'])}」`;
     } else if (pageType === 'tag') {
       filtedBlogs = blogEntities.filter(blog => blog.get('tags').includes(params.tagName));
-      title = '标签：' + tagEntities.getIn([params.tagName, 'name']);
+      title = `标签「${tagEntities.getIn([params.tagName, 'name'])}」`;
     } else if (pageType === 'archive') {
       filtedBlogs = blogEntities.filter(blog => new Date(blog.get('create_at')).getFullYear() === +params.year).valueSeq();
       title = +params.year + ' 年';
+    } else if (pageType === 'search') {
+      const words = new RegExp(params.words, 'i');
+      console.time('Start');
+      filtedBlogs = blogEntities.filter(blog => blog.get('title').search(words) !== -1 || blog.getIn(['html', 'summary']).replace(/<*.?>/g, '').search(words) !== -1);
+      console.timeEnd('Start');
+      title = `搜索「${params.words}」`
     } else {
       filtedBlogs = blogEntities;
     }

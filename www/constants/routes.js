@@ -20,7 +20,8 @@ const routes = [
       {path: 'category/:categoryName(/p/:pageNum)', component: BlogsPage},
       {path: 'archive', component: ArchivePage },
       {path: 'archive/:year(/p/:pageNum)', component: BlogsPage},
-      {path: 'about', component: AboutPage }
+      {path: 'about', component: AboutPage },
+      {path: 'search/:words(/p/:pageNum)', component: BlogsPage }
     ]
   }
 ];

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import CSSModules from 'react-css-modules';
 import styles from './Navigation.scss';
 
+@withRouter
 @CSSModules(styles)
 class Navigation extends React.Component {
 
@@ -21,19 +22,26 @@ class Navigation extends React.Component {
   }
 
   doSearch() {
-    console.log(this.state.searchContent);
+    const { router } = this.props;
+    router.push(`/search/${this.state.searchContent}`)
   }
 
   handleSearch() {
-    if (this.state.searchContent) {
-      this.doSearch()
+    if (!this.state.searchInput) {
+      this.setState({searchInput: true});
+      this.refs.input.focus();
     } else {
-      this.setState({searchInput: !this.state.searchInput})
+      if (this.state.searchContent) {
+        this.doSearch();
+        setTimeout(() =>this.setState({searchContent: ''}), 500);
+      } else {
+        this.setState({searchInput: false})
+      }
     }
   }
 
   handleKeyDown(e) {
-    if (e.keyCode === 13) {
+    if (e.keyCode === 13 && this.state.searchContent !== '') {
       this.doSearch();
     }
   }
@@ -66,9 +74,11 @@ class Navigation extends React.Component {
           </ul>
           <div className={styles.search} styleName={this.state.searchInput && 'active'}>
             <input styleName="searchInput"
+              ref="input"
               value={this.state.searchContent}
               onChange={e => this.setState({searchContent: e.target.value})}
               onKeyDown={e => this.handleKeyDown(e)}
+              onBlur={e => setTimeout(() =>this.setState({searchInput: false}), 300)}
             />
             <a href="javascript:" onClick={e => this.handleSearch()}>
               <i className="fa fa-search" aria-hidden="true" />
