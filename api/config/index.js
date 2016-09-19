@@ -13,12 +13,7 @@ var config = {
     secure: true, // use SSL
     auth: privateConfig.smtp_account,
     proxy: 'socks5://localhost:1080/'
-  },
-
-  // Private
-  jwt_cert: 'test'
-
-
+  }
 
 };
 

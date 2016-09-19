@@ -6,7 +6,7 @@ MOCHA_REPORTER = spec
 all: install
 
 install:
-	@npm install
+	+@npm install && [ -f config/private.js ] || cp config/private.js.default config/private.js
 
 test: install
 	@npm test

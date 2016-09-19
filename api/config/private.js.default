@@ -1,0 +1,15 @@
+module.exports = {
+  jwt_cert: 'SOME_JWT_CERT',
+  qiniu: {
+    ACCESS_KEY:  'YOUR_QINIU_ACCESS_KEY',
+    SECRET_KEY: 'YOUR_QINIU_SECRET_KEY'
+  },
+  smtp_account: {
+    user: 'username@gmail.com',
+    pass: 'password'
+  },
+  email: {
+    sender: '"Dremy\'s Blog" <username@gmail.com>',
+    receiver: 'receiver@gmail.com'
+  }
+};
