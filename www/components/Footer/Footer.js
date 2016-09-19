@@ -28,8 +28,10 @@ export default class Footer extends React.Component {
               </a>
             </div>
             <div>
-              <Pop info="https://dremy.cn/rss" />
-              <a><img src={require('./rss.png')} /></a>
+              <Pop info="https://dremy.cn/rss.xml" />
+              <a target="_blank" href="https://dremy.cn/rss.xml">
+                <img src={require('./rss.png')} />
+              </a>
             </div>
             <div>
               <Pop info="@DremyCode" url="http://weibo.com/DremyCode"/>
