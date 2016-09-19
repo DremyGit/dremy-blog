@@ -99,7 +99,7 @@ angular.module('managerApp').controller('mdInputController', function ($scope, $
           var name = file.name.split('.');
           var ext = '.' + name.splice(name.length - 1);
           name = name.join('.');
-          return Configs.UPLOAD_PREFIX + name + new Date().getMilliseconds() + ext;
+          return Configs.UPLOAD_PREFIX + name + Configs.UPLOAD_SUFFIX() + ext;
         }
       }
     };
