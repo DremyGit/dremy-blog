@@ -10,7 +10,7 @@ const messageController = require('./message');
 const tagController = require('./tag');
 const uploadController = require('./upload');
 const workController = require('./work');
-const sitemapController = require('./sitemap');
+const xml = require('./xml');
 const models = require('../models');
 const Blog = models.Blog;
 const Comment = models.Comment;
@@ -99,7 +99,8 @@ router.route('/authorization')
 router.route('/uptoken')
   .get(auth.adminRequired, uploadController.getUptoken);
 
-router.get('/sitemap.xml', sitemapController);
+router.get('/sitemap.xml', xml.sitemap);
+router.get('/rss.xml', xml.rss);
 
 module.exports = router;
 

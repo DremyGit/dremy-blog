@@ -1,0 +1,16 @@
+doctype xml
+rss(version="2.0")
+    channel
+        title Dremy_博客
+        link #{host}
+        lang zh-cn
+        description Dremy的最新技术博客
+        each article in blogs
+            item
+                title #{article.title}
+                description #{article.html.summary}
+                author Dremy
+                pubDate #{new Date(article.create_at).toISOString()}
+                category #{article.category.name}
+                link #{host}/blog/#{article.code}
+                guid #{host}/blog/#{article.code}
