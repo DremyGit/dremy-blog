@@ -25,8 +25,7 @@ function fetchCommentSuccess(data, blog) {
 }
 
 function shouldFetchComments(state, blogName) {
-  return state.getIn(['blog', 'entities', blogName, 'html', 'body'])
-      && !state.getIn(['comment', 'entities', blogName, 'isCommentFetched']);
+  return !state.getIn(['comment', 'entities', blogName, 'isCommentFetched']);
 }
 
 export const fetchCommentsIfNeed = (params) => {

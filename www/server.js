@@ -8,6 +8,7 @@ import proxy from 'http-proxy-middleware';
 import { Map } from 'immutable';
 import { syncHistoryWithStore } from 'react-router-redux'
 import { match, RouterContext, createMemoryHistory } from 'react-router'
+import HttpError from 'some-http-error';
 import routes from './constants/routes'
 import { dispatchFetches } from './helpers/fetchUtils';
 import config from './config';
@@ -60,6 +61,9 @@ function handleRender(req, res) {
         );
       }).catch(err => {
         console.error(err);
+        if (err instanceof HttpError) {
+          return res.status(err.statusCode).send(err.message);
+        }
         if (__DEVELOPMENT__) {
           return res.status(500).send(`<pre>${err.stack}</pre>`);
         }

@@ -1,12 +1,14 @@
 import 'isomorphic-fetch';
+import HttpError from 'some-http-error';
 import config from '../config';
 
 export const getData = (url) => {
-
-
   return myFetch(url).then(res => {
     if (res.status !== 200) {
-      return res.text().then(body => {
+      return res.json().then(body => {
+        if (res.status >= 400 && res.status <= 405) {
+          throw new HttpError(body.statusCode, body.message);
+        }
         throw new Error(body);
       });
     }
