@@ -8,6 +8,7 @@ const marked = require('../common/markdown');
 const mail = require('../common/mail');
 const HttpError = require('some-http-error');
 const privateConfig = require('../config/private');
+const pangu = require('pangu');
 
 const blogController = {};
 
@@ -42,7 +43,7 @@ blogController.createBlog = (req, res, next) => {
 
 blogController.markdown = (req, res, next) => {
   const markdown = req.body.markdown || '';
-  const html = marked(markdown);
+  const html = marked(pangu.spacing(markdown));
   res.success({html: html});
 };
 
