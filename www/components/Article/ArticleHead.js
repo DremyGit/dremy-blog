@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import ArticleBody from '../Article/ArticleBody';
 import CSSModules from 'react-css-modules';
 import styles from './ArticleHead.scss';
-import { timeFormat } from '../../utils/time.js'
+import { dateFormat } from '../../utils/time.js'
 
 
 class ArticleHead extends React.Component {
@@ -32,7 +32,7 @@ class ArticleHead extends React.Component {
           </span>
           <span styleName="col">
             <i className="fa fa-calendar" />
-            {timeFormat(new Date(_blog.create_at))}
+            {dateFormat(new Date(_blog.create_at))}
           </span>
           <span styleName="col">
             <i className="fa fa-commenting" />
