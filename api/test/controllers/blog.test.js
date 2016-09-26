@@ -12,6 +12,7 @@ describe('Test controllers/blog', () => {
   let testBlog = {
     code: 'test-' + rand,
     title: 'test-' + rand,
+    cover: 'http://example.com/test.png',
     markdown: {
       summary: '# test',
       body: ""
@@ -75,6 +76,7 @@ describe('Test controllers/blog', () => {
         .expect(200)
         .expect(res => {
           expect(res.body.code).to.equal('test-' + rand);
+          expect(res.body.cover).to.equal(testBlog.cover)
         })
         .end(done);
     });

@@ -10,6 +10,7 @@ const BlogSchema = new Schema({
   title: { type: String },
   category: { type: ObjectId, ref: 'Category' },
   tags: [{ type: ObjectId, ref: 'Tag' }],
+  cover: { type: String },
   create_at: { type: Date, default: Date.now },
   update_at: { type: Date, default: Date.now },
   markdown: {

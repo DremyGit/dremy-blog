@@ -4,6 +4,7 @@ const cache = require('../common/cache');
 const CategorySchema = new Schema({
   code: { type: String },
   name: { type: String },
+  name_en: { type: String },
   create_at: { type: Date, default: Date.now },
   update_at: { type: Date, default: Date.now },
   __v: { type: Number, select: false }
@@ -43,7 +44,7 @@ CategorySchema.statics = {
     return cache.getSet('categories:all', () => {
       return this.aggregate([
         { "$lookup": { "from": "blogs", "localField": "_id", "foreignField": "category", "as": "blogs" }},
-        { "$project": { "code": 1, "name": 1, "count": { "$size": "$blogs" } }}
+        { "$project": { "code": 1, "name": 1, "name_en": 1, "count": { "$size": "$blogs" } }}
       ]).exec()
     })
   }

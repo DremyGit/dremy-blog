@@ -8,7 +8,8 @@ describe('Test controllers/category', () => {
   const agent = request.agent(app);
   const testCategory = {
     code: 'test',
-    name: 'test-cate'
+    name: 'test-cate',
+    name_en: 'Test Case'
   };
   before(done => {
     helper.clear('categories', () => {
@@ -48,6 +49,7 @@ describe('Test controllers/category', () => {
           expect(res.body).to.be.an('array');
           expect(res.body.length).to.equal(1);
           expect(res.body[0].name).to.equal(testCategory.name);
+          expect(res.body[0].name_en).to.equal(testCategory.name_en);
           expect(res.body[0].count).to.equal(1);
         })
         .expect(200)
@@ -60,6 +62,7 @@ describe('Test controllers/category', () => {
         .get('/categories/' + testCategory.code)
         .expect(res => {
           expect(res.body.name).to.equal(testCategory.name);
+          expect(res.body.name_en).to.equal(testCategory.name_en);
           expect(res.body.blogs.length).to.equal(1);
         })
         .end(done);
