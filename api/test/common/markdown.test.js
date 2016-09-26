@@ -22,4 +22,16 @@ describe('Test common/markdown.js', () => {
       expect(marked(text)).to.equal(expText);
     });
   });
+  describe('Link parse', () => {
+    it('External links have target="_blank":', () => {
+      const text = '[link](http://example.com)';
+      const expText = '<p><a href="http://example.com" target="_blank">link</a></p>\n';
+      expect(marked(text)).to.equal(expText)
+    });
+    it('Inside links have no target="_blank": ', () => {
+      const text = '[link](/blog/test)';
+      const expText = '<p><a href="/blog/test">link</a></p>\n';
+      expect(marked(text)).to.equal(expText)
+    })
+  })
 });

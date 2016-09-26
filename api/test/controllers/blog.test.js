@@ -42,6 +42,19 @@ describe('Test controllers/blog', () => {
     });
   });
 
+  describe('PUT /blogs', () => {
+    it('Update all blogs', done => {
+      agent
+        .put('/blogs')
+        .set(helper.adminHeader())
+        .expect(201)
+        .expect(res => {
+          expect(res.body.count).to.equal(1);
+        })
+        .end(done)
+    })
+  })
+
   describe('Get /blogs', () => {
     it('Get all blogs', (done) => {
       agent

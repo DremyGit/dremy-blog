@@ -29,6 +29,7 @@ const BlogSchema = new Schema({
 BlogSchema.pre('save', function(next) {
   this.markdown.summary = pangu.spacing(this.markdown.summary);
   this.markdown.body = pangu.spacing(this.markdown.body);
+  this.title = pangu.spacing(this.title);
   this.html.summary = markdown(this.markdown.summary);
   this.html.body = markdown(this.markdown.body);
   this.toc = toc(this.markdown.body);

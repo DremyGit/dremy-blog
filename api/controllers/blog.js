@@ -41,6 +41,24 @@ blogController.createBlog = (req, res, next) => {
   }).catch(next);
 };
 
+/**
+ * @api {post} /blogs Update all blogs
+ * @apiPermission admin
+ * @apiName UpdateAllBlogs
+ * @apiGroup Blog
+ * @apiSuccess (201) {count} count of updated blogs
+ */
+blogController.updateAllBlogs = (req, res, next) => {
+  let count;
+  Blog.find({}).then(blogs => {
+    count = blogs.length;
+    return Promise.all(blogs.map(blog => Blog.updateBlog(blog)));
+  }).then(() => {
+    res.success({count}, 201)
+  }).catch(next)
+};
+
+
 blogController.markdown = (req, res, next) => {
   const markdown = req.body.markdown || '';
   const html = marked(pangu.spacing(markdown));

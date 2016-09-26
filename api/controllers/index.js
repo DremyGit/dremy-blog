@@ -20,7 +20,8 @@ const Work = models.Work;
 
 router.route('/blogs')
   .get(blogController.getAllBlogs)
-  .post(auth.adminRequired, blogController.createBlog);
+  .post(auth.adminRequired, blogController.createBlog)
+  .put(auth.adminRequired, blogController.updateAllBlogs);
 
 router.route('/blogs/markdown')
   .post(auth.adminRequired, blogController.markdown);
