@@ -9,11 +9,13 @@ div
       tr
         th 分类名称
         th 英文名
+        th 代码
         th 文章数
         th 操作
     tbody
       tr(ng-repeat="category in vm.categories")
         td {{ category.name }}
+        td {{ category.name_en }}
         td {{ category.code }}
         td {{ category.count }}
         td

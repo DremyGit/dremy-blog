@@ -34,16 +34,16 @@ angular.module('managerApp').controller('BlogEditController',
       }
 
       blog.tags = filteTags(blog.tags);
-      var data = window.easycopy(blog, ['title', 'code', 'category', 'tags', 'create_at', 'markdown']);
+      var data = window.easycopy(blog, ['title', 'code', 'category', 'tags', 'create_at', 'markdown', 'cover']);
       if (blog._id) {
         Blog.update({blogName: blog._id}, data).$promise.then(function () {
           Alert.show('修改文章成功', 'success');
-          window.location.href = '#/blogs/' + blog.code;
+          window.location.href = '#/blogs';
         });
       } else {
         Blog.save(data).$promise.then(function () {
           Alert.show('新建文章成功', 'success');
-          window.location.href = '#/blogs/' + blog.code;
+          window.location.href = '#/blogs';
         });
       }
     };

@@ -1,0 +1,19 @@
+style.
+  #blogCover {
+    max-width: 356px;
+    height: 200px;
+    border: 1px solid #000;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #blogCover button {
+  }
+  #blogCover img {
+    max-width: 100%;
+    position: absolute;
+  }
+#blogCover
+  img(ng-if="model[field]", ng-src="{{ model[field] }}")
+  button.btn.btn-sm.btn-primary(id="btn-upload-{{ field }}", type="button") 上传图片

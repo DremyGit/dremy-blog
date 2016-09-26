@@ -8,6 +8,14 @@ style.
   #blog-edit {
     padding-bottom: 200px;
   }
+  #cover {
+    /*position: absolute;*/
+    float: right;
+    margin-right: 15%;
+    width: 100%;
+    max-width: 356px;
+    height: 200px;
+  }
 div
   ol.breadcrumb
     li: a(href="#/") 主页
@@ -16,6 +24,7 @@ div
 
 div#blog-edit
   form(ng-submit="vm.submit(vm.blog)")
+    blog-cover(field="cover", model="vm.blog")#cover
     .form-group.form-group-sm
       label.control-label(for='title') 标题
       input.form-control#title(name="title", ng-model="vm.blog.title")

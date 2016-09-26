@@ -7,7 +7,10 @@ div
         label.control-label(for='name') 分类名称
         input.form-control#name(name="name", ng-model="category.name")
       .form-group.form-group-sm
-        label.control-label(for='code') 英文名称
+        label.control-label(for='name-en') 英文名称
+        input.form-control#name-en(name="name_en", ng-model="category.name_en")
+      .form-group.form-group-sm
+        label.control-label(for='code')  代码
         input.form-control#code(name="code", ng-model="category.code")
   .modal-footer
     button.btn.btn-default(type="button", ng-click="cancel()") 关闭

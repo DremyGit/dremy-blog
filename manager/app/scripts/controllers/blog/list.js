@@ -13,4 +13,9 @@ angular.module('managerApp').controller('BlogListController', function (Blog, Mo
       }
     });
   };
+  vm.updateAll = function () {
+    Blog.update().$promise.then(function(data) {
+      Alert.show('刷新成功, 共刷新 ' + data.count + ' 篇文章');
+    });
+  }
 });
