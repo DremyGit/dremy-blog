@@ -28,8 +28,8 @@ export default class ArchivePage extends React.Component {
       return <Loading />
     }
     const groupedBlogs = blogEntities.groupBy(blog => blog.get('create_at').substr(0, 4)).sort((a, b) => {
-      if (a.size < b.size) return 1;
-      if (a.size > b.size) return -1;
+      if (a < b) return 1;
+      if (a > b) return -1;
       return 0;
     });
     return (
