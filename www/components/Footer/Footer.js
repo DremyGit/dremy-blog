@@ -17,7 +17,7 @@ export default class Footer extends React.Component {
       <div className={styles.container}>
         <div className={styles.center}>
           <div className={styles.left}>
-            <div>Copyright &copy; 2016 dremy.cn</div>
+            <div>Copyright &copy; 2017 dremy.cn</div>
             <div>皖ICP备16015002号</div>
           </div>
           <div className={styles.right}>
@@ -40,8 +40,8 @@ export default class Footer extends React.Component {
               </a>
             </div>
             <div>
-              <Pop info="dremycn@gmail.com" url="mailto:dremycn@gmail.com"/>
-              <a href="mailto:dremycn@gmail.com">
+              <Pop info="dremy@dremy.cn" url="mailto:dremy@dremy.cn"/>
+              <a href="mailto:dremy@dremy.cn">
                 <img src={require('./mail.png')} />
               </a>
             </div>
