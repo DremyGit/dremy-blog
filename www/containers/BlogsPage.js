@@ -18,7 +18,7 @@ import Loading from '../components/Loading/Loading';
   categoryEntities: state.getIn(['category', 'entities']),
   tagEntities: state.getIn(['tag', 'entities'])
 }))
-class BlogPage extends React.Component {
+export default class BlogPage extends React.Component {
 
   static fetches = [
     fetchBlogListIfNeed
@@ -91,4 +91,3 @@ class BlogPage extends React.Component {
     );
   }
 }
-export default BlogPage;

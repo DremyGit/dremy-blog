@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import styles from './ArticleBody.scss';
 import '../../assets/highlightjs/solarized-light.css';
 
-class ArticleBody extends React.Component {
+export default class ArticleBody extends React.Component {
   shouldComponentUpdate(nextProps) {
     return nextProps.html !== this.props.html;
   }
@@ -26,5 +26,3 @@ class ArticleBody extends React.Component {
 ArticleBody.PropTypes = {
   html: React.PropTypes.string.isRequired
 };
-
-export default ArticleBody;

@@ -45,4 +45,3 @@ export default class TagPage extends React.Component {
     )
   }
 };
-export default TagPage;

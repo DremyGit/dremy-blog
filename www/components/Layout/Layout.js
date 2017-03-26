@@ -11,7 +11,7 @@ const maxWidth = '800px';
 
 class Layout extends React.Component {
   render() {
-    const { ...props, location } = this.props;
+    const { location, ...props } = this.props;
     const styles = require('./Layout.scss');
     return (
       <div className={styles.container}>

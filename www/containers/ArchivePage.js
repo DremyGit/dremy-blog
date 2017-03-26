@@ -52,4 +52,3 @@ export default class ArchivePage extends React.Component {
     )
   }
 };
-export default ArchivePage;
