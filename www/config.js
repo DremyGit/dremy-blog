@@ -1,4 +1,4 @@
-var config = {
+const config = {
   serverPort: 3000,
   staticHost: 'http://dremy_blog',
   staticPath: '/blog',
@@ -7,7 +7,7 @@ var config = {
   googleAnalyticsGA: '',
 
   blogItemPerPage: 5,
-  showPageNum: 5
+  showPageNum: 5,
 };
 module.exports = config;
-  
+

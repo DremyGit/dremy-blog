@@ -19,7 +19,7 @@ export default class ListBlock extends React.Component {
       if (a.get('create_at') > b.get('create_at')) return -1;
       return 0;
     });
-    let components = [];
+    const components = [];
     for (let i = 0; i < sortedBlogs.size; i++) {
       if (i !== 0) {
         components.push(<ListLine key={`line-${i}`} />);
@@ -28,17 +28,24 @@ export default class ListBlock extends React.Component {
     }
     return (
       <div className={styles.block}>
-        <div className={styles.title}><Link to={link}>{title}<span className={styles.span}>（ {sortedBlogs.size} 篇文章）</span></Link></div>
+        <div className={styles.title}>
+          <Link to={link}>
+            {title}
+            <span className={styles.span}>
+              （ {sortedBlogs.size} 篇文章）
+            </span>
+          </Link>
+        </div>
         <div className={styles.list}>
           {components}
         </div>
       </div>
-    )
+    );
   }
 }
 
 ListBlock.propTypes = {
   blogs: React.PropTypes.object.isRequired,
   title: React.PropTypes.string.isRequired,
-  link: React.PropTypes.string.isRequired
+  link: React.PropTypes.string.isRequired,
 };

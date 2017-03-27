@@ -7,10 +7,10 @@ export default class ArticleTOC extends React.Component {
     super(props);
     this.lastScroll = 0;
     const tocArr = props.toc.toJS();
-    this.enableToc = tocArr && tocArr.length != 0;
+    this.enableToc = tocArr && tocArr.length !== 0;
 
     function getTocSeq(toc) {
-      if (!toc || toc.length == 0) {
+      if (!toc || toc.length === 0) {
         return;
       }
       let seq = [];
@@ -28,15 +28,15 @@ export default class ArticleTOC extends React.Component {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.toc != this.props.toc;
-  }
-
   componentDidMount() {
     if (this.enableToc) {
       setElementActive(this.refs.tocPanel.getElementsByTagName('a')[0]);
-      window.addEventListener('scroll', this.scrollListener)
+      window.addEventListener('scroll', this.scrollListener);
     }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.toc !== this.props.toc;
   }
 
   componentWillUnmount() {
@@ -45,11 +45,15 @@ export default class ArticleTOC extends React.Component {
     }
   }
 
+  getScrollTop(elem, offset) {
+    return elem.offsetTop + elem.offsetParent.offsetTop - (offset || 20);
+  }
+
   generateToc(toc, indexArr = []) {
-    if (!toc || toc.length == 0) {
+    if (!toc || toc.length === 0) {
       return;
     }
-    let arr = [];
+    const arr = [];
     for (let i = 0; i < toc.length; i++) {
       const curIndexArr = indexArr.concat(i + 1);
       const childOL = this.generateToc(toc[i].children, curIndexArr);
@@ -63,35 +67,26 @@ export default class ArticleTOC extends React.Component {
               {toc[i].text}
             </span>
           </a>
-            {childOL || null}
-        </li>
+          {childOL || null}
+        </li>,
       );
     }
     return <ul>{arr}</ul>;
   }
 
-  render() {
-    const { toc } = this.props;
-    return (
-      <div className={styles.tocPanel} ref="tocPanel">
-        {this.generateToc(toc.toJS())}
-      </div>
-    )
-  }
-
-
   handleScrollDown(y) {
     if (y >= this.getScrollTop(document.getElementById(this.tocSeq[this.currentItem + 1]))) {
-      removeElementActive(document.getElementById('toc-' + this.tocSeq[this.currentItem]));
-      setElementActive(document.getElementById('toc-' + this.tocSeq[this.currentItem + 1]));
+      removeElementActive(document.getElementById(`toc-${this.tocSeq[this.currentItem]}`));
+      setElementActive(document.getElementById(`toc-${this.tocSeq[this.currentItem + 1]}`));
       this.currentItem++;
     }
   }
 
   handleScrollUp(y) {
-    if (this.currentItem > 0 && y <= this.getScrollTop(document.getElementById(this.tocSeq[this.currentItem]), 80)) {
-      removeElementActive(document.getElementById('toc-' + this.tocSeq[this.currentItem]));
-      setElementActive(document.getElementById('toc-' + this.tocSeq[this.currentItem - 1]));
+    if (this.currentItem > 0 &&
+        y <= this.getScrollTop(document.getElementById(this.tocSeq[this.currentItem]), 80)) {
+      removeElementActive(document.getElementById(`toc-${this.tocSeq[this.currentItem]}`));
+      setElementActive(document.getElementById(`toc-${this.tocSeq[this.currentItem - 1]}`));
       this.currentItem--;
     }
   }
@@ -110,20 +105,25 @@ export default class ArticleTOC extends React.Component {
     }
   }
 
-  getScrollTop(elem, offset) {
-    return elem.offsetTop + elem.offsetParent.offsetTop - (offset || 20);
-  }
-
   jumpTo(id) {
     window.scrollTo(0, this.getScrollTop(document.getElementById(id)));
     removeElementActive(this.refs.tocPanel.getElementsByClassName('active')[0]);
     setElementActive(this.refs[id]);
     this.currentItem = this.tocSeq.indexOf(id);
   }
+
+  render() {
+    const { toc } = this.props;
+    return (
+      <div className={styles.tocPanel} ref="tocPanel">
+        {this.generateToc(toc.toJS())}
+      </div>
+    );
+  }
 }
 
 ArticleTOC.propTypes = {
-  toc: React.PropTypes.object
+  toc: React.PropTypes.object,
 };
 
 function setElementActive(elem) {

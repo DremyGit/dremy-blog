@@ -3,9 +3,9 @@ import HttpError from 'some-http-error';
 import config from '../config';
 
 export const getData = (url) => {
-  return myFetch(url).then(res => {
+  return myFetch(url).then((res) => {
     if (res.status !== 200) {
-      return res.json().then(body => {
+      return res.json().then((body) => {
         if (res.status >= 400 && res.status <= 405) {
           throw new HttpError(body.statusCode, body.message);
         }
@@ -13,24 +13,24 @@ export const getData = (url) => {
       });
     }
     return res.json();
-  })
+  });
 };
 
 export const myFetch = (url, obj) => {
-  var basePath;
+  let basePath;
   if (__SERVER__) {
     basePath = config.apiProxyUrl;
   }
   if (__CLIENT__) {
     basePath = config.apiWebUrl;
   }
-  return fetch(`${basePath}${url}`, obj)
+  return fetch(`${basePath}${url}`, obj);
 };
 
 export const dispatchDatas = (dispatch, components, params) => {
-  const fetchs = components.filter(components => !!components.fetchData)
+  const fetchs = components.filter(component => !!component.fetchData)
     .map(component => component.fetchData);
-  return Promise.all(fetchs.map(f => dispatch(f(params))))
+  return Promise.all(fetchs.map(f => dispatch(f(params))));
 };
 
 export const dispatchFetches = (dispatch, components, params) => {
@@ -46,5 +46,5 @@ export const dispatchFetch = (fetches, props) => {
 };
 
 export const dispatchData = (f, props) => {
-  return props.dispatch(f(props.params))
+  return props.dispatch(f(props.params));
 };

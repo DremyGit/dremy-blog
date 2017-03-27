@@ -8,8 +8,8 @@ export default class CommentItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      commentForm: false
-    }
+      commentForm: false,
+    };
   }
 
   render() {
@@ -18,12 +18,12 @@ export default class CommentItem extends React.Component {
     const UserSpan = (props) => {
       const { user, url } = props;
       if (user === 'dremy' || user === 'Dremy') {
-        return <span>Dremy<span className={styles.host}>（博主）</span></span>
+        return <span>Dremy<span className={styles.host}>（博主）</span></span>;
       }
       if (url) {
-        return <a target="_blank" className="underline" href={url}>{user}</a>;
+        return <a target="_blank" rel="noopener noreferrer" className="underline" href={url}>{user}</a>;
       }
-      return <span>{user}</span>
+      return <span>{user}</span>;
     };
     return (
       <div className={styles.item}>
@@ -34,8 +34,9 @@ export default class CommentItem extends React.Component {
             <span>
               &nbsp;回复&nbsp;
               <UserSpan
-              user={comment.getIn(['reply_to', 'user'])}
-              url={comment.getIn(['reply_to', 'url'])} />
+                user={comment.getIn(['reply_to', 'user'])}
+                url={comment.getIn(['reply_to', 'url'])}
+              />
             </span>
           }
           ：
@@ -45,9 +46,11 @@ export default class CommentItem extends React.Component {
           <div className={styles.line}>
             <span className={styles.time}>{timeFormat(new Date(comment.get('create_at')))}</span>
             <a className={styles.link} href="javascript:">赞</a>
-            <a className={styles.link}
-               href="javascript:"
-               onClick={() => this.setState({commentForm: !this.state.commentForm})}>
+            <a
+              className={styles.link}
+              href="javascript:"
+              onClick={() => this.setState({ commentForm: !this.state.commentForm })}
+            >
               回复
             </a>
           </div>
@@ -57,7 +60,7 @@ export default class CommentItem extends React.Component {
                 dispatch={this.props.dispatch}
                 blog={this.props.blog}
                 replyComment={comment}
-                onSubmit={() => this.setState({commentForm: false})}
+                onSubmit={() => this.setState({ commentForm: false })}
               />
             </div>
           }
@@ -68,10 +71,10 @@ export default class CommentItem extends React.Component {
               commentEntities={commentEntities}
               dispatch={this.props.dispatch}
               blog={this.props.blog}
-            />
+            />,
           ).toArray()}
         </div>
       </div>
-    )
+    );
   }
 }

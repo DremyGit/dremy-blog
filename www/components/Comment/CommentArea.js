@@ -7,7 +7,7 @@ import styles from './CommentArea.scss';
 export default class CommentArea extends React.Component {
 
   render() {
-    const { commentEntities, comments } = this.props;
+    const { comments } = this.props;
     return (
       <div className={styles.commentArea}>
         <h3 className={styles.title}>评论区</h3>
@@ -21,9 +21,9 @@ export default class CommentArea extends React.Component {
               />).toArray()
             : <Loading />
           }
-          <CommentForm {...this.props}/>
+          <CommentForm {...this.props} />
         </div>
       </div>
-    )
+    );
   }
 }

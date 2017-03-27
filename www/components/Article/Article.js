@@ -20,7 +20,7 @@ export default class Article extends React.Component {
             blog={blog}
             category={category}
             tags={tags}
-            center={true}
+            center
             marginTop={80}
             marginBottom={40}
           />
@@ -28,10 +28,10 @@ export default class Article extends React.Component {
           <ArticleTOC toc={blog.get('toc')} />
         </div>
       </div>
-    )
+    );
   }
 }
 ArticleHead.propTypes = {
   blog: React.PropTypes.object.isRequired,
-  category: React.PropTypes.object.isRequired
+  category: React.PropTypes.object.isRequired,
 };

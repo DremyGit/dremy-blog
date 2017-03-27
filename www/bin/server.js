@@ -1,10 +1,11 @@
-#!/usr/bin/env node
-var path = require('path');
-var rootDir = path.resolve(__dirname, '..');
-var fs = require('fs');
+'use strict';
 
-var babelrc = fs.readFileSync(rootDir + '/.babelrc');
-var config;
+const path = require('path');
+const fs = require('fs');
+
+const rootDir = path.resolve(__dirname, '..');
+const babelrc = fs.readFileSync(`${rootDir}/.babelrc`);
+let config;
 
 try {
   config = JSON.parse(babelrc);
@@ -20,20 +21,20 @@ require('babel-register')(config);
 global.__CLIENT__ = false;
 global.__SERVER__ = true;
 global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
-global.__DEVTOOLS__ = __DEVELOPMENT__;
+global.__DEVTOOLS__ = global.__DEVELOPMENT__;
 
 if (__DEVELOPMENT__) {
   if (!require('piping')({
-      hook: true,
-      ignore: /(\/\.|~$|\.json|\.scss$)/i
-    })) {
+    hook: true,
+    ignore: /(\/\.|~$|\.json|\.scss$)/i,
+  })) {
     return;
   }
 }
 
 // https://github.com/halt-hammerzeit/webpack-isomorphic-tools
-var WebpackIsomorphicTools = require('webpack-isomorphic-tools');
+const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack.isomorphic-tools'))
-  .server(rootDir, function() {
+  .server(path.resolve(__dirname, '..'), () => {
     require('../server');
   });

@@ -1,15 +1,15 @@
 import path from 'path';
 import Express from 'express';
 import React from 'react';
-import configureStore from './stores';
 import { Provider } from 'react-redux';
-import { renderToString } from 'react-dom/server'
+import { renderToString } from 'react-dom/server';
 import proxy from 'http-proxy-middleware';
 import { Map } from 'immutable';
-import { syncHistoryWithStore } from 'react-router-redux'
-import { match, RouterContext, createMemoryHistory } from 'react-router'
+import { syncHistoryWithStore } from 'react-router-redux';
+import { match, RouterContext, createMemoryHistory } from 'react-router';
 import HttpError from 'some-http-error';
-import routes from './constants/routes'
+import configureStore from './stores';
+import routes from './constants/routes';
 import { dispatchFetches } from './helpers/fetchUtils';
 import config from './config';
 
@@ -20,14 +20,13 @@ const port = config.serverPort;
 app.use('/api', proxy({
   target: config.apiProxyUrl,
   pathRewrite: {
-    '^/api': ''
-  }
+    '^/api': '',
+  },
 }));
 app.use(config.staticPath, Express.static(path.join(__dirname, 'dist')));
 app.use(handleRender);
 
 function handleRender(req, res) {
-
   if (__DEVELOPMENT__) {
     // Do not cache webpack stats: the script file would change since
     // hot module replacement is enabled in the development env
@@ -37,12 +36,10 @@ function handleRender(req, res) {
   const memoryHistory = createMemoryHistory(req.path);
   const store = configureStore(Map({}));
   const history = syncHistoryWithStore(memoryHistory, store, {
-    selectLocationState: (state) => state.get('routing')
+    selectLocationState: state => state.get('routing'),
   });
 
   match({ history, routes }, (error, redirectLocation, renderProps) => {
-
-
     if (error) {
       res.status(500).send(error.message);
     } else if (redirectLocation) {
@@ -54,12 +51,13 @@ function handleRender(req, res) {
             <RouterContext {...renderProps} />
           </Provider>
         );
-        res.send('<!doctype html>\n' +
-          renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store}/>)
+        res.send(`<!doctype html>\n${
+          renderToString(
+            <Html assets={webpackIsomorphicTools.assets()} component={component} store={store} />)
             .replace(/ data-reactid="(.*?)"/g, '')
-            .replace(/<!--\s*\/?react.*?-->/g, '')
+            .replace(/<!--\s*\/?react.*?-->/g, '')}`,
         );
-      }).catch(err => {
+      }).catch((err) => {
         console.error(err);
         if (err instanceof HttpError) {
           return res.status(err.statusCode).send(err.message);
@@ -70,11 +68,11 @@ function handleRender(req, res) {
         return res.status(500).send('故障中,待修复...');
       });
     } else {
-      res.status(404).send('Not found')
+      res.status(404).send('Not found');
     }
-  })
+  });
 }
 
-app.listen(port, function () {
+app.listen(port, () => {
   console.info('Express server running on %d', port);
 });

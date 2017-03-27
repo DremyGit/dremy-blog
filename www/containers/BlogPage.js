@@ -1,10 +1,10 @@
 import React from 'react';
-import Article from '../components/Article/Article';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
-import { fetchBlogIfNeed } from '../actions/blog'
-import { fetchCommentsIfNeed } from '../actions/comment'
-import { dispatchFetch } from '../helpers/fetchUtils'
+import { fetchBlogIfNeed } from '../actions/blog';
+import { fetchCommentsIfNeed } from '../actions/comment';
+import { dispatchFetch } from '../helpers/fetchUtils';
+import Article from '../components/Article/Article';
 import Loading from '../components/Loading/Loading';
 import CommentArea from '../components/Comment/CommentArea';
 
@@ -13,12 +13,12 @@ import CommentArea from '../components/Comment/CommentArea';
   categoryEntities: state.getIn(['category', 'entities']),
   tagEntities: state.getIn(['tag', 'entities']),
   commentEntities: state.getIn(['comment', 'entities']),
-  blogComments: state.getIn(['comment', 'blog'])
+  blogComments: state.getIn(['comment', 'blog']),
 }))
 export default class Blog extends React.Component {
 
   static fetches = [
-    fetchBlogIfNeed
+    fetchBlogIfNeed,
   ];
 
   componentDidMount() {
@@ -28,27 +28,27 @@ export default class Blog extends React.Component {
   }
 
   render() {
-    const { blogEntities, categoryEntities, tagEntities, commentEntities, params, dispatch, blogComments } = this.props;
+    const {
+      blogEntities, categoryEntities, tagEntities,
+      commentEntities, params, blogComments,
+    } = this.props;
     const blogId = params.blogName;
     const isBlogFetched = blogEntities.getIn([blogId, 'html', 'body']);
     if (!isBlogFetched) {
-      return <Loading />
-    }
-    const isCommentFetched = blogEntities.getIn([blogId, 'isCommentFetched']);
-    if (!isCommentFetched) {
+      return <Loading />;
     }
     const blog = blogEntities.get(blogId);
     const category = categoryEntities.get(blog.get('category'));
     const description = blog.getIn(['html', 'summary'])
                             .replace(/<.*?>|\r?\n/g, ' ')
-                            .replace(/  +/g, ' ')
+                            .replace(/ {2,}/g, ' ')
                             .substr(0, 100);
     return (
       <div>
         <Helmet
-          title={blog.get('title') + ' Dremy_博客'}
+          title={`${blog.get('title')} Dremy_博客`}
           meta={[
-            { "name": "description", "content": description }
+            { name: 'description', content: description },
           ]}
         />
         <Article blog={blog} category={category} tags={blog.get('tags').map(tag => tagEntities.get(tag))} />
@@ -56,8 +56,9 @@ export default class Blog extends React.Component {
           blog={blog}
           commentEntities={commentEntities}
           comments={blogComments && blogComments.get(blogId)}
-          dispatch={this.props.dispatch} />
+          dispatch={this.props.dispatch}
+        />
       </div>
-    )
+    );
   }
 }

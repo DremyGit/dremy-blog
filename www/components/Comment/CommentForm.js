@@ -1,7 +1,7 @@
 import React from 'react';
-import { submitComment } from '../../actions/comment';
-import styles from './CommentForm.scss'
 import CSSModule from 'react-css-modules';
+import { submitComment } from '../../actions/comment';
+import styles from './CommentForm.scss';
 
 @CSSModule(styles)
 export default class CommentForm extends React.Component {
@@ -18,8 +18,8 @@ export default class CommentForm extends React.Component {
       emailError: null,
       urlError: null,
       contentError: null,
-      submitError: null
-    }
+      submitError: null,
+    };
   }
 
   submit() {
@@ -33,7 +33,7 @@ export default class CommentForm extends React.Component {
       url: this.state.url,
       content: this.state.content,
       receive_email: this.state.receive_email,
-      reply_id: replyComment && replyComment.get('_id')
+      reply_id: replyComment && replyComment.get('_id'),
     })).then(() => {
       this.setState({
         user: '',
@@ -45,10 +45,12 @@ export default class CommentForm extends React.Component {
         emailError: null,
         urlError: null,
         contentError: null,
-        submitError: null
+        submitError: null,
       });
-      onSubmit && onSubmit();
-    })
+      if (typeof onSubmit === 'function') {
+        onSubmit();
+      }
+    });
   }
 
   render() {
@@ -61,7 +63,8 @@ export default class CommentForm extends React.Component {
         }
         <div className={styles.row}>
           <div className={styles.key}>用户名</div>
-          <input className={styles.input}
+          <input
+            className={styles.input}
             onChange={e => this.changeUser(e.target.value)}
             value={this.state.user}
           />
@@ -70,7 +73,8 @@ export default class CommentForm extends React.Component {
         </div>
         <div className={styles.row}>
           <div className={styles.key}>电子邮箱</div>
-          <input className={styles.input}
+          <input
+            className={styles.input}
             onChange={e => this.changeEmail(e.target.value)}
             value={this.state.email}
           />
@@ -79,7 +83,8 @@ export default class CommentForm extends React.Component {
         </div>
         <div className={styles.row}>
           <div className={styles.key}>个人网站</div>
-          <input className={styles.input}
+          <input
+            className={styles.input}
             onChange={e => this.changeUrl(e.target.value)}
             value={this.state.url}
           />
@@ -88,14 +93,15 @@ export default class CommentForm extends React.Component {
         </div>
         <div className={styles.row}>
           <div className={styles.key}>评论内容</div>
-          <textarea className={styles.textarea}
+          <textarea
+            className={styles.textarea}
             onChange={e => this.changeContent(e.target.value)}
             value={this.state.content}
           />
           { this.state.contentError && <div className={styles.error}>{this.state.contentError}</div> }
         </div>
         <div className={styles.row}>
-          <div className={styles.key}></div>
+          <div className={styles.key} />
           <input
             type="checkbox"
             checked={this.state.receive_email}
@@ -103,64 +109,65 @@ export default class CommentForm extends React.Component {
           /> 当收到回复时邮件通知我
         </div>
         <div className={styles.row}>
-          <div className={styles.key}></div>
-          <a className={styles.submit}
-             styleName={this.isValid.call(this) ? null : 'disabled'}
-             href="javascript:"
-             onClick={() => this.submit()}
+          <div className={styles.key} />
+          <a
+            className={styles.submit}
+            styleName={this.isValid.call(this) ? null : 'disabled'}
+            href="javascript:"
+            onClick={() => this.submit()}
           >发表评论</a>
           { this.state.submitError && <div className={styles.error}>{this.state.submitError}</div> }
         </div>
       </div>
-      )
+    );
   }
 
   changeUser(user) {
-    this.setState({user});
+    this.setState({ user });
     if (user.length === 0) {
-      return this.setState({userError: '请输入用户名'})
+      return this.setState({ userError: '请输入用户名' });
     }
     if (!/^[\u4e00-\u9fa5\w][- \u4e00-\u9fa5\w]{0,15}[\u4e00-\u9fa5\w]$/.test(user)) {
-      return this.setState({userError: '至少2个字符, 勿使用特殊字符'})
+      return this.setState({ userError: '至少2个字符, 勿使用特殊字符' });
     }
     if (/dremy/i.test(user)) {
-      return this.setState({userError: '请勿占用博主名称'})
+      return this.setState({ userError: '请勿占用博主名称' });
     }
-    this.setState({userError: null})
+    this.setState({ userError: null });
   }
 
   changeEmail(email) {
-    this.setState({email});
+    this.setState({ email });
     if (email.length === 0) {
-      return this.setState({emailError: '请输入邮箱'})
+      return this.setState({ emailError: '请输入邮箱' });
     }
     if (!/^\w[-\w\.]*@\w[-\w\.]*\.[a-zA-Z]+$/.test(email)) {
-      return this.setState({emailError: '邮箱格式错误'})
+      return this.setState({ emailError: '邮箱格式错误' });
     }
-    this.setState({emailError: null})
+    this.setState({ emailError: null });
   }
 
   changeUrl(url) {
-    this.setState({url});
+    this.setState({ url });
     if (url.length === 0) {
-      return this.setState({urlError: null})
+      return this.setState({ urlError: null });
     }
     if (!/^(?:https?:\/\/)?\w[-\w\.]*\.[a-zA-Z]+$/.test(url)) {
-      return this.setState({urlError: 'URL格式错误'})
+      return this.setState({ urlError: 'URL格式错误' });
     }
-    this.setState({urlError: null})
+    this.setState({ urlError: null });
   }
 
   changeContent(content) {
-    this.setState({content});
+    this.setState({ content });
     if (content.length === 0) {
-      return this.setState({contentError: '请输入评论内容'})
+      return this.setState({ contentError: '请输入评论内容' });
     }
-    this.setState({contentError: null})
+    this.setState({ contentError: null });
   }
 
-  changeReceived(e) {
-    this.setState({receive_email: !this.state.receive_email});
+  changeReceived() {
+    this.setState({ receive_email: !this.state.receive_email });
   }
 
   isValid() {
@@ -170,6 +177,6 @@ export default class CommentForm extends React.Component {
           || this.state.contentError)
           && this.state.user.length !== 0
           && this.state.email.length !== 0
-          && this.state.content.length !== 0
+          && this.state.content.length !== 0;
   }
 }

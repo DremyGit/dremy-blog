@@ -1,18 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router';
-import ArticleBody from '../Article/ArticleBody';
 import CSSModules from 'react-css-modules';
 import styles from './ArticleHead.scss';
-import { dateFormat } from '../../utils/time.js'
+import { dateFormat } from '../../utils/time.js';
 
 
 class ArticleHead extends React.Component {
   shouldComponentUpdate(nextProps) {
     return nextProps.blog !== this.props.blog
-        || nextProps.category !== this.props.category
+        || nextProps.category !== this.props.category;
   }
-  render () {
-    const { blog, category, tags, center, link, marginTop, marginBottom } = this.props;
+  render() {
+    const { blog, category, tags, center, link } = this.props;
     const _blog = blog.toJS();
     const _category = category.toJS();
     return (
@@ -41,12 +40,12 @@ class ArticleHead extends React.Component {
           <span styleName="col">
             <i className="fa fa-tags" />
             {tags.valueSeq().map(tag =>
-              <span key={tag.get('code')} styleName="tag">{' '}<Link styleName="tag" className="underline" to={`/tag/${tag.get('code')}`}>{tag.get('name')}</Link></span>
+              <span key={tag.get('code')} styleName="tag">{' '}<Link styleName="tag" className="underline" to={`/tag/${tag.get('code')}`}>{tag.get('name')}</Link></span>,
             ).toArray()}
           </span>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -55,7 +54,5 @@ ArticleHead.propTypes = {
   category: React.PropTypes.object.isRequired,
   center: React.PropTypes.bool,
   link: React.PropTypes.bool,
-  marginTop: React.PropTypes.number,
-  marginBottom: React.PropTypes.number
 };
 export default CSSModules(ArticleHead, styles);

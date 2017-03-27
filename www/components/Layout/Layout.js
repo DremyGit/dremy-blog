@@ -1,13 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router';
-import { connect } from 'react-redux';
 import AnimationGroup from 'react-addons-css-transition-group';
-import './Global.scss';
 import 'font-awesome/css/font-awesome.css';
+import './Global.scss';
 import Navigation from '../Navigation/Navigation';
 import Footer from '../Footer/Footer';
-
-const maxWidth = '800px';
 
 class Layout extends React.Component {
   render() {
@@ -20,7 +16,7 @@ class Layout extends React.Component {
           transitionName={{
             enter: styles.enter,
             enterActive: styles.enterActive,
-            leave: styles.leave
+            leave: styles.leave,
           }}
           transitionEnterTimeout={1000}
           transitionLeaveTimeout={3}
@@ -28,12 +24,11 @@ class Layout extends React.Component {
           <div className={styles.main} key={location.pathname} >
             {React.cloneElement(this.props.children, { ...props })}
           </div>
-          <Footer key={location.key}/>
+          <Footer key={location.key} />
         </AnimationGroup>
       </div>
-    )
+    );
   }
 }
 
-//export default connect(state => state)(Layout)
-export default Layout
+export default Layout;

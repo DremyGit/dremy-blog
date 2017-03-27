@@ -15,6 +15,6 @@ export default class BlogListTitle extends React.Component {
         {title}
         <span className={styles.count}>（共 {count} 篇文章）</span>
       </div>
-    )
+    );
   }
 }

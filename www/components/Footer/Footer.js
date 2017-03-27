@@ -8,8 +8,8 @@ const Pop = (props) => {
         <a href={props.url} >{props.info}</a>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default class Footer extends React.Component {
   render() {
@@ -23,31 +23,31 @@ export default class Footer extends React.Component {
           <div className={styles.right}>
             <div>
               <Pop info="@DremyGit" url="https://github.com/DremyGit" />
-              <a target="_blank" href="https://github.com/DremyGit">
-                <img className={styles.github} src={require('./github.png')} />
+              <a target="_blank" rel="noopener noreferrer" href="https://github.com/DremyGit">
+                <img className={styles.github} alt="GitHub" src={require('./github.png')} />
               </a>
             </div>
             <div>
               <Pop info="https://dremy.cn/rss.xml" />
-              <a target="_blank" href="https://dremy.cn/rss.xml">
-                <img src={require('./rss.png')} />
+              <a target="_blank" rel="noopener noreferrer" href="https://dremy.cn/rss.xml">
+                <img src={require('./rss.png')} alt="RSS" />
               </a>
             </div>
             <div>
-              <Pop info="@DremyCode" url="http://weibo.com/DremyCode"/>
-              <a target="_blank" href="http://weibo.com/DremyCode">
-                <img className={styles.weibo} src={require('./weibo.png')} />
+              <Pop info="@DremyCode" url="http://weibo.com/DremyCode" />
+              <a target="_blank" rel="noopener noreferrer" href="http://weibo.com/DremyCode">
+                <img className={styles.weibo} alt="Weibo" src={require('./weibo.png')} />
               </a>
             </div>
             <div>
-              <Pop info="dremy@dremy.cn" url="mailto:dremy@dremy.cn"/>
+              <Pop info="dremy@dremy.cn" url="mailto:dremy@dremy.cn" />
               <a href="mailto:dremy@dremy.cn">
-                <img src={require('./mail.png')} />
+                <img src={require('./mail.png')} alt="Email" />
               </a>
             </div>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }

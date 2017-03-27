@@ -5,8 +5,9 @@ export default class ListLine extends React.Component {
 
   render() {
     return (
-      <div className={styles.line}><div></div>
+      <div className={styles.line}>
+        <div />
       </div>
-    )
+    );
   }
 }
