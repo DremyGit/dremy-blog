@@ -53,6 +53,65 @@ export default class CommentForm extends React.Component {
     });
   }
 
+  changeUser(user) {
+    this.setState({ user });
+    if (user.length === 0) {
+      return this.setState({ userError: '请输入用户名' });
+    }
+    if (!/^[\u4e00-\u9fa5\w][- \u4e00-\u9fa5\w]{0,15}[\u4e00-\u9fa5\w]$/.test(user)) {
+      return this.setState({ userError: '至少2个字符, 勿使用特殊字符' });
+    }
+    if (/dremy/i.test(user)) {
+      return this.setState({ userError: '请勿占用博主名称' });
+    }
+    this.setState({ userError: null });
+  }
+
+  changeEmail(email) {
+    this.setState({ email });
+    if (email.length === 0) {
+      return this.setState({ emailError: '请输入邮箱' });
+    }
+    /* eslint no-useless-escape: [0] */
+    if (!/^\w[-\w\.]*@\w[-\w\.]*\.[a-zA-Z]+$/.test(email)) {
+      return this.setState({ emailError: '邮箱格式错误' });
+    }
+    this.setState({ emailError: null });
+  }
+
+  changeUrl(url) {
+    this.setState({ url });
+    if (url.length === 0) {
+      return this.setState({ urlError: null });
+    }
+    if (!/^(?:https?:\/\/)?\w[-\w\.]*\.[a-zA-Z]+$/.test(url)) {
+      return this.setState({ urlError: 'URL格式错误' });
+    }
+    this.setState({ urlError: null });
+  }
+
+  changeContent(content) {
+    this.setState({ content });
+    if (content.length === 0) {
+      return this.setState({ contentError: '请输入评论内容' });
+    }
+    this.setState({ contentError: null });
+  }
+
+  changeReceived() {
+    this.setState({ receive_email: !this.state.receive_email });
+  }
+
+  isValid() {
+    return !(this.state.userError
+          || this.state.emailError
+          || this.state.urlError
+          || this.state.contentError)
+          && this.state.user.length !== 0
+          && this.state.email.length !== 0
+          && this.state.content.length !== 0;
+  }
+
   render() {
     const { replyComment } = this.props;
     return (
@@ -98,85 +157,28 @@ export default class CommentForm extends React.Component {
             onChange={e => this.changeContent(e.target.value)}
             value={this.state.content}
           />
-          { this.state.contentError && <div className={styles.error}>{this.state.contentError}</div> }
+          {this.state.contentError && <div className={styles.error}>{this.state.contentError}</div>}
         </div>
         <div className={styles.row}>
           <div className={styles.key} />
           <input
             type="checkbox"
+            id="checkbox"
             checked={this.state.receive_email}
             onChange={e => this.changeReceived(e)}
-          /> 当收到回复时邮件通知我
+          />
+          <label htmlFor="checkbox">当收到回复时邮件通知我</label>
         </div>
         <div className={styles.row}>
           <div className={styles.key} />
           <a
             className={styles.submit}
             styleName={this.isValid.call(this) ? null : 'disabled'}
-            href="javascript:"
             onClick={() => this.submit()}
           >发表评论</a>
           { this.state.submitError && <div className={styles.error}>{this.state.submitError}</div> }
         </div>
       </div>
     );
-  }
-
-  changeUser(user) {
-    this.setState({ user });
-    if (user.length === 0) {
-      return this.setState({ userError: '请输入用户名' });
-    }
-    if (!/^[\u4e00-\u9fa5\w][- \u4e00-\u9fa5\w]{0,15}[\u4e00-\u9fa5\w]$/.test(user)) {
-      return this.setState({ userError: '至少2个字符, 勿使用特殊字符' });
-    }
-    if (/dremy/i.test(user)) {
-      return this.setState({ userError: '请勿占用博主名称' });
-    }
-    this.setState({ userError: null });
-  }
-
-  changeEmail(email) {
-    this.setState({ email });
-    if (email.length === 0) {
-      return this.setState({ emailError: '请输入邮箱' });
-    }
-    if (!/^\w[-\w\.]*@\w[-\w\.]*\.[a-zA-Z]+$/.test(email)) {
-      return this.setState({ emailError: '邮箱格式错误' });
-    }
-    this.setState({ emailError: null });
-  }
-
-  changeUrl(url) {
-    this.setState({ url });
-    if (url.length === 0) {
-      return this.setState({ urlError: null });
-    }
-    if (!/^(?:https?:\/\/)?\w[-\w\.]*\.[a-zA-Z]+$/.test(url)) {
-      return this.setState({ urlError: 'URL格式错误' });
-    }
-    this.setState({ urlError: null });
-  }
-
-  changeContent(content) {
-    this.setState({ content });
-    if (content.length === 0) {
-      return this.setState({ contentError: '请输入评论内容' });
-    }
-    this.setState({ contentError: null });
-  }
-
-  changeReceived() {
-    this.setState({ receive_email: !this.state.receive_email });
-  }
-
-  isValid() {
-    return !(this.state.userError
-          || this.state.emailError
-          || this.state.urlError
-          || this.state.contentError)
-          && this.state.user.length !== 0
-          && this.state.email.length !== 0
-          && this.state.content.length !== 0;
   }
 }

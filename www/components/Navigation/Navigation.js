@@ -29,7 +29,7 @@ class Navigation extends React.Component {
   handleSearch() {
     if (!this.state.searchInput) {
       this.setState({ searchInput: true });
-      this.refs.input.focus();
+      this.input.focus();
     } else if (this.state.searchContent) {
       this.doSearch();
       setTimeout(() => this.setState({ searchContent: '' }), 500);
@@ -72,14 +72,14 @@ class Navigation extends React.Component {
           <div className={styles.search} styleName={this.state.searchInput && 'active'}>
             <input
               styleName="searchInput"
-              ref="input"
+              ref={(input) => { this.input = input; }}
               value={this.state.searchContent}
               onChange={e => this.setState({ searchContent: e.target.value })}
               onKeyDown={e => this.handleKeyDown(e)}
               placeholder="搜索标题或关键词"
               onBlur={() => setTimeout(() => this.setState({ searchInput: false }), 300)}
             />
-            <a href="javascript:" onClick={() => this.handleSearch()}>
+            <a onClick={() => this.handleSearch()}>
               <i className="fa fa-search" aria-hidden="true" />
             </a>
           </div>

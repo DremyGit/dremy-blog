@@ -45,10 +45,9 @@ export default class CommentItem extends React.Component {
           <div className={styles.content}>{comment.get('content')}</div>
           <div className={styles.line}>
             <span className={styles.time}>{timeFormat(new Date(comment.get('create_at')))}</span>
-            <a className={styles.link} href="javascript:">赞</a>
+            <a className={styles.link}>赞</a>
             <a
               className={styles.link}
-              href="javascript:"
               onClick={() => this.setState({ commentForm: !this.state.commentForm })}
             >
               回复
