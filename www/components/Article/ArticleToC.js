@@ -1,4 +1,5 @@
 import React from 'react';
+import MoveTo from 'moveto';
 import styles from './ArticleToC.scss';
 
 function getScrollTop(elem, offset) {
@@ -108,7 +109,11 @@ export default class ArticleTOC extends React.Component {
   }
 
   jumpTo(id) {
-    window.scrollTo(0, getScrollTop(document.getElementById(id)));
+    new MoveTo({
+      tolerance: 20,
+      duration: 800,
+      easing: 'easeOutQuart',
+    }).move(document.getElementById(id));
     removeElementActive(this.tocPanel.getElementsByClassName('active')[0]);
     setElementActive(this.tocElems[id]);
     this.currentItem = this.tocSeq.indexOf(id);

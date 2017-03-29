@@ -34,6 +34,7 @@
     "http-proxy-middleware": "^0.17.0",
     "immutable": "^3.8.1",
     "isomorphic-fetch": "^2.2.1",
+    "moveto": "^1.6.0",
     "normalizr": "^2.1.0",
     "piping": "^1.0.0-rc.3",
     "react": "^15.0.2",
