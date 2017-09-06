@@ -1,5 +1,5 @@
 const Schema = require('mongoose').Schema;
-const pangu = require('pangu');
+// const pangu = require('pangu');
 const ObjectId = Schema.Types.ObjectId;
 const markdown = require('../common/markdown');
 const toc = require('../common/toc');
@@ -11,8 +11,8 @@ const BlogSchema = new Schema({
   category: { type: ObjectId, ref: 'Category' },
   tags: [{ type: ObjectId, ref: 'Tag' }],
   cover: { type: String },
-  create_at: { type: Date, default: Date.now },
-  update_at: { type: Date, default: Date.now },
+  create_at: { type: Date, default: Date.now() },
+  update_at: { type: Date, default: Date.now() },
   markdown: {
     summary: { type: String, default: '' },
     body: { type: String, default: '' }
@@ -28,13 +28,13 @@ const BlogSchema = new Schema({
 });
 
 BlogSchema.pre('save', function(next) {
-  this.markdown.summary = pangu.spacing(this.markdown.summary);
-  this.markdown.body = pangu.spacing(this.markdown.body);
-  this.title = pangu.spacing(this.title);
+  // this.markdown.summary = pangu.spacing(this.markdown.summary);
+  // this.markdown.body = pangu.spacing(this.markdown.body);
+  // this.title = pangu.spacing(this.title);
   this.html.summary = markdown(this.markdown.summary);
   this.html.body = markdown(this.markdown.body);
   this.toc = toc(this.markdown.body);
-  this.update_at = Date.now;
+  this.update_at = Date.now();
   next();
 });
 
