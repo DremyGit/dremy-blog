@@ -19,6 +19,6 @@ urlset(xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
     each article in blogs
         url
             loc #{host}/blog/#{article.code}
-            lastmod #{new Date(article.create_at).toISOString()}
+            lastmod #{new Date(article.update_at).toISOString()}
             changefreq weekly
             priority 0.9
