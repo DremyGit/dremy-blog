@@ -2,9 +2,7 @@
 
   font-size: 16px;
 
-  > p,
-  > blockquote > p {
-
+  > p {
     line-height: 2.0;
     margin: 20px 10px;
 
@@ -17,15 +15,20 @@
 
   > blockquote {
     border-left: #bbb 6px solid;
-    margin: 20px 10px;
+    margin: 20px 0;
     padding: 10px 10px 10px 30px;
     background-color: #f3f3f3;
+
+    > p {
+      margin: 16px 0;
+      line-height: 1.6;
+    }
   }
 
   ul, ol {
     padding-left: 30px;
     > li {
-      line-height: 1.6;
+      line-height: 2;
       margin: 5px 0 5px 3px;
 
       > p {
@@ -42,13 +45,17 @@
     border-radius: 8px;
   }
 
+  strong {
+    color: #333;
+  }
+
   > pre {
     margin: 20px 0;
     display: block;
     overflow-x: auto;
 
     > code {
-      padding: 20px 20px 10px 20px;
+      padding: 20px 10px 20px 20px;
       border-radius: 8px;
       font-family: 'Source Code Pro', monospace;
       line-height: 1.5;
@@ -65,25 +72,25 @@
   }
 
   > h1 {
-    color: #222;
+    color: #333;
     font-size: 26px;
     margin: 50px 10px 20px 10px;
   }
 
   > h2 {
-    color: #222;
+    color: #444;
     font-size: 24px;
     margin: 50px 10px 20px 10px;
   }
 
   > h3 {
-    color: #222;
+    color: #444;
     font-size: 20px;
     margin: 30px 10px 20px 10px;
   }
 
   > h4 {
-    color: #222;
+    color: #555;
     font-size: 18px;
     margin: 25px 10px 20px 10px;
   }
