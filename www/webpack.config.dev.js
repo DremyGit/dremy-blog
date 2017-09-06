@@ -55,7 +55,7 @@ module.exports = {
       },
       {
         test: /\.(jpe?g|png)$/,
-        loader: 'url?limit=4096',
+        loader: 'url?limit=10000',
         exclude: /node_modules/,
       },
       {
