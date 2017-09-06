@@ -10,8 +10,16 @@ class Pager extends React.Component {
     return false;
   }
 
+  getLinkOfPage(page) {
+    const { baseUrl } = this.props;
+    if (page === 1) {
+      return baseUrl;
+    }
+    return `${baseUrl}/p/${page}`;
+  }
+
   render() {
-    const { totalNum, currentPage, showPage, perPage, baseUrl } = this.props;
+    const { totalNum, currentPage, showPage, perPage } = this.props;
     const totalPage = Math.ceil(totalNum / perPage);
     const pageNumber = [];
     const showObj = {
@@ -29,7 +37,7 @@ class Pager extends React.Component {
     for (let i = showObj.start; i <= showObj.end; i++) {
       pageNumber.push(
         <li key={i} styleName={i === currentPage ? 'active' : null}>
-          <Link to={`${baseUrl}/${i}`}>{i}</Link>
+          <Link to={this.getLinkOfPage(i)}>{i}</Link>
         </li>,
       );
     }
@@ -41,7 +49,7 @@ class Pager extends React.Component {
     return (
       <div styleName="pager">
         {showObj.prev
-          ? <Link styleName="linkPrev" to={`/blog/p/${currentPage - 1}`}>&lt; Prev</Link>
+          ? <Link styleName="linkPrev" to={this.getLinkOfPage(currentPage - 1)}>&lt; Prev</Link>
           : null
         }
         <div styleName="wrap">
@@ -50,7 +58,7 @@ class Pager extends React.Component {
           </ul>
         </div>
         {showObj.next
-          ? <Link styleName="linkNext" to={`/blog/p/${currentPage + 1}`}>Next &gt;</Link>
+          ? <Link styleName="linkNext" to={this.getLinkOfPage(currentPage + 1)}>Next &gt;</Link>
           : null
         }
       </div>

@@ -37,23 +37,29 @@ export default class BlogPage extends React.Component {
       return <Loading />;
     }
 
-    const pageType = location.pathname.split('/')[1];
+    const pathArr = location.pathname.split('/');
+    const pageType = pathArr[1];
     let filtedBlogs;
     let title;
+    let baseUrl = pageType;
 
     if (pageType === 'category') {
       filtedBlogs = blogEntities.filter(blog => blog.get('category') === params.categoryName);
       title = `分类「${categoryEntities.getIn([params.categoryName, 'name'])}」`;
+      baseUrl += `/${pathArr[2]}`;
     } else if (pageType === 'tag') {
       filtedBlogs = blogEntities.filter(blog => blog.get('tags').includes(params.tagName));
       title = `标签「${tagEntities.getIn([params.tagName, 'name'])}」`;
+      baseUrl += `/${pathArr[2]}`;
     } else if (pageType === 'archive') {
       filtedBlogs = blogEntities.filter(blog => new Date(blog.get('create_at')).getFullYear() === +params.year);
       title = `${+params.year} 年`;
+      baseUrl += `/${pathArr[2]}`;
     } else if (pageType === 'search') {
       const words = new RegExp(params.words, 'i');
       filtedBlogs = blogEntities.filter(blog => blog.get('title').search(words) !== -1 || blog.getIn(['html', 'summary']).replace(/<*.?>/g, '').search(words) !== -1);
       title = `搜索「${params.words}」`;
+      baseUrl += `/${pathArr[2]}`;
     } else {
       filtedBlogs = blogEntities;
     }
@@ -88,7 +94,7 @@ export default class BlogPage extends React.Component {
             />,
           ).toArray()}
         </div>
-        <Pager totalNum={filtedBlogs.size} currentPage={page} perPage={config.blogItemPerPage} showPage={config.showPageNum} baseUrl="/blog/p" />
+        <Pager totalNum={filtedBlogs.size} currentPage={page} perPage={config.blogItemPerPage} showPage={config.showPageNum} baseUrl={`/${baseUrl || 'blog'}`} />
       </div>
     );
   }
