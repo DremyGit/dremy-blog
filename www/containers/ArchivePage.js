@@ -25,11 +25,14 @@ export default class ArchivePage extends React.Component {
     if (!isBlogListFetched) {
       return <Loading />;
     }
-    const groupedBlogs = blogEntities.groupBy(blog => blog.get('create_at').substr(0, 4)).sort((a, b) => {
-      if (a < b) return 1;
-      if (a > b) return -1;
-      return 0;
-    });
+    const groupedBlogs = blogEntities.groupBy(blog => blog.get('create_at').substr(0, 4))
+                                     .sortBy(
+                                       (v, k) => k,
+                                       (a, b) => {
+                                         if (a < b) return 1;
+                                         if (a > b) return -1;
+                                         return 0;
+                                       });
     return (
       <div>
         <Helmet
