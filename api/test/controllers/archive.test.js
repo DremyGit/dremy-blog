@@ -50,15 +50,6 @@ describe('Test controller/archive.js', () => {
         .expect(200)
         .expect(res => {
           expect(res.body.length).to.equal(2);
-          expect(res.body[1]._id).to.equal(testBlog1._id);
-          expect(res.body[0]._id).to.equal(testBlog2._id);
-        }).end(done);
-    });
-    it('Get blogs again and hit cache', done => {
-      agent.get(`/archives/${now.getFullYear()}/${now.getMonth()+1}/blogs`)
-        .expect(200)
-        .expect(res => {
-          expect(res.body.length).to.equal(2);
         }).end(done);
     });
     it('Get blogs by a non-exist date', done => {

@@ -7,13 +7,13 @@ const WorkSchema = new Schema({
   introduction: {type: String },
   url: { type: String },
   picUrl: { type: String },
-  create_at: { type: Date, default: Date.now },
-  update_at: { type: Date, default: Date.now },
+  create_at: { type: Date, default: Date.now() },
+  update_at: { type: Date, default: Date.now() },
   __v: { type: Number, select: false }
 });
 
 WorkSchema.pre('save', function (next) {
-  this.update_at = Date.now;
+  this.update_at = Date.now();
   next();
 });
 

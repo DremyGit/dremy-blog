@@ -5,7 +5,7 @@ const cache = require('../common/cache');
 const CommentSchema = new Schema({
   user:     { type: String },
   blog:     { type: ObjectId, ref: 'Blog' },
-  create_at:{ type: Date, default: Date.now },
+  create_at:{ type: Date, default: Date.now() },
   email:    { type: String },
   url:    { type: String },
   content:  { type: String },

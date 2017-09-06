@@ -5,13 +5,13 @@ const CategorySchema = new Schema({
   code: { type: String },
   name: { type: String },
   name_en: { type: String },
-  create_at: { type: Date, default: Date.now },
-  update_at: { type: Date, default: Date.now },
+  create_at: { type: Date, default: Date.now() },
+  update_at: { type: Date, default: Date.now() },
   __v: { type: Number, select: false }
 });
 
 CategorySchema.pre('save', function (next) {
-  this.update_at = Date.now;
+  this.update_at = Date.now();
   next();
 });
 
